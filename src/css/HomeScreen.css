@@ -1,0 +1,69 @@
+.body-container {
+  display: flex;
+  margin: 5vh 5vh 0vh;
+}
+
+/* MAIN NAV */
+.main-nav {
+  flex: 25;
+  height: 80vh;
+}
+.main-nav .container {
+  padding: 3vh 3vh 0;
+  background-color: var(--theme-blue);
+  border-radius: 3vh;
+}
+.main-nav .container button {
+  width: 100%;
+  padding: 1vh 3vh;
+  margin-bottom: 3vh;
+  background-color: var(--theme-light-cream);
+  font-size: 2.0em;
+}
+.main-nav .container button:hover {
+  background-color: var(--theme-cream);
+}
+
+/* MID SPACE */
+.mid-space {
+  flex: 60;
+}
+.mid-space .characters {
+  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  top: 45vh;
+  height: 30vh;
+  border-bottom: 10px dotted var(--theme-light-cream);
+}
+
+/* SIDE NAV */
+.side-nav {
+  flex: 20;
+  position: relative;
+  background-color: var(--theme-light-cream);
+  border-radius: 3vh 3vh 0 0;
+}
+.side-nav .container {
+  padding: 2.5vh 2.5vh;
+  background-color: var(--theme-blue);
+  border-radius: 3vh 3vh 0 0;
+  height: 50vh;
+}
+.side-nav .container .title {
+  font-size: 1.3em;
+  text-align: center;
+}
+.side-nav .store {
+  position: relative;
+  display: block;
+  top: 5vh;
+  max-height: 15vh;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.8;
+}
+.side-nav .store:hover {
+  opacity: 1.0;
+}

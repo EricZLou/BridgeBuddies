@@ -1,0 +1,7 @@
+.card {
+  width: var(--card-width);
+}
+.card:hover {
+  transform: translate(0,-10px);
+  cursor: pointer;
+}

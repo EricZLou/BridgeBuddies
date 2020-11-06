@@ -1,0 +1,41 @@
+.table-image {
+  position: fixed;
+  top: 5vh;
+  flex-shrink: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  top: 5vh;
+  height: 95vh;
+  width: 100%;
+}
+.game-container .top {
+  flex: 1;
+}
+.game-container .middle {
+  flex: 1;
+  display: flex;
+}
+.game-container .middle .left,
+.game-container .middle .middle,
+.game-container .middle .right {
+  flex: 1;
+}
+.game-container .bottom {
+  flex: 1;
+}
+
+.game-hand {
+  position: absolute;
+  margin-top: 20px;
+}
+.north, .south {
+  left: 50%;
+  transform: translate(calc(-1*var(--hand-width)/2), 0);
+}
+.east, .west { }
