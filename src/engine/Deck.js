@@ -30,7 +30,7 @@ export default class Deck {
 }
 
 function _sortSuitByValue(card_a, card_b) {
-  return -(card_a["value"] - card_b["value"]);
+  return -(card_a.value - card_b.value);
 }
 
 function sortHand(hand) {
@@ -40,7 +40,7 @@ function sortHand(hand) {
   let spades = [];
 
   for (let card of hand) {
-    switch(card["suit"]) {
+    switch(card.suit) {
       case 'C':
         clubs.push(card);
         break;
@@ -54,7 +54,7 @@ function sortHand(hand) {
         spades.push(card);
         break;
       default:
-        throw 'InvalidSuitError';
+        throw new Error("InvalidSuitError");
     }
   }
 
