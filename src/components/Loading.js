@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '../css/InvalidScreen.css';
+import '../css/ComingSoonScreen.css';
 
 import logo from '../media/logo.svg';
 
