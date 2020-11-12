@@ -1,4 +1,4 @@
-import {SUITS, VALUES} from '../constants/Game'
+import {SEATS, SUITS, VALUES} from '../constants/Game'
 
 export default class Deck {
   constructor() {
@@ -21,11 +21,16 @@ export default class Deck {
     }
   }
   generateHands() {
-    let north_hand = sortHand(this.deck.slice(0,13));
-    let east_hand = sortHand(this.deck.slice(13, 26));
-    let south_hand = sortHand(this.deck.slice(26, 39));
-    let west_hand = sortHand(this.deck.slice(39, 52));
-    return [north_hand, east_hand, south_hand, west_hand];
+    const north_hand = sortHand(this.deck.slice(0,13));
+    const east_hand = sortHand(this.deck.slice(13, 26));
+    const south_hand = sortHand(this.deck.slice(26, 39));
+    const west_hand = sortHand(this.deck.slice(39, 52));
+    return {
+      [SEATS.NORTH]: north_hand,
+      [SEATS.EAST]: east_hand,
+      [SEATS.SOUTH]: south_hand,
+      [SEATS.WEST]: west_hand,
+    };
   }
 }
 

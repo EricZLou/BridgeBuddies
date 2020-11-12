@@ -8,11 +8,9 @@ export default class Hand extends React.Component {
   constructor(props) {
     super(props);
     this.cards = this.props.cards;
-    this.handleHandClick = this.handleHandClick.bind(this);
+    this.seat = this.props.seat;
   }
-  handleHandClick(suit, value) {
-    console.log(`Clicked ${value} of ${suit}.`);
-  }
+
   render() {
     const card_spacing = getComputedStyle(document.documentElement)
       .getPropertyValue('--card-spacing');
@@ -22,7 +20,7 @@ export default class Hand extends React.Component {
           <Card
             suit={card.suit}
             value={card.value}
-            handleCardClick={this.handleHandClick}
+            handleCardClick={this.props.handleHandClick.bind(this, this.seat)}
           />
         </div>
       );

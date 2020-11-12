@@ -9,6 +9,7 @@ export default class Card extends React.Component {
     this.suit = this.props.suit;
     this.value = this.props.value;
   }
+
   render() {
     const card_img = require('../media/cards/'+this.value.toString()+this.suit+'.png');
     return (
