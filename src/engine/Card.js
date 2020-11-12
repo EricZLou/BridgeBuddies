@@ -11,7 +11,7 @@ export default class Card extends React.Component {
     return (
       <div
         className="card"
-        onClick={this.props.handleCardClick.bind(this, this.props.suit, this.props.value)}
+        onClick={this.props.handleCardClick.bind(this, {value: this.props.value, suit: this.props.suit})}
       >
         <img src={card_img} alt="Card."/>
       </div>

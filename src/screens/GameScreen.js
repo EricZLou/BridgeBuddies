@@ -1,5 +1,7 @@
 import React from 'react';
 
+import BridgeGameEngine from '../engine/BridgeGameEngine'
+import CardsOnBoard from '../engine/CardsOnBoard'
 import Deck from '../engine/Deck'
 import Hand from '../engine/Hand'
 import HeaderGame from '../components/HeaderGame'
@@ -18,7 +20,9 @@ export default class GameScreen extends React.Component {
     this.state = {
       hands: deck.generateHands(),
       JSON_hands: null,
-    }
+    };
+    this.cards_on_board = [];
+    this.game_engine = new BridgeGameEngine();
     this.handlePlayerClick = this.handlePlayerClick.bind(this);
   }
 
@@ -30,9 +34,9 @@ export default class GameScreen extends React.Component {
     this.setState({JSON_hands: JSON_hands_temp});
   }
 
-  handlePlayerClick(seat, suit, value) {
-    const idx = (this.state.JSON_hands[seat]).indexOf(JSON.stringify({suit: suit, value: value}));
-    console.log(`Clicked ${value} of ${suit} from Seat ${seat} at index ${idx}.`);
+  updateHands(seat, card) {
+    const idx = (this.state.JSON_hands[seat]).indexOf(JSON.stringify(card));
+    console.log(`Clicked ${card.value} of ${card.suit} from Seat ${seat} at index ${idx}.`);
     let hands_copy = {...this.state.hands};
     let JSON_hands_copy = {...this.state.JSON_hands};
     (hands_copy[seat]).splice(idx, 1);
@@ -41,6 +45,31 @@ export default class GameScreen extends React.Component {
       hands: hands_copy,
       JSON_hands: JSON_hands_copy,
     });
+  }
+
+  updateCardsOnBoard(seat, card) {
+    this.cards_on_board.push(card);
+  }
+
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async handlePlayerClick(seat, card) {
+    if (this.game_engine.isMyTurn(seat) &&
+        this.game_engine.isValidCard(card, this.state.hands[seat])
+    ) {
+      this.game_engine.playCard(card, seat);
+      this.updateHands(seat, card);
+      this.updateCardsOnBoard(seat, card);
+      if (this.game_engine.isTrickOver()) {
+        const winner = this.game_engine.getRoundWinner();
+        this.game_engine.setCurrPlayer(winner);
+        this.game_engine.clearTrick();
+        await this.sleep(1);
+        this.cards_on_board = [];
+      }
+    }
   }
 
   render() {
@@ -70,7 +99,11 @@ export default class GameScreen extends React.Component {
                 />
               </div>
             </div>
-            <div className="middle"/>
+            <div className="middle">
+              <CardsOnBoard
+                cards={this.cards_on_board}
+              />
+            </div>
             <div className="right">
               <div className="game-hand east">
                 <Hand

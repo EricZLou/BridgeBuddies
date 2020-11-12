@@ -6,8 +6,8 @@ export default class Deck {
     for (let suit of SUITS) {
       for (let value of VALUES) {
         this.deck.push({
-          suit: suit,
           value: value,
+          suit: suit,
         });
       }
     }
