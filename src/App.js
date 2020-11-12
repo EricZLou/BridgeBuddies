@@ -13,7 +13,7 @@ import StoreScreen from "./screens/StoreScreen"
 
 
 function App() {
-  const COMING_SOON = false;
+  const COMING_SOON = true;
   return (
     COMING_SOON ? <ComingSoonScreen/> : (
     <Router>
