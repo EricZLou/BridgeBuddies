@@ -15,13 +15,32 @@ export default class GameScreen extends React.Component {
     super(props);
     let deck = new Deck();
     deck.shuffle();
-    this.hands = deck.generateHands();
+    this.state = {
+      hands: deck.generateHands(),
+      JSON_hands: null,
+    }
     this.handlePlayerClick = this.handlePlayerClick.bind(this);
   }
 
-  handlePlayerClick(seat, suit, value) {
-    console.log(`Clicked ${value} of ${suit} from Seat ${seat}.`);
+  componentDidMount() {
+    let JSON_hands_temp = {};
+    for (let key in this.state.hands) {
+      JSON_hands_temp[key] = this.state.hands[key].map((card) => JSON.stringify(card));
+    }
+    this.setState({JSON_hands: JSON_hands_temp});
+  }
 
+  handlePlayerClick(seat, suit, value) {
+    const idx = (this.state.JSON_hands[seat]).indexOf(JSON.stringify({suit: suit, value: value}));
+    console.log(`Clicked ${value} of ${suit} from Seat ${seat} at index ${idx}.`);
+    let hands_copy = {...this.state.hands};
+    let JSON_hands_copy = {...this.state.JSON_hands};
+    (hands_copy[seat]).splice(idx, 1);
+    (JSON_hands_copy[seat]).splice(idx, 1);
+    this.setState({
+      hands: hands_copy,
+      JSON_hands: JSON_hands_copy,
+    });
   }
 
   render() {
@@ -34,7 +53,7 @@ export default class GameScreen extends React.Component {
           <div className="top">
             <div className="game-hand north">
               <Hand
-                cards={this.hands[SEATS.NORTH]}
+                cards={this.state.hands[SEATS.NORTH]}
                 seat={SEATS.NORTH}
                 handleHandClick={this.handlePlayerClick}
               />
@@ -45,7 +64,7 @@ export default class GameScreen extends React.Component {
             <div className="left">
               <div className="game-hand west">
                 <Hand
-                  cards={this.hands[SEATS.WEST]}
+                  cards={this.state.hands[SEATS.WEST]}
                   seat={SEATS.WEST}
                   handleHandClick={this.handlePlayerClick}
                 />
@@ -55,7 +74,7 @@ export default class GameScreen extends React.Component {
             <div className="right">
               <div className="game-hand east">
                 <Hand
-                  cards={this.hands[SEATS.EAST]}
+                  cards={this.state.hands[SEATS.EAST]}
                   seat={SEATS.EAST}
                   handleHandClick={this.handlePlayerClick}
                 />
@@ -66,7 +85,7 @@ export default class GameScreen extends React.Component {
           <div className="bottom">
             <div className="game-hand south">
               <Hand
-                cards={this.hands[SEATS.SOUTH]}
+                cards={this.state.hands[SEATS.SOUTH]}
                 seat={SEATS.SOUTH}
                 handleHandClick={this.handlePlayerClick}
               />
