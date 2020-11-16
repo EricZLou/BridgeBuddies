@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Card from './Card'
+import {SEATS} from '../constants/Game'
 
 import '../css/Hand.css';
 
@@ -20,6 +21,7 @@ export default class Hand extends React.Component {
             value={card.value}
             suit={card.suit}
             handleCardClick={this.props.handleHandClick.bind(this, this.seat)}
+            hoverable={this.seat === SEATS.SOUTH}
           />
         </div>
       );
