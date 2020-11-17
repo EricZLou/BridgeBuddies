@@ -17,6 +17,9 @@ export default class BridgeGameEngine {
   reset() {
     // this.bid_engine.reset();
     this.play_engine.reset();
+    this.tricks_won_NS = 0;
+    this.tricks_won_EW = 0;
+    this.curr_player_idx = 2;
   }
   setCurrPlayer(seat) {
     this.curr_player_idx = this.players.indexOf(seat);
@@ -59,6 +62,9 @@ export default class BridgeGameEngine {
   }
   isTrickOver() {
     return this.play_engine.isTrickOver();
+  }
+  isGameOver() {
+    return this.tricks_won_NS + this.tricks_won_EW === 13;
   }
   getRoundWinner() {
     const winner = this.play_engine.getRoundWinner();

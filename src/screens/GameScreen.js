@@ -5,6 +5,7 @@ import CardsOnBoard from '../engine/CardsOnBoard'
 import Deck from '../engine/Deck'
 import HeaderGame from '../components/HeaderGame'
 import Player from '../engine/Player'
+import ScoreSubScreen from '../screens/ScoreSubScreen'
 import {SEATS} from '../constants/Game'
 
 import '../css/Style.css';
@@ -15,12 +16,12 @@ import table from '../media/store/tables/green.jpg'
 export default class GameScreen extends React.Component {
   constructor(props) {
     super(props);
-    let deck = new Deck();
-    deck.shuffle();
+    this.deck = new Deck();
     this.state = {
-      hands: deck.generateHands(),
+      hands: this.deck.generateHands(),
       JSON_hands: null,
       ready_to_play: true,
+      game_over: true,
     };
     this.cards_on_board = [];
     this.game_engine = new BridgeGameEngine();
@@ -64,6 +65,9 @@ export default class GameScreen extends React.Component {
       this.cards_on_board = [];
       this.setState({ready_to_play: true});
     }
+    if (this.game_engine.isGameOver()) {
+      this.setState({game_over: true});
+    }
   }
 
   async handleGameScreenClick(seat, card) {
@@ -80,75 +84,91 @@ export default class GameScreen extends React.Component {
     }
   }
 
+  resetGame() {
+    this.game_engine.reset();
+    this.setState({
+      hands: this.deck.generateHands(),
+      JSON_hands: null,
+      ready_to_play: true,
+      game_over: false,
+    });
+  }
+
   render() {
     return (
       <div onMouseUp={this.handleClearCardsEvent}>
         <HeaderGame/>
         <img src={table} alt="table" className="table-image"/>
-        <div className="game-container">
+        {!this.state.game_over ?
+          <div className="game-container">
 
-          <div className="top">
-            <div className="game-hand north">
-              <Player
-                cards={this.state.hands[SEATS.NORTH]}
-                seat={SEATS.NORTH}
-                handlePlayerClick={this.handleGameScreenClick}
-                is_my_turn={this.game_engine.curr_player === SEATS.NORTH}
-                cards_on_board={this.cards_on_board}
-                ready_to_play={this.state.ready_to_play}
-                visible={this.game_engine.dummy === SEATS.NORTH}
-              />
-            </div>
-          </div>
-
-          <div className="middle">
-            <div className="left">
-              <div className="game-hand west">
+            <div className="top">
+              <div className="game-hand north">
                 <Player
-                  cards={this.state.hands[SEATS.WEST]}
-                  seat={SEATS.WEST}
+                  cards={this.state.hands[SEATS.NORTH]}
+                  seat={SEATS.NORTH}
                   handlePlayerClick={this.handleGameScreenClick}
-                  is_my_turn={this.game_engine.curr_player === SEATS.WEST}
+                  is_my_turn={this.game_engine.curr_player === SEATS.NORTH}
                   cards_on_board={this.cards_on_board}
                   ready_to_play={this.state.ready_to_play}
-                  visible={this.game_engine.dummy === SEATS.WEST}
+                  visible={this.game_engine.dummy === SEATS.NORTH}
                 />
               </div>
             </div>
+
             <div className="middle">
-              <CardsOnBoard
-                cards={this.cards_on_board}
-              />
+              <div className="left">
+                <div className="game-hand west">
+                  <Player
+                    cards={this.state.hands[SEATS.WEST]}
+                    seat={SEATS.WEST}
+                    handlePlayerClick={this.handleGameScreenClick}
+                    is_my_turn={this.game_engine.curr_player === SEATS.WEST}
+                    cards_on_board={this.cards_on_board}
+                    ready_to_play={this.state.ready_to_play}
+                    visible={this.game_engine.dummy === SEATS.WEST}
+                  />
+                </div>
+              </div>
+              <div className="middle">
+                <CardsOnBoard
+                  cards={this.cards_on_board}
+                />
+              </div>
+              <div className="right">
+                <div className="game-hand east">
+                  <Player
+                    cards={this.state.hands[SEATS.EAST]}
+                    seat={SEATS.EAST}
+                    handlePlayerClick={this.handleGameScreenClick}
+                    is_my_turn={this.game_engine.curr_player === SEATS.EAST}
+                    cards_on_board={this.cards_on_board}
+                    ready_to_play={this.state.ready_to_play}
+                    visible={this.game_engine.dummy === SEATS.EAST}
+                  />
+                </div>
+              </div>
             </div>
-            <div className="right">
-              <div className="game-hand east">
+
+            <div className="bottom">
+              <div className="game-hand south">
                 <Player
-                  cards={this.state.hands[SEATS.EAST]}
-                  seat={SEATS.EAST}
+                  cards={this.state.hands[SEATS.SOUTH]}
+                  seat={SEATS.SOUTH}
                   handlePlayerClick={this.handleGameScreenClick}
-                  is_my_turn={this.game_engine.curr_player === SEATS.EAST}
+                  is_my_turn={this.game_engine.curr_player === SEATS.SOUTH}
                   cards_on_board={this.cards_on_board}
                   ready_to_play={this.state.ready_to_play}
-                  visible={this.game_engine.dummy === SEATS.EAST}
+                  visible={true}
                 />
               </div>
             </div>
           </div>
-
-          <div className="bottom">
-            <div className="game-hand south">
-              <Player
-                cards={this.state.hands[SEATS.SOUTH]}
-                seat={SEATS.SOUTH}
-                handlePlayerClick={this.handleGameScreenClick}
-                is_my_turn={this.game_engine.curr_player === SEATS.SOUTH}
-                cards_on_board={this.cards_on_board}
-                ready_to_play={this.state.ready_to_play}
-                visible={true}
-              />
-            </div>
-          </div>
-        </div>
+          : <ScoreSubScreen
+            score={this.game_engine.tricks_won_NS}
+            resetGame={this.resetGame}
+          />
+        }
       </div>
     );
   }

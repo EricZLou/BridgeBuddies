@@ -1,0 +1,26 @@
+.score-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 25%;
+  left: 25%;
+  height: 40%;
+  width: 40%;
+  padding: 3%;
+  background-color: var(--theme-cream);
+  border-radius: 20px;
+}
+.score-text {
+  flex: 4;
+}
+.play-again-button {
+  flex: 1;
+  width: 30%;
+  text-align: center;
+  margin: auto;
+  background-color: var(--theme-light-blue);
+  border-radius: 20px;
+}
+.play-again-button:hover {
+  background-color: var(--theme-blue);
+}
