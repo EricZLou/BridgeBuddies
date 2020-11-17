@@ -9,8 +9,9 @@ export default class BridgeGameEngine {
     this.players = [SEATS.NORTH, SEATS.EAST, SEATS.SOUTH, SEATS.WEST];
     this.tricks_won_NS = 0;
     this.tricks_won_EW = 0;
-    this.curr_player_idx = 0;
+    this.curr_player_idx = 2;
     this.curr_player = this.players[this.curr_player_idx];
+    this.dummy = SEATS.NORTH;
   }
 
   reset() {
@@ -55,7 +56,6 @@ export default class BridgeGameEngine {
   }
   playCard(card, player) {
     this.play_engine.playCard(card, player);
-    this.goToNextPlayer();
   }
   isTrickOver() {
     return this.play_engine.isTrickOver();

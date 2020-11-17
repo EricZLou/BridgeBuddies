@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
 import Card from './Card'
 import {SEATS} from '../constants/Game'
 
-import '../css/Hand.css';
+import '../css/Hand.css'
 
 export default class Hand extends React.Component {
   constructor(props) {
@@ -22,6 +22,7 @@ export default class Hand extends React.Component {
             suit={card.suit}
             handleCardClick={this.props.handleHandClick.bind(this, this.seat)}
             hoverable={this.seat === SEATS.SOUTH}
+            visible={this.props.visible}
           />
         </div>
       );

@@ -15,6 +15,7 @@ export default class CardsOnBoard extends React.Component {
             value={card.value}
             suit={card.suit}
             handleCardClick={()=>{}}
+            visible={true}
           />
         </div>
       );
