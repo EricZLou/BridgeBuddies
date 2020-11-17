@@ -11,8 +11,6 @@ export default class Player extends React.Component {
     this.seat = this.props.seat;
   }
 
-  // this.props.handlePlayerClick()
-
   playCard() {
     const cards = this.props.cards;
     const cards_on_board = this.props.cards_on_board;

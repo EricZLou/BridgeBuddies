@@ -21,7 +21,7 @@ export default class CardsOnBoard extends React.Component {
       );
     });
     return (
-      <div>
+      <div className="cards-on-board-container">
         <div style={{position: 'absolute'}}>
           {cards_list}
         </div>

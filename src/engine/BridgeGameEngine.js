@@ -7,10 +7,7 @@ export default class BridgeGameEngine {
     // this.bid_engine = new BridgeBiddingEngine();
     this.play_engine = new BridgePlayingEngine();
     this.players = [SEATS.NORTH, SEATS.EAST, SEATS.SOUTH, SEATS.WEST];
-    this.tricks_won_NS = 0;
-    this.tricks_won_EW = 0;
-    this.curr_player_idx = 2;
-    this.curr_player = this.players[this.curr_player_idx];
+    this.reset();
     this.dummy = SEATS.NORTH;
   }
 
@@ -19,7 +16,7 @@ export default class BridgeGameEngine {
     this.play_engine.reset();
     this.tricks_won_NS = 0;
     this.tricks_won_EW = 0;
-    this.curr_player_idx = 2;
+    this.setCurrPlayer(SEATS.SOUTH);
   }
   setCurrPlayer(seat) {
     this.curr_player_idx = this.players.indexOf(seat);

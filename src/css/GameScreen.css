@@ -10,32 +10,33 @@
 .game-container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   top: 5vh;
   height: 95vh;
   width: 100%;
 }
-.game-container .top {
-  flex: 1;
-}
-.game-container .middle {
+.game-container .top,
+.game-container .middle,
+.game-container .bottom {
   flex: 1;
   display: flex;
 }
+.game-container .top .left,
+.game-container .top .middle,
+.game-container .top .right,
 .game-container .middle .left,
 .game-container .middle .middle,
-.game-container .middle .right {
-  flex: 1;
-}
-.game-container .bottom {
+.game-container .middle .right,
+.game-container .bottom .left,
+.game-container .bottom .middle,
+.game-container .bottom .right {
   flex: 1;
 }
 
-.game-hand {
-  position: absolute;
-  margin-top: 20px;
+.game-player {
+  position: relative;
+  height: var(--card-height);
+  width: var(--hand-width);
+  left: calc((100% - var(--hand-width)) / 2);
+  top: calc((100% - var(--card-height)) / 2);
 }
-.north, .south {
-  left: 50%;
-  transform: translate(calc(-1*var(--hand-width)/2), 0);
-}
-.east, .west { }

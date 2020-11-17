@@ -4,6 +4,7 @@
   --theme-light-cream: #FFECD9;
   --theme-light-blue: #DEF4FF;
   --card-width: 120px;
+  --card-height: calc(1056/691 * var(--card-width));
   --card-spacing: 25px;
   --hand-width: calc(12 * var(--card-spacing) + var(--card-width));
 }

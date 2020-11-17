@@ -22,7 +22,7 @@ export default class Deck {
   }
   generateHands() {
     this.shuffle();
-    const north_hand = sortHand(this.deck.slice(0,13));
+    const north_hand = sortHand(this.deck.slice(0, 13));
     const east_hand = sortHand(this.deck.slice(13, 26));
     const south_hand = sortHand(this.deck.slice(26, 39));
     const west_hand = sortHand(this.deck.slice(39, 52));
