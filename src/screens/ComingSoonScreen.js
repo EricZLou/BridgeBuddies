@@ -9,7 +9,6 @@ import logo from '../media/logo.svg';
 export default function ComingSoonScreen() {
   return (
     <div className="App-container">
-      <div className="App">
         <div className="cs-title">BRIDGE BUDDIES</div>
         <img src={logo} className="App-logo" alt="logo" />
         <a className="cs-text"
@@ -19,7 +18,6 @@ export default function ComingSoonScreen() {
           Coming Soon
         </a>
         <img src={cover} alt="Characters" className="cs-characters"/>
-      </div>
     </div>
   );
 };
