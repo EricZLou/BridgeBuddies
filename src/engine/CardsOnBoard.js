@@ -5,6 +5,12 @@ import Card from './Card'
 import '../css/CardsOnBoard.css';
 
 export default class CardsOnBoard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cards_on_board: this.props.cards,
+    }
+  }
   render() {
     const card_spacing = getComputedStyle(document.documentElement)
       .getPropertyValue('--card-spacing');

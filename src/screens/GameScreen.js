@@ -17,31 +17,41 @@ export default class GameScreen extends React.Component {
   constructor(props) {
     super(props);
     this.deck = new Deck();
-    this.state = {
-      hands: this.deck.generateHands(),
-      ready_to_play: true,
-      game_over: false,
-    };
+    this.hands = this.deck.generateHands();
+    this.north = this.hands[SEATS.NORTH];
+    this.east = this.hands[SEATS.EAST];
+    this.south = this.hands[SEATS.SOUTH];
+    this.west = this.hands[SEATS.WEST];
     this.game_engine = new BridgeGameEngine();
     this.cards_on_board = [];
+    this.state = {
+      ready_to_play: true,
+      game_over: false,
+      curr_player: SEATS.SOUTH,
+    };
     this.handleGameScreenClick = this.handleGameScreenClick.bind(this);
     this.resetGame = this.resetGame.bind(this);
   }
 
+  goToNextPlayer() {
+    if (this.state.curr_player === SEATS.NORTH)
+      this.setState({curr_player: SEATS.EAST});
+    else if (this.state.curr_player === SEATS.EAST)
+      this.setState({curr_player: SEATS.SOUTH});
+    else if (this.state.curr_player === SEATS.SOUTH)
+      this.setState({curr_player: SEATS.WEST});
+    else if (this.state.curr_player === SEATS.WEST)
+      this.setState({curr_player: SEATS.NORTH});
+  }
+
   updateHands(seat, card_played) {
-    let card_played_idx = -1;
-    for (let idx in this.state.hands[seat]) {
-      if (JSON.stringify(this.state.hands[seat][idx]) === JSON.stringify(card_played)) {
-        card_played_idx = idx;
-        break;
+    for (let idx in this[seat]) {
+      if (JSON.stringify(this[seat][idx]) === JSON.stringify(card_played)) {
+        console.log(`[${seat}] ${card_played.suit} ${card_played.value}`);
+        this[seat].splice(idx, 1);
+        return;
       }
     }
-    console.log(`[${seat}] ${card_played.suit} ${card_played.value} at index ${card_played_idx}.`);
-    let hands_copy = {...this.state.hands};
-    (hands_copy[seat]).splice(card_played_idx, 1);
-    this.setState({
-      hands: hands_copy,
-    });
   }
 
   updateCardsOnBoard(seat, card) {
@@ -50,11 +60,12 @@ export default class GameScreen extends React.Component {
 
   handleClearCardsEvent = (e) => {
     if (this.game_engine.isTrickOver()) {
-      const winner = this.game_engine.getRoundWinner();
-      this.game_engine.setCurrPlayer(winner);
       this.game_engine.clearTrick();
       this.cards_on_board = [];
-      this.setState({ready_to_play: true});
+      this.setState({
+        ready_to_play: true,
+        opening_suit: null,
+      });
     }
     if (this.game_engine.isGameOver()) {
       this.setState({game_over: true});
@@ -62,27 +73,37 @@ export default class GameScreen extends React.Component {
   }
 
   handleGameScreenClick(seat, card) {
-    if (this.game_engine.isMyTurn(seat) &&
-        this.game_engine.isValidCard(card, this.state.hands[seat])
+    if (this.state.curr_player === seat &&
+        this.game_engine.isValidCard(card, this[seat])
     ) {
       this.game_engine.playCard(card, seat);
       this.updateHands(seat, card);
       this.updateCardsOnBoard(seat, card);
-      this.game_engine.goToNextPlayer();
       if (this.game_engine.isTrickOver()) {
-        this.setState({ready_to_play: false});
+        this.setState({
+          ready_to_play: false,
+          curr_player: this.game_engine.getRoundWinner(),
+        });
+      } else {
+        this.goToNextPlayer();
       }
     }
   }
 
   resetGame() {
     this.game_engine.reset();
-    this.cards_on_board = [];
+    this.hands = this.deck.generateHands();
     this.setState({
-      hands: this.deck.generateHands(),
+      opening_suit: null,
       ready_to_play: true,
       game_over: false,
+      curr_player: SEATS.SOUTH,
     });
+    this.north = this.hands[SEATS.NORTH];
+    this.east = this.hands[SEATS.EAST];
+    this.south = this.hands[SEATS.SOUTH];
+    this.west = this.hands[SEATS.WEST];
+    this.cards_on_board = [];
   }
 
   render() {
@@ -98,11 +119,11 @@ export default class GameScreen extends React.Component {
               <div className="middle">
                 <div className="game-player north">
                   <Player
-                    cards={this.state.hands[SEATS.NORTH]}
                     seat={SEATS.NORTH}
+                    cards={this[SEATS.NORTH]}
                     handlePlayerClick={this.handleGameScreenClick}
-                    is_my_turn={this.game_engine.curr_player === SEATS.NORTH}
-                    cards_on_board={this.cards_on_board}
+                    is_my_turn={this.state.curr_player === SEATS.NORTH}
+                    opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].suit}
                     ready_to_play={this.state.ready_to_play}
                     visible={this.game_engine.dummy === SEATS.NORTH}
                   />
@@ -115,11 +136,11 @@ export default class GameScreen extends React.Component {
               <div className="left">
                 <div className="game-player west">
                   <Player
-                    cards={this.state.hands[SEATS.WEST]}
                     seat={SEATS.WEST}
+                    cards={this[SEATS.WEST]}
                     handlePlayerClick={this.handleGameScreenClick}
-                    is_my_turn={this.game_engine.curr_player === SEATS.WEST}
-                    cards_on_board={this.cards_on_board}
+                    is_my_turn={this.state.curr_player === SEATS.WEST}
+                    opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].suit}
                     ready_to_play={this.state.ready_to_play}
                     visible={this.game_engine.dummy === SEATS.WEST}
                   />
@@ -133,11 +154,11 @@ export default class GameScreen extends React.Component {
               <div className="right">
                 <div className="game-player east">
                   <Player
-                    cards={this.state.hands[SEATS.EAST]}
                     seat={SEATS.EAST}
+                    cards={this[SEATS.EAST]}
                     handlePlayerClick={this.handleGameScreenClick}
-                    is_my_turn={this.game_engine.curr_player === SEATS.EAST}
-                    cards_on_board={this.cards_on_board}
+                    is_my_turn={this.state.curr_player === SEATS.EAST}
+                    opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].suit}
                     ready_to_play={this.state.ready_to_play}
                     visible={this.game_engine.dummy === SEATS.EAST}
                   />
@@ -150,11 +171,11 @@ export default class GameScreen extends React.Component {
               <div className="middle">
                 <div className="game-player south">
                   <Player
-                    cards={this.state.hands[SEATS.SOUTH]}
                     seat={SEATS.SOUTH}
+                    cards={this[SEATS.SOUTH]}
                     handlePlayerClick={this.handleGameScreenClick}
-                    is_my_turn={this.game_engine.curr_player === SEATS.SOUTH}
-                    cards_on_board={this.cards_on_board}
+                    is_my_turn={this.state.curr_player === SEATS.SOUTH}
+                    opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].suit}
                     ready_to_play={this.state.ready_to_play}
                     visible={true}
                   />

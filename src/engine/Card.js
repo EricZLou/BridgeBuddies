@@ -13,7 +13,7 @@ export default class Card extends React.Component {
         className={this.props.hoverable ? "card-hoverable" : "card"}
         onClick={this.props.handleCardClick.bind(this, {value: this.props.value, suit: this.props.suit})}
       >
-        <img src={(this.props.visible ? card_img : card_img)} alt="Card."/>
+        <img src={(this.props.visible ? card_img : card_back_red)} alt="Card."/>
       </div>
     );
   }
