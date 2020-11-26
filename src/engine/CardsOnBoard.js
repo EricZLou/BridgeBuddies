@@ -14,12 +14,12 @@ export default class CardsOnBoard extends React.Component {
   render() {
     const card_spacing = getComputedStyle(document.documentElement)
       .getPropertyValue('--card-spacing');
-    const cards_list = this.props.cards.map((card, idx) => {
+    const cards_list = this.props.cards.map((card_play, idx) => {
       return (
-        <div className="hand" style={{left: parseInt(card_spacing)*idx}} key={idx}>
+        <div className={card_play.seat} key={idx}>
           <Card
-            value={card.value}
-            suit={card.suit}
+            value={card_play.card.value}
+            suit={card_play.card.suit}
             handleCardClick={()=>{}}
             visible={true}
           />
@@ -28,9 +28,7 @@ export default class CardsOnBoard extends React.Component {
     });
     return (
       <div className="cards-on-board-container">
-        <div style={{position: 'absolute'}}>
-          {cards_list}
-        </div>
+        {cards_list}
       </div>
     )
   }

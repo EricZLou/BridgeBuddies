@@ -55,7 +55,7 @@ export default class GameScreen extends React.Component {
   }
 
   updateCardsOnBoard(seat, card) {
-    this.cards_on_board.push(card);
+    this.cards_on_board.push({seat: seat, card: card});
   }
 
   handleClearCardsEvent = (e) => {
@@ -123,7 +123,7 @@ export default class GameScreen extends React.Component {
                     cards={this[SEATS.NORTH]}
                     handlePlayerClick={this.handleGameScreenClick}
                     is_my_turn={this.state.curr_player === SEATS.NORTH}
-                    opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].suit}
+                    opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].card.suit}
                     ready_to_play={this.state.ready_to_play}
                     visible={this.game_engine.dummy === SEATS.NORTH}
                   />
@@ -140,7 +140,7 @@ export default class GameScreen extends React.Component {
                     cards={this[SEATS.WEST]}
                     handlePlayerClick={this.handleGameScreenClick}
                     is_my_turn={this.state.curr_player === SEATS.WEST}
-                    opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].suit}
+                    opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].card.suit}
                     ready_to_play={this.state.ready_to_play}
                     visible={this.game_engine.dummy === SEATS.WEST}
                   />
@@ -158,7 +158,7 @@ export default class GameScreen extends React.Component {
                     cards={this[SEATS.EAST]}
                     handlePlayerClick={this.handleGameScreenClick}
                     is_my_turn={this.state.curr_player === SEATS.EAST}
-                    opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].suit}
+                    opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].card.suit}
                     ready_to_play={this.state.ready_to_play}
                     visible={this.game_engine.dummy === SEATS.EAST}
                   />
@@ -175,7 +175,7 @@ export default class GameScreen extends React.Component {
                     cards={this[SEATS.SOUTH]}
                     handlePlayerClick={this.handleGameScreenClick}
                     is_my_turn={this.state.curr_player === SEATS.SOUTH}
-                    opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].suit}
+                    opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].card.suit}
                     ready_to_play={this.state.ready_to_play}
                     visible={true}
                   />

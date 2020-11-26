@@ -6,7 +6,8 @@ export default class BridgeGameEngine {
   constructor() {
     // this.bid_engine = new BridgeBiddingEngine();
     this.play_engine = new BridgePlayingEngine();
-    this.reset();
+    this.tricks_won_NS = 0;
+    this.tricks_won_EW = 0;
     // this.dummy = SEATS.NORTH;
   }
 
