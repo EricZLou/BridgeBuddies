@@ -7,7 +7,7 @@ import Deck from '../engine/Deck'
 import HeaderGame from '../components/HeaderGame'
 import Player from '../engine/Player'
 import ScoreSubScreen from '../screens/ScoreSubScreen'
-import {GAMESTATES, SEATS} from '../constants/Game'
+import {BID_TYPES, GAMESTATES, SEATS} from '../constants/Game'
 
 import '../css/Style.css';
 import '../css/GameScreen.css';
@@ -27,10 +27,11 @@ export default class GameScreen extends React.Component {
     this.cards_on_board = [];
     this.state = {
       game_state: GAMESTATES.BIDDING,
-      ready_to_play: true,
+      ready_to_play: false,
       curr_player: SEATS.SOUTH,
     };
     this.handleGameScreenClick = this.handleGameScreenClick.bind(this);
+    this.handleBidClick = this.handleBidClick.bind(this);
     this.resetGame = this.resetGame.bind(this);
   }
 
@@ -48,7 +49,7 @@ export default class GameScreen extends React.Component {
   updateHands(seat, card_played) {
     for (let idx in this[seat]) {
       if (JSON.stringify(this[seat][idx]) === JSON.stringify(card_played)) {
-        console.log(`[${seat}] ${card_played.suit} ${card_played.value}`);
+        console.log(`[${seat}] Play ${card_played.suit} ${card_played.value}`);
         this[seat].splice(idx, 1);
         return;
       }
@@ -73,6 +74,7 @@ export default class GameScreen extends React.Component {
   }
 
   handleGameScreenClick(seat, card) {
+    if (this.state.game_state !== GAMESTATES.PLAYING) return;
     if (this.state.curr_player === seat &&
         this.game_engine.isValidCard(card, this[seat])
     ) {
@@ -83,6 +85,28 @@ export default class GameScreen extends React.Component {
         this.setState({
           ready_to_play: false,
           curr_player: this.game_engine.getRoundWinner(),
+        });
+      } else {
+        this.goToNextPlayer();
+      }
+    }
+  }
+
+  handleBidClick(bid) {
+    if (this.state.game_state !== GAMESTATES.BIDDING) return;
+    if (this.game_engine.isValidBid(bid, this.state.curr_player)) {
+      this.game_engine.doBid(bid, this.state.curr_player);
+      if (bid.type === BID_TYPES.SUIT) {
+        console.log(`[${this.state.curr_player}] Bid ${bid.level}${bid.suit}`);
+      } else {
+        console.log(`[${this.state.curr_player}] Bid ${bid.type}`);
+      }
+      if (this.game_engine.isBiddingComplete()) {
+        const contract = this.game_engine.getContract();
+        this.setState({
+          game_state: GAMESTATES.PLAYING,
+          curr_player: SEATS.SOUTH,
+          ready_to_play: true,
         });
       } else {
         this.goToNextPlayer();
@@ -183,7 +207,11 @@ export default class GameScreen extends React.Component {
               </div>
               <div className="right">
                 {(this.state.game_state === GAMESTATES.BIDDING) &&
-                  <div className="bidding-box-container"><BiddingBox/></div>
+                  <div className="bidding-box-container">
+                    <BiddingBox
+                      handleBidClick={this.handleBidClick}
+                    />
+                  </div>
                 }
               </div>
             </div>

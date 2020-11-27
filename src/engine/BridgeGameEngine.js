@@ -1,10 +1,10 @@
 import BridgePlayingEngine from './BridgePlayingEngine';
-// import BridgeBiddingEngine from './BridgeBiddingEngine';
+import BridgeBiddingEngine from './BridgeBiddingEngine';
 import {SEATS} from '../constants/Game';
 
 export default class BridgeGameEngine {
   constructor() {
-    // this.bid_engine = new BridgeBiddingEngine();
+    this.bid_engine = new BridgeBiddingEngine();
     this.play_engine = new BridgePlayingEngine();
     this.tricks_won_NS = 0;
     this.tricks_won_EW = 0;
@@ -12,7 +12,7 @@ export default class BridgeGameEngine {
   }
 
   reset() {
-    // this.bid_engine.reset();
+    this.bid_engine.reset();
     this.play_engine.reset();
     this.tricks_won_NS = 0;
     this.tricks_won_EW = 0;
@@ -21,22 +21,19 @@ export default class BridgeGameEngine {
     this.play_engine.setTrumpSuit(suit);
   }
 
-  // /* Bidding fns */
-  // isValidBid(bid, bidder) {
-  //   return this.bidEngine.isValidBid(bid, bidder);
-  // }
-  // doBid(bid, bidder) {
-  //   this.bidEngine.addBid(bid, bidder);
-  // }
-  // isBiddingComplete() {
-  //   return this.bidEngine.isBiddingComplete();
-  // }
-  // getContract() {
-  //   return this.bidEngine.getContract();
-  // }
-  // getLastSuitBid() {
-  //   return this.bidEngine.getPrevSuitBid().bid;
-  // }
+  /* Bidding fns */
+  isValidBid(bid, bidder) {
+    return this.bid_engine.isValidBid(bid, bidder);
+  }
+  doBid(bid, bidder) {
+    this.bid_engine.addBid(bid, bidder);
+  }
+  isBiddingComplete() {
+    return this.bid_engine.isBiddingComplete();
+  }
+  getContract() {
+    return this.bid_engine.getContract();
+  }
 
   /* Playing card fns */
   isValidCard(card, cardsInHand) {

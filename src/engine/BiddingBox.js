@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {BID_LEVELS, BID_SUITS, BID_SUIT_UNICODE_MAP, BID_OTHERS} from '../constants/Game'
+import {BID_LEVELS, BID_SUITS, BID_SUIT_UNICODE_MAP, BID_TYPES, BID_OTHERS} from '../constants/Game'
 
 import '../css/Style.css'
 import '../css/BiddingBox.css'
@@ -14,15 +14,21 @@ export default class BiddingBox extends React.Component {
       suit_bids.push(
         <div className="row" key={level}>
           {BID_SUIT_LIST.map((suit, idx) => {
-            return <div className={"bid " + suit} key={idx}>{level}{BID_SUIT_UNICODE_MAP[suit]}</div>
+            return <div className={"bid " + suit}
+                        key={idx}
+                        onClick={this.props.handleBidClick.bind(this, {type: BID_TYPES.SUIT, level: level, suit: suit})}>
+              {level}{BID_SUIT_UNICODE_MAP[suit]}
+            </div>
           })}
         </div>
       );
     }
     let other_bids = [];
-    for (var other in BID_OTHERS) {
+    for (let other in BID_OTHERS) {
       other_bids.push(
-        <div className={"bid " + other} key={other}>
+        <div className={"bid " + other}
+             key={other}
+             onClick={this.props.handleBidClick.bind(this, {type: BID_TYPES[other]})}>
           {BID_OTHERS[other]}
         </div>
       )
