@@ -1,17 +1,18 @@
 import React from 'react';
 
+import BiddingBox from '../engine/BiddingBox'
 import BridgeGameEngine from '../engine/BridgeGameEngine'
 import CardsOnBoard from '../engine/CardsOnBoard'
 import Deck from '../engine/Deck'
 import HeaderGame from '../components/HeaderGame'
 import Player from '../engine/Player'
 import ScoreSubScreen from '../screens/ScoreSubScreen'
-import {SEATS} from '../constants/Game'
+import {GAMESTATES, SEATS} from '../constants/Game'
 
 import '../css/Style.css';
 import '../css/GameScreen.css';
 
-import table from '../media/store/tables/green.jpg'
+import table from '../media/store/tables/green2.jpg'
 
 export default class GameScreen extends React.Component {
   constructor(props) {
@@ -25,8 +26,8 @@ export default class GameScreen extends React.Component {
     this.game_engine = new BridgeGameEngine();
     this.cards_on_board = [];
     this.state = {
+      game_state: GAMESTATES.BIDDING,
       ready_to_play: true,
-      game_over: false,
       curr_player: SEATS.SOUTH,
     };
     this.handleGameScreenClick = this.handleGameScreenClick.bind(this);
@@ -64,11 +65,10 @@ export default class GameScreen extends React.Component {
       this.cards_on_board = [];
       this.setState({
         ready_to_play: true,
-        opening_suit: null,
       });
     }
     if (this.game_engine.isGameOver()) {
-      this.setState({game_over: true});
+      this.setState({game_state: GAMESTATES.RESULTS});
     }
   }
 
@@ -94,9 +94,8 @@ export default class GameScreen extends React.Component {
     this.game_engine.reset();
     this.hands = this.deck.generateHands();
     this.setState({
-      opening_suit: null,
+      game_state: GAMESTATES.BIDDING,
       ready_to_play: true,
-      game_over: false,
       curr_player: SEATS.SOUTH,
     });
     this.north = this.hands[SEATS.NORTH];
@@ -111,7 +110,8 @@ export default class GameScreen extends React.Component {
       <div onMouseUp={this.handleClearCardsEvent}>
         <HeaderGame/>
         <img src={table} alt="table" className="table-image"/>
-        {!this.state.game_over ?
+
+        {(this.state.game_state === GAMESTATES.BIDDING || this.state.game_state === GAMESTATES.PLAYING) &&
           <div className="game-container">
 
             <div className="top">
@@ -181,10 +181,16 @@ export default class GameScreen extends React.Component {
                   />
                 </div>
               </div>
-              <div className="right"/>
+              <div className="right">
+                {(this.state.game_state === GAMESTATES.BIDDING) &&
+                  <div className="bidding-box-container"><BiddingBox/></div>
+                }
+              </div>
             </div>
           </div>
-          : <ScoreSubScreen
+        }
+        {(this.state.game_state === GAMESTATES.RESULTS) &&
+          <ScoreSubScreen
             score={this.game_engine.tricks_won_NS}
             resetGame={this.resetGame}
           />
@@ -192,4 +198,4 @@ export default class GameScreen extends React.Component {
       </div>
     );
   }
-};
+}

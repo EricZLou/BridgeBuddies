@@ -1,0 +1,80 @@
+.bidding-box {
+  background-color: white;
+  padding: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  min-width: var(--hand-width);
+}
+
+.bidding-box .suit-bids {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+}
+.bidding-box .suit-bids .row {
+  flex: 1;
+  display: flex;
+}
+.bidding-box .suit-bids .row .bid {
+  flex: 1;
+  text-align: center;
+  font-size: 1.3em;
+}
+.bidding-box .C {
+  color: #11592d;
+  background-color: #b6d5c1;
+}
+.bidding-box .D {
+  color: #e75d00;
+  background-color: #f3cec0;
+}
+.bidding-box .H {
+  color: #ef101f;
+  background-color: #eababc;
+}
+.bidding-box .S {
+  color: #07009c;
+  background-color: #b4bfe0;
+}
+.bidding-box .NT {
+  color: #0a0708;
+  background-color: #b7b7b7;
+}
+
+.bidding-box .other-bids {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  padding-left: 10px;
+  border-left: 4px solid black;
+}
+.bidding-box .other-bids .bid {
+  flex: 1;
+  font-size: 1.5em;
+}
+.bidding-box .PASS {
+  color: white;
+  background-color: #11592d;
+}
+.bidding-box .DBL {
+  color: white;
+  background-color: #ef101f;
+}
+.bidding-box .RDBL {
+  color: white;
+  background-color: #07009c;
+}
+
+.bidding-box .bid {
+  border-bottom: 1px solid black;
+  font-weight: bold;
+  text-align: center;
+}
+.bidding-box .bid:hover {
+  transform: translate(0,-5px);
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}

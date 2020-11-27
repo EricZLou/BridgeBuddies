@@ -17,7 +17,7 @@ export default class Player extends React.Component {
   }
 
   playCard() {
-    this.sleep(1000).then(() => {
+    this.sleep(1).then(() => {
       let cardx = null;
       const cards = this.props.cards;
       if (!this.props.opening_suit) {

@@ -14,11 +14,15 @@
   top: 5vh;
   height: 95vh;
   width: 100%;
+  /* max-width: 1350px; */
 }
 .game-container .top,
-.game-container .middle,
 .game-container .bottom {
-  flex: 1;
+  flex: 2;
+  display: flex;
+}
+.game-container .middle {
+  flex: 3;
   display: flex;
 }
 .game-container .top .left,
@@ -31,6 +35,7 @@
 .game-container .bottom .middle,
 .game-container .bottom .right {
   flex: 1;
+  position: relative;
 }
 
 .game-player {
@@ -39,4 +44,10 @@
   width: var(--hand-width);
   left: calc((100% - var(--hand-width)) / 2);
   top: calc((100% - var(--card-height)) / 2);
+}
+
+.bidding-box-container {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }

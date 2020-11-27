@@ -10,7 +10,7 @@ export default class Card extends React.Component {
     const card_img = require('../media/cards/'+this.props.value.toString()+this.props.suit+'.png');
     return (
       <div
-        className={this.props.hoverable ? "card-hoverable" : "card"}
+        className={this.props.hoverable ? "card-hoverable" : (this.props.onBoard ? "card-on-board" : "card")}
         onClick={this.props.handleCardClick.bind(this, {value: this.props.value, suit: this.props.suit})}
       >
         <img src={(this.props.visible ? card_img : card_back_red)} alt="Card."/>

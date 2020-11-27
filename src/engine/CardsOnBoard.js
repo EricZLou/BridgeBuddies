@@ -12,8 +12,6 @@ export default class CardsOnBoard extends React.Component {
     }
   }
   render() {
-    const card_spacing = getComputedStyle(document.documentElement)
-      .getPropertyValue('--card-spacing');
     const cards_list = this.props.cards.map((card_play, idx) => {
       return (
         <div className={card_play.seat} key={idx}>
@@ -22,6 +20,7 @@ export default class CardsOnBoard extends React.Component {
             suit={card_play.card.suit}
             handleCardClick={()=>{}}
             visible={true}
+            onBoard={true}
           />
         </div>
       );

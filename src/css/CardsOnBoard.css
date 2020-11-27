@@ -2,25 +2,24 @@
   position: relative;
   width: 100%;
   height: 100%;
-  border: 2px solid white;
 }
 .cards-on-board-container .north {
   position: absolute;
   left: calc(50% - var(--card-width) / 2);
-  top: 0;
+  top: calc(50% - 0.75 * var(--card-height));
 }
 .cards-on-board-container .east {
   position: absolute;
-  right: 0;
+  right: calc(50% - 0.75 * var(--card-width));
   top: calc(50% - var(--card-height) / 2);
 }
 .cards-on-board-container .south {
   position: absolute;
   left: calc(50% - var(--card-width) / 2);
-  bottom: 0;
+  bottom: calc(50% - 0.85 * var(--card-height));
 }
 .cards-on-board-container .west {
   position: absolute;
-  left: 0;
-  top: calc(50% - var(--card-height) / 2);
+  left: calc(50% - 0.75 * var(--card-width));
+  top: calc(50% - var(--card-height) / 2 + var(--card-height) / 20);
 }
