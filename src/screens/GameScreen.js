@@ -4,11 +4,12 @@ import BiddingBox from '../engine/BiddingBox'
 import BidsOnBoard from '../engine/BidsOnBoard'
 import BridgeGameEngine from '../engine/BridgeGameEngine'
 import CardsOnBoard from '../engine/CardsOnBoard'
+import CurrentGameStats from '../engine/CurrentGameStats'
 import Deck from '../engine/Deck'
 import HeaderGame from '../components/HeaderGame'
 import Player from '../engine/Player'
 import ScoreSubScreen from '../screens/ScoreSubScreen'
-import {BID_TYPES, GAMESTATES, SEATS} from '../constants/Game'
+import {ALL_SEATS, BID_TYPES, GAMESTATES, SEATS} from '../constants/Game'
 
 import '../css/Style.css';
 import '../css/GameScreen.css';
@@ -27,6 +28,7 @@ export default class GameScreen extends React.Component {
     this.game_engine = new BridgeGameEngine();
     this.cards_on_board = [];
     this.bids_on_board = [];
+    this.contract = null;
     this.state = {
       game_state: GAMESTATES.BIDDING,
       ready_to_play: false,
@@ -84,6 +86,7 @@ export default class GameScreen extends React.Component {
     if (this.state.curr_player === seat &&
         this.game_engine.isValidCard(card, this[seat])
     ) {
+      this.game_engine.setDummy(ALL_SEATS[(ALL_SEATS.indexOf(this.contract.declarer)+2) % 4]);
       this.game_engine.playCard(card, seat);
       this.updateHands(seat, card);
       this.updateCardsOnBoard(seat, card);
@@ -109,12 +112,19 @@ export default class GameScreen extends React.Component {
         console.log(`[${this.state.curr_player}] Bid ${bid.type}`);
       }
       if (this.game_engine.isBiddingComplete()) {
-        const contract = this.game_engine.getContract();
+        this.contract = this.game_engine.getContract();
+        if (this.contract.suit === "pass") {
+          this.setState({
+            game_state: GAMESTATES.RESULTS,
+          });
+          return;
+        }
         this.setState({
           game_state: GAMESTATES.PLAYING,
-          curr_player: SEATS.SOUTH,
+          curr_player: ALL_SEATS[(ALL_SEATS.indexOf(this.contract.declarer)+1) % 4],
           ready_to_play: true,
         });
+        // we set the dummy after the first card has been played above
       } else {
         this.goToNextPlayer();
       }
@@ -134,6 +144,7 @@ export default class GameScreen extends React.Component {
     this.south = this.hands[SEATS.SOUTH];
     this.west = this.hands[SEATS.WEST];
     this.cards_on_board = [];
+    this.bids_on_board = [];
   }
 
   render() {
@@ -220,6 +231,15 @@ export default class GameScreen extends React.Component {
                   <div className="bidding-box-container">
                     <BiddingBox
                       handleBidClick={this.handleBidClick}
+                    />
+                  </div>
+                }
+                {(this.state.game_state === GAMESTATES.PLAYING) &&
+                  <div className="current-game-stats-container">
+                    <CurrentGameStats
+                      tricks_won_NS={this.game_engine.tricks_won_NS}
+                      tricks_won_EW={this.game_engine.tricks_won_EW}
+                      contract={this.game_engine.getContract()}
                     />
                   </div>
                 }

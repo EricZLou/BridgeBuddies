@@ -8,7 +8,7 @@ export default class BridgeGameEngine {
     this.play_engine = new BridgePlayingEngine();
     this.tricks_won_NS = 0;
     this.tricks_won_EW = 0;
-    // this.dummy = SEATS.NORTH;
+    this.dummy = null;
   }
 
   reset() {
@@ -16,9 +16,13 @@ export default class BridgeGameEngine {
     this.play_engine.reset();
     this.tricks_won_NS = 0;
     this.tricks_won_EW = 0;
+    this.dummy = null;
   }
   setTrumpSuit(suit) {
     this.play_engine.setTrumpSuit(suit);
+  }
+  setDummy(seat) {
+    this.dummy = seat;
   }
 
   /* Bidding fns */

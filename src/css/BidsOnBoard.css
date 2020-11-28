@@ -1,8 +1,21 @@
 .bids-on-board-container {
   position: relative;
   width: 100%;
-  background-color: white;
-  margin: 20px;
-  border-radius: 20px;
-  padding: 20px;
+  margin: 10px;
+  border-radius: 10px;
+  padding: 10px;
+  max-height: 250px;
+  overflow-y: auto;
+  background-color: var(--theme-blue);
+}
+.bids-on-board-container table {
+  width: 100%;
+  table-layout: fixed;
+  text-align: center;
+  font-size: 1.1em;
+}
+.bids-on-board-container th {
+  border-bottom: 2px solid black;
+}
+.bids-on-board-container td {
 }

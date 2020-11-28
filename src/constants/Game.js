@@ -6,6 +6,7 @@ export const SEATS = {
   SOUTH: "south",
   WEST: "west",
 };
+export const ALL_SEATS = [SEATS.NORTH, SEATS.EAST, SEATS.SOUTH, SEATS.WEST];
 
 export const GAMESTATES = {
   BIDDING: 'BIDDING',
