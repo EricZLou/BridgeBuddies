@@ -28,21 +28,24 @@ export const BID_SUIT_ORDER_MAP = {
   [BID_SUITS.SPADES]: 4,
   [BID_SUITS.NOTRUMP]: 5
 };
-export const BID_SUIT_UNICODE_MAP = {
-  [BID_SUITS.NOTRUMP]: 'NT',
-  [BID_SUITS.SPADES]: '\u2660',
-  [BID_SUITS.HEARTS]: '\u2665',
-  [BID_SUITS.DIAMONDS]: '\u2666',
-  [BID_SUITS.CLUBS]: '\u2663',
-};
 export const BID_OTHERS = {
-  PASS: 'PASS',
-  DBL: 'X',
-  RDBL: 'XX',
+  PASS: 'pass',
+  DBL: 'double',
+  RDBL: 'redouble',
 }
 export const BID_TYPES = {
   SUIT: 'suit',
   PASS: 'pass',
   DBL: 'double',
   RDBL: 'redouble',
+};
+export const BID_UNICODE_MAP = {
+  [BID_SUITS.NOTRUMP]: 'NT',
+  [BID_SUITS.SPADES]: '\u2660',
+  [BID_SUITS.HEARTS]: '\u2665',
+  [BID_SUITS.DIAMONDS]: '\u2666',
+  [BID_SUITS.CLUBS]: '\u2663',
+  [BID_OTHERS.PASS]: 'PASS',
+  [BID_OTHERS.DBL]: 'X',
+  [BID_OTHERS.RDBL]: 'XX',
 };

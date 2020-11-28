@@ -1,6 +1,7 @@
 import React from 'react';
 
 import BiddingBox from '../engine/BiddingBox'
+import BidsOnBoard from '../engine/BidsOnBoard'
 import BridgeGameEngine from '../engine/BridgeGameEngine'
 import CardsOnBoard from '../engine/CardsOnBoard'
 import Deck from '../engine/Deck'
@@ -25,6 +26,7 @@ export default class GameScreen extends React.Component {
     this.west = this.hands[SEATS.WEST];
     this.game_engine = new BridgeGameEngine();
     this.cards_on_board = [];
+    this.bids_on_board = [];
     this.state = {
       game_state: GAMESTATES.BIDDING,
       ready_to_play: false,
@@ -58,6 +60,10 @@ export default class GameScreen extends React.Component {
 
   updateCardsOnBoard(seat, card) {
     this.cards_on_board.push({seat: seat, card: card});
+  }
+
+  updateBidsOnBoard(seat, bid) {
+    this.bids_on_board.push({seat: seat, bid: bid});
   }
 
   handleClearCardsEvent = (e) => {
@@ -96,6 +102,7 @@ export default class GameScreen extends React.Component {
     if (this.state.game_state !== GAMESTATES.BIDDING) return;
     if (this.game_engine.isValidBid(bid, this.state.curr_player)) {
       this.game_engine.doBid(bid, this.state.curr_player);
+      this.updateBidsOnBoard(this.state.curr_player, bid);
       if (bid.type === BID_TYPES.SUIT) {
         console.log(`[${this.state.curr_player}] Bid ${bid.level}${bid.suit}`);
       } else {
@@ -171,9 +178,12 @@ export default class GameScreen extends React.Component {
                 </div>
               </div>
               <div className="middle">
-                <CardsOnBoard
+                {this.state.game_state === GAMESTATES.BIDDING && <BidsOnBoard
+                  bids={this.bids_on_board}
+                />}
+                {this.state.game_state === GAMESTATES.PLAYING && <CardsOnBoard
                   cards={this.cards_on_board}
-                />
+                />}
               </div>
               <div className="right">
                 <div className="game-player east">
