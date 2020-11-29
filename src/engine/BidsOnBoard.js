@@ -18,13 +18,6 @@ export default class BidsOnBoard extends React.Component {
   }
 
   render() {
-    const bids_list = this.props.bids.map((bid_play, idx) => {
-      return (
-        <div className="bid" key={idx}>
-          {this.bidToString(bid_play.bid)}
-        </div>
-      );
-    });
     let bid_rows = [];
     if (this.props.bids.length > 0) {
       const opening_bidder = this.props.bids[0].seat;

@@ -39,9 +39,9 @@ export default class Player extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.is_my_turn && this.props.ready_to_play && this.seat !== SEATS.SOUTH) {
-      this.playCard();
-    }
+    if (this.props.seat === SEATS.SOUTH || (this.props.seat === SEATS.NORTH && this.props.visible === true))
+      return;
+    if (this.props.is_my_turn && this.props.ready_to_play) this.playCard();
   }
 
   render() {

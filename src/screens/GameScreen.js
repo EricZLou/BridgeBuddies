@@ -5,7 +5,7 @@ import BidsOnBoard from '../engine/BidsOnBoard'
 import BridgeGameEngine from '../engine/BridgeGameEngine'
 import CardsOnBoard from '../engine/CardsOnBoard'
 import CurrentGameStats from '../engine/CurrentGameStats'
-import Deck from '../engine/Deck'
+import Deck, {sortHand} from '../engine/Deck'
 import HeaderGame from '../components/HeaderGame'
 import Player from '../engine/Player'
 import ScoreSubScreen from '../screens/ScoreSubScreen'
@@ -101,6 +101,27 @@ export default class GameScreen extends React.Component {
     }
   }
 
+  handleBiddingComplete() {
+    this.contract = this.game_engine.getContract();
+    if (this.contract.suit === "pass") {
+      this.setState({
+        game_state: GAMESTATES.RESULTS,
+      });
+      return;
+    }
+    this.game_engine.setTrumpSuit(this.contract.suit);
+    this.north = sortHand(this.north, this.contract.suit);
+    this.east = sortHand(this.east, this.contract.suit);
+    this.south = sortHand(this.south, this.contract.suit);
+    this.west = sortHand(this.west, this.contract.suit);
+    this.setState({
+      game_state: GAMESTATES.PLAYING,
+      curr_player: ALL_SEATS[(ALL_SEATS.indexOf(this.contract.declarer)+1) % 4],
+      ready_to_play: true,
+    });
+    // we set the dummy after the first card has been played above
+  }
+
   handleBidClick(bid) {
     if (this.state.game_state !== GAMESTATES.BIDDING) return;
     if (this.game_engine.isValidBid(bid, this.state.curr_player)) {
@@ -112,19 +133,7 @@ export default class GameScreen extends React.Component {
         console.log(`[${this.state.curr_player}] Bid ${bid.type}`);
       }
       if (this.game_engine.isBiddingComplete()) {
-        this.contract = this.game_engine.getContract();
-        if (this.contract.suit === "pass") {
-          this.setState({
-            game_state: GAMESTATES.RESULTS,
-          });
-          return;
-        }
-        this.setState({
-          game_state: GAMESTATES.PLAYING,
-          curr_player: ALL_SEATS[(ALL_SEATS.indexOf(this.contract.declarer)+1) % 4],
-          ready_to_play: true,
-        });
-        // we set the dummy after the first card has been played above
+        this.handleBiddingComplete();
       } else {
         this.goToNextPlayer();
       }
@@ -136,7 +145,7 @@ export default class GameScreen extends React.Component {
     this.hands = this.deck.generateHands();
     this.setState({
       game_state: GAMESTATES.BIDDING,
-      ready_to_play: true,
+      ready_to_play: false,
       curr_player: SEATS.SOUTH,
     });
     this.north = this.hands[SEATS.NORTH];

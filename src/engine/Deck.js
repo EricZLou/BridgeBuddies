@@ -39,7 +39,7 @@ function _sortSuitByValue(card_a, card_b) {
   return -(card_a.value - card_b.value);
 }
 
-function sortHand(hand) {
+export function sortHand(hand, trump='C') {
   let clubs = [];
   let diamonds = [];
   let hearts = [];
@@ -68,5 +68,9 @@ function sortHand(hand) {
   diamonds.sort(_sortSuitByValue);
   hearts.sort(_sortSuitByValue);
   spades.sort(_sortSuitByValue);
-  return clubs.concat(diamonds,spades,hearts);
+
+  if (trump === 'C') return clubs.concat(diamonds,spades,hearts);
+  if (trump === 'D') return diamonds.concat(clubs,hearts,spades);
+  if (trump === 'H') return hearts.concat(spades,diamonds,clubs);
+  return spades.concat(hearts,clubs,diamonds);
 };
