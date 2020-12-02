@@ -1,4 +1,4 @@
-import {BID_TYPES as BT, BID_SUIT_ORDER_MAP, SEATS} from '../constants/Game'
+import {BID_TYPES as BT, BID_SUIT_ORDER_MAP, SEATS} from '../../constants/Game'
 
 export default class BridgeBiddingEngine {
   constructor() {

@@ -2,7 +2,7 @@ import React from 'react';
 
 import BiddingBox from '../engine/BiddingBox'
 import BidsOnBoard from '../engine/BidsOnBoard'
-import BridgeGameEngine from '../engine/BridgeGameEngine'
+import BridgeGameEngine from '../engine/managers/BridgeGameEngine'
 import CardsOnBoard from '../engine/CardsOnBoard'
 import CurrentGameStats from '../engine/CurrentGameStats'
 import Deck, {sortHand} from '../engine/Deck'
