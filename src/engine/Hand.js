@@ -21,8 +21,8 @@ export default class Hand extends React.Component {
             value={card.value}
             suit={card.suit}
             handleCardClick={this.props.handleHandClick.bind(this, this.seat)}
-            hoverable={this.seat === SEATS.SOUTH || (this.seat === SEATS.NORTH && this.props.visible)}
             visible={this.props.visible}
+            hoverable={this.props.clickable}
           />
         </div>
       );

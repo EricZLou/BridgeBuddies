@@ -10,6 +10,7 @@ import HeaderGame from '../components/HeaderGame'
 import Player from '../engine/Player'
 import ScoreSubScreen from '../screens/ScoreSubScreen'
 import {ALL_SEATS, BID_TYPES, GAMESTATES, SEATS} from '../constants/Game'
+import {getNextPlayer, getPrevPlayer, getPartner} from '../engine/utils/GameScreenUtils'
 
 import '../css/Style.css';
 import '../css/GameScreen.css';
@@ -19,6 +20,7 @@ import table from '../media/store/tables/green2.jpg'
 export default class GameScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.me = ALL_SEATS[Math.floor(Math.random() * 4)];
     this.deck = new Deck();
     this.hands = this.deck.generateHands();
     this.north = this.hands[SEATS.NORTH];
@@ -86,7 +88,7 @@ export default class GameScreen extends React.Component {
     if (this.state.curr_player === seat &&
         this.game_engine.isValidCard(card, this[seat])
     ) {
-      this.game_engine.setDummy(ALL_SEATS[(ALL_SEATS.indexOf(this.contract.declarer)+2) % 4]);
+      this.game_engine.setDummy(getPartner(this.contract.declarer));
       this.game_engine.playCard(card, seat);
       this.updateHands(seat, card);
       this.updateCardsOnBoard(seat, card);
@@ -116,7 +118,7 @@ export default class GameScreen extends React.Component {
     this.west = sortHand(this.west, this.contract.suit);
     this.setState({
       game_state: GAMESTATES.PLAYING,
-      curr_player: ALL_SEATS[(ALL_SEATS.indexOf(this.contract.declarer)+1) % 4],
+      curr_player: getNextPlayer(this.contract.declarer),
       ready_to_play: true,
     });
     // we set the dummy after the first card has been played above
@@ -156,6 +158,20 @@ export default class GameScreen extends React.Component {
     this.bids_on_board = [];
   }
 
+  createPlayer(seat) {
+    return <Player
+      seat={seat}
+      cards={this[seat]}
+      handlePlayerClick={this.handleGameScreenClick}
+      is_my_turn={this.state.curr_player === seat}
+      opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].card.suit}
+      ready_to_play={this.state.ready_to_play}
+      visible={seat === this.me || seat === this.game_engine.dummy}
+      clickable={seat === this.me && seat !== this.game_engine.dummy ||
+                 seat === getPartner(this.me) && seat === this.game_engine.dummy}
+    />
+  }
+
   render() {
     return (
       <div onMouseUp={this.handleClearCardsEvent}>
@@ -168,16 +184,8 @@ export default class GameScreen extends React.Component {
             <div className="top">
               <div className="left"/>
               <div className="middle">
-                <div className="game-player north">
-                  <Player
-                    seat={SEATS.NORTH}
-                    cards={this[SEATS.NORTH]}
-                    handlePlayerClick={this.handleGameScreenClick}
-                    is_my_turn={this.state.curr_player === SEATS.NORTH}
-                    opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].card.suit}
-                    ready_to_play={this.state.ready_to_play}
-                    visible={this.game_engine.dummy === SEATS.NORTH}
-                  />
+                <div className="game-player">
+                  {this.createPlayer(getPartner(this.me))}
                 </div>
               </div>
               <div className="right"/>
@@ -185,16 +193,8 @@ export default class GameScreen extends React.Component {
 
             <div className="middle">
               <div className="left">
-                <div className="game-player west">
-                  <Player
-                    seat={SEATS.WEST}
-                    cards={this[SEATS.WEST]}
-                    handlePlayerClick={this.handleGameScreenClick}
-                    is_my_turn={this.state.curr_player === SEATS.WEST}
-                    opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].card.suit}
-                    ready_to_play={this.state.ready_to_play}
-                    visible={this.game_engine.dummy === SEATS.WEST}
-                  />
+                <div className="game-player">
+                  {this.createPlayer(getNextPlayer(this.me))}
                 </div>
               </div>
               <div className="middle">
@@ -206,16 +206,8 @@ export default class GameScreen extends React.Component {
                 />}
               </div>
               <div className="right">
-                <div className="game-player east">
-                  <Player
-                    seat={SEATS.EAST}
-                    cards={this[SEATS.EAST]}
-                    handlePlayerClick={this.handleGameScreenClick}
-                    is_my_turn={this.state.curr_player === SEATS.EAST}
-                    opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].card.suit}
-                    ready_to_play={this.state.ready_to_play}
-                    visible={this.game_engine.dummy === SEATS.EAST}
-                  />
+                <div className="game-player">
+                  {this.createPlayer(getPrevPlayer(this.me))}
                 </div>
               </div>
             </div>
@@ -223,16 +215,8 @@ export default class GameScreen extends React.Component {
             <div className="bottom">
               <div className="left"/>
               <div className="middle">
-                <div className="game-player south">
-                  <Player
-                    seat={SEATS.SOUTH}
-                    cards={this[SEATS.SOUTH]}
-                    handlePlayerClick={this.handleGameScreenClick}
-                    is_my_turn={this.state.curr_player === SEATS.SOUTH}
-                    opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].card.suit}
-                    ready_to_play={this.state.ready_to_play}
-                    visible={true}
-                  />
+                <div className="game-player">
+                  {this.createPlayer(this.me)}
                 </div>
               </div>
               <div className="right">

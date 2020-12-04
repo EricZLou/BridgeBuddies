@@ -39,7 +39,7 @@ export default class Player extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.seat === SEATS.SOUTH || (this.props.seat === SEATS.NORTH && this.props.visible === true))
+    if (this.props.clickable)
       return;
     if (this.props.is_my_turn && this.props.ready_to_play) this.playCard();
   }
@@ -52,6 +52,7 @@ export default class Player extends React.Component {
           seat={this.props.seat}
           handleHandClick={this.props.handlePlayerClick}
           visible={this.props.visible}
+          clickable={this.props.clickable}
         />
         <div className="player-title">
           <PlayerTitle
