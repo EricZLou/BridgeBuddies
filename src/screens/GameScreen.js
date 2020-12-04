@@ -167,8 +167,8 @@ export default class GameScreen extends React.Component {
       opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].card.suit}
       ready_to_play={this.state.ready_to_play}
       visible={seat === this.me || seat === this.game_engine.dummy}
-      clickable={seat === this.me && seat !== this.game_engine.dummy ||
-                 seat === getPartner(this.me) && seat === this.game_engine.dummy}
+      clickable={(seat === this.me && seat !== this.game_engine.dummy) ||
+                 (seat === getPartner(this.me) && seat === this.game_engine.dummy)}
     />
   }
 

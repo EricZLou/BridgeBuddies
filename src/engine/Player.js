@@ -2,7 +2,6 @@ import React from 'react'
 
 import Hand from './Hand'
 import PlayerTitle from './PlayerTitle'
-import {SEATS} from '../constants/Game'
 
 import '../css/Player.css'
 

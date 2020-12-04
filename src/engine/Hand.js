@@ -1,7 +1,6 @@
 import React from 'react'
 
 import Card from './Card'
-import {SEATS} from '../constants/Game'
 
 import '../css/Hand.css'
 
