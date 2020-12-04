@@ -247,7 +247,7 @@ export default class GameScreen extends React.Component {
         }
         {(this.state.game_state === GAMESTATES.RESULTS) &&
           <ScoreSubScreen
-            score={this.game_engine.tricks_won_NS}
+            score={this.game_engine.getMyScore(this.me)}
             resetGame={this.resetGame}
           />
         }

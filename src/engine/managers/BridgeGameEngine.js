@@ -67,4 +67,8 @@ export default class BridgeGameEngine {
   getScoreEW() {
     return this.tricks_won_EW;
   }
+  getMyScore(seat) {
+    if (seat === SEATS.NORTH || seat === SEATS.SOUTH) return this.getScoreNS();
+    return this.getScoreEW();
+  }
 }
