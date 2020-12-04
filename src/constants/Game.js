@@ -7,6 +7,12 @@ export const SEATS = {
   WEST: "west",
 };
 export const ALL_SEATS = [SEATS.NORTH, SEATS.EAST, SEATS.SOUTH, SEATS.WEST];
+export const PARTNERS = {
+  [SEATS.NORTH]: SEATS.SOUTH,
+  [SEATS.SOUTH]: SEATS.NORTH,
+  [SEATS.EAST]: SEATS.WEST,
+  [SEATS.WEST]: SEATS.EAST,
+};
 
 export const GAMESTATES = {
   BIDDING: 'BIDDING',
