@@ -63,7 +63,12 @@ export default class GameScreen extends React.Component {
   }
 
   updateCardsOnBoard(seat, card) {
-    this.cards_on_board.push({seat: seat, card: card});
+    let position;
+    if (seat === this.me) position = "card-me";
+    else if (seat === getPartner(this.me)) position = "card-partner";
+    else if (seat === getNextPlayer(this.me)) position = "card-left";
+    else position = "card-right";
+    this.cards_on_board.push({position: position, card: card});
   }
 
   updateBidsOnBoard(seat, bid) {
@@ -174,12 +179,12 @@ export default class GameScreen extends React.Component {
 
   render() {
     return (
-      <div onMouseUp={this.handleClearCardsEvent}>
+      <div>
         <HeaderGame/>
         <img src={table} alt="table" className="table-image"/>
 
         {(this.state.game_state === GAMESTATES.BIDDING || this.state.game_state === GAMESTATES.PLAYING) &&
-          <div className="game-container">
+          <div className="game-container" onMouseUp={this.handleClearCardsEvent}>
 
             <div className="top">
               <div className="left"/>

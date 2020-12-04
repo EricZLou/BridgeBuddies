@@ -14,7 +14,7 @@ export default class CardsOnBoard extends React.Component {
   render() {
     const cards_list = this.props.cards.map((card_play, idx) => {
       return (
-        <div className={card_play.seat} key={idx}>
+        <div className={card_play.position} key={idx}>
           <Card
             value={card_play.card.value}
             suit={card_play.card.suit}

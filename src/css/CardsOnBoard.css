@@ -3,22 +3,22 @@
   width: 100%;
   height: 100%;
 }
-.cards-on-board-container .north {
+.cards-on-board-container .card-partner {
   position: absolute;
   left: calc(50% - var(--card-width) / 2);
   top: calc(50% - 0.75 * var(--card-height));
 }
-.cards-on-board-container .east {
+.cards-on-board-container .card-right {
   position: absolute;
   right: calc(50% - 0.75 * var(--card-width));
   top: calc(50% - var(--card-height) / 2);
 }
-.cards-on-board-container .south {
+.cards-on-board-container .card-me {
   position: absolute;
   left: calc(50% - var(--card-width) / 2);
   bottom: calc(50% - 0.85 * var(--card-height));
 }
-.cards-on-board-container .west {
+.cards-on-board-container .card-left {
   position: absolute;
   left: calc(50% - 0.75 * var(--card-width));
   top: calc(50% - var(--card-height) / 2 + var(--card-height) / 20);
