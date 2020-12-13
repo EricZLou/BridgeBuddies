@@ -6,6 +6,7 @@ import '../css/HeaderGame.css';
 import '../css/ProfilePic.css';
 
 import bridge_clipart from '../media/bridge_clipart.png';
+import coin from '../media/coin.png';
 import sreya1 from '../media/store/characters/sreya1.png';
 
 export default function HeaderGame() {
@@ -19,8 +20,12 @@ export default function HeaderGame() {
         BRIDGE BUDDIES
       </div>
       <div className="header-info-game">
-        <div className="exp">EXP: 320 / 1000</div>
-        <div className="level">Novice</div>
+        <div className="right">
+          <div className="level">Novice</div>
+          <div className="exp">EXP: 320 / 1000</div>
+          <img src={coin} alt="Coin" className="coin-img"/>
+          <div className="coins">10</div>
+        </div>
       </div>
       <div className="header-dropdown-game">
         <div className="image-cropper-header-game">

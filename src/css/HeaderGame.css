@@ -30,16 +30,28 @@
 }
 .header-info-game {
   flex: 3;
+  min-width: 300px;
   padding-top: 1vh;
 }
-.header-info-game .level {
-  display: inline;
+.header-info-game .right {
   float: right;
 }
-.header-info-game .exp {
+.header-info-game .right .level {
   display: inline;
-  float: right;
+}
+.header-info-game .right .exp {
+  display: inline;
   padding-left: 3vh;
+}
+.header-info-game .right .coin-img {
+  display: inline;
+  padding-left: 3vh;
+  height: 16px;
+  transform: translateY(2px);
+  padding-right: 2px;
+}
+.header-info-game .right .coins {
+  display: inline;
 }
 .header-dropdown-game {
   flex: 1;

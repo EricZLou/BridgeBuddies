@@ -28,8 +28,24 @@
 .header-info {
   flex: 3;
 }
-.header-info .level {
+.header-info .top {
   font-weight: bold;
+}
+.header-info .top .level {
+  display: inline;
+}
+.header-info .top .right {
+  display: inline;
+  float: right;
+}
+.header-info .top .right .coin-img {
+  display: inline;
+  height: 16px;
+  transform: translateY(2px);
+  padding-right: 4px;
+}
+.header-info .top .right .num-coins {
+  display: inline;
 }
 .header-info .exp {
   font-weight: bold;
