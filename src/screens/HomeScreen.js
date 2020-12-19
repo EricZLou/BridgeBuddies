@@ -30,7 +30,7 @@ export default function HomeScreen() {
             <div className="title">MY FRIENDS</div>
             <hr className="hr-black"/>
           </div>
-          <Link to="/store" >
+          <Link to="/store" className="store-link">
             <img src={store_image} alt="Store" className="store"/>
           </Link>
         </div>
