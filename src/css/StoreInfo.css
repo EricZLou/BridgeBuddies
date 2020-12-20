@@ -1,0 +1,37 @@
+.store-info-name {
+  padding: 2.5vh 0;
+  font-size: 1.3em;
+  text-transform: capitalize;
+}
+.store-info-image {
+  height: 30vh;
+  text-align: center;
+}
+.store-info-image img {
+  height: 100%;
+  object-fit: contain;
+}
+.store-info-description {
+  margin-top: 5vh;
+}
+.store-info-button {
+  width: 30%;
+  display: block;
+  text-align: center;
+  margin: auto;
+  background-color: var(--theme-light-cream);
+  border-radius: 20px;
+  margin-top: 5vh;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.store-info-button:hover {
+  background-color: var(--theme-cream);
+}
+
+.store-coin-img {
+  display: inline;
+  height: 16px;
+  transform: translateY(2px);
+  padding-right: 4px;
+}
