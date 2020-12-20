@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+import {LEVEL, CURR_EXP, TOTAL_EXP, NUM_COINS} from '../SampleData'
+
 import '../css/Style.css';
 import '../css/HeaderGame.css';
 import '../css/ProfilePic.css';
@@ -21,10 +23,10 @@ export default function HeaderGame() {
       </div>
       <div className="header-info-game">
         <div className="right">
-          <div className="level">Novice</div>
-          <div className="exp">EXP: 320 / 1000</div>
+          <div className="level">{LEVEL}</div>
+          <div className="exp">EXP: {CURR_EXP} / {TOTAL_EXP}</div>
           <img src={coin} alt="Coin" className="coin-img"/>
-          <div className="coins">10</div>
+          <div className="coins">{NUM_COINS}</div>
         </div>
       </div>
       <div className="header-dropdown-game">

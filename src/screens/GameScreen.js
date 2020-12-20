@@ -12,6 +12,8 @@ import ScoreSubScreen from '../screens/ScoreSubScreen'
 import {ALL_SEATS, BID_TYPES, GAMESTATES, SEATS} from '../constants/Game'
 import {getNextPlayer, getPrevPlayer, getPartner} from '../engine/utils/GameScreenUtils'
 
+import {GAME} from '../SampleData'
+
 import '../css/Style.css';
 import '../css/GameScreen.css';
 
@@ -166,6 +168,7 @@ export default class GameScreen extends React.Component {
   createPlayer(seat) {
     return <Player
       seat={seat}
+      name={GAME[seat]}
       cards={this[seat]}
       handlePlayerClick={this.handleGameScreenClick}
       is_my_turn={this.state.curr_player === seat}

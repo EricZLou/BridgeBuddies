@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+import {LEVEL, CURR_EXP, TOTAL_EXP, NUM_COINS} from '../SampleData'
+
 import '../css/Style.css';
 import '../css/Header.css';
 import '../css/ProfilePic.css';
@@ -21,13 +23,13 @@ export default function Header() {
       <div className="header-info">
         <hr className="hr-black"/>
         <div className="top">
-          <div className="level">Novice</div>
+          <div className="level">{LEVEL}</div>
           <div className="right">
             <img src={coin} alt="Coin" className="coin-img"/>
-            <div className="num-coins">10</div>
+            <div className="num-coins">{NUM_COINS}</div>
           </div>
         </div>
-        <div className="exp">EXP: 320 / 1000</div>
+        <div className="exp">EXP: {CURR_EXP} / {TOTAL_EXP}</div>
         <hr className="hr-black"/>
       </div>
       <div className="header-dropdown">

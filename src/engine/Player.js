@@ -57,6 +57,7 @@ export default class Player extends React.Component {
           <PlayerTitle
             seat={this.seat}
             is_my_turn={this.props.is_my_turn}
+            name={this.props.name}
           />
         </div>
       </div>

@@ -12,7 +12,7 @@ export default class PlayerTitle extends React.Component {
           <img src={sreya2} alt="Profile"/>
         </div>
         <div className="player-title-name">
-          insert username ({this.props.seat})
+          {this.props.name}
         </div>
         <div className="player-title-seat">
           {this.props.seat}
