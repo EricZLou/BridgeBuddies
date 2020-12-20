@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import {logIn} from '../redux/actions/Core';
 
 import Firebase from '../Firebase';
+import LogInForm from '../components/LogInForm';
+import SignUpForm from '../components/SignUpForm';
 
 import '../css/Style.css';
 import '../css/SignInScreen.css'
@@ -15,20 +17,27 @@ class SignInScreen extends React.Component {
       log_in_view: true,
     }
   }
+
   render() {
     return (
       <div>
         <button onClick={() => {this.props.dispatch(logIn("Eric"));}}>log in as Eric</button>
+
+        {/* LOG IN VIEW */}
         {this.state.log_in_view &&
           <div>
             this is the log in view
-            <button onClick={() => this.setState({log_in_view: false})}>sign up</button>
+            <LogInForm/>
+            <button onClick={() => this.setState({log_in_view: false})}>go to sign up</button>
           </div>
         }
+
+        {/* SIGN UP VIEW */}
         {!this.state.log_in_view &&
           <div>
             this is the sign up view
-            <button onClick={() => this.setState({log_in_view: true})}>sign in</button>
+            <SignUpForm/>
+            <button onClick={() => this.setState({log_in_view: true})}>go to log in</button>
           </div>
         }
       </div>
