@@ -17,6 +17,7 @@ export const GAMES = [
 ];
 export const GAME = GAMES[GAME_NUM];
 
+// STORE
 let STORE_CARDBACKS = {
   "red card": {
     name: "red card",
