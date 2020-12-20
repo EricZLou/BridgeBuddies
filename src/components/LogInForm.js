@@ -8,7 +8,7 @@ export default class LogInForm extends React.Component {
     this.state = {
       invalid: false,
     }
-    this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handleFormChange = this.handleFormChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -17,32 +17,37 @@ export default class LogInForm extends React.Component {
     return true;
   }
 
-  handleEmailChange(event) {
-
+  handleFormChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
   }
 
   handleSubmit(event) {
-    if (!this.validate()) {
-      this.setState({invalid: true});
-      return;
-    }
-    alert('A name was submitted: ' + this.state.username);
     event.preventDefault();
+    alert('A log in was submitted: ' + this.state.username);
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
-          Email:
-          <input name="email" type="text" value={this.state.email}
-                 onChange={this.handleEmailChange}
-                 placeholder="Ex: ericlou101@gmail.com"
+          Username:
+          <input name="username" type="text" value={this.state.username}
+                 onChange={this.handleFormChange}
+                 placeholder="Ex: ericlou101"
                  required
           />
         </label>
-        <input type="submit" value="Submit" />
-        {this.state.invalid && "Invalid login!"}
+        <label>
+          Password:
+          <input name="password" type="password" value={this.state.password}
+                 onChange={this.handleFormChange}
+                 required
+          />
+        </label>
+
+        <input type="submit" value="Sign In" />
       </form>
     )
   }

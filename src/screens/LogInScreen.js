@@ -28,7 +28,8 @@ class SignInScreen extends React.Component {
           <div>
             this is the log in view
             <LogInForm/>
-            <button onClick={() => this.setState({log_in_view: false})}>go to sign up</button>
+            Don't have an account?
+            <button onClick={() => this.setState({log_in_view: false})}>Sign up here</button>
           </div>
         }
 
