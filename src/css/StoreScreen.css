@@ -30,8 +30,7 @@
 .store-container .store-right-container .store-right {
   min-height: calc(100% - 6vh);
   padding: 3vh;
-  /* margin-left: 3vh; */
-  border-left: 3px solid var(--theme-light-cream);
+  border-left: 1vh solid var(--theme-light-cream);
 }
 
 .store-right .category-title {
