@@ -1,10 +1,12 @@
 import React from 'react'
+import {connect} from 'react-redux';
 
 import Firebase from '../Firebase';
+import {logIn} from '../redux/actions/Core';
 
 import '../css/Style.css';
 
-export default class LogInForm extends React.Component {
+class LogInForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -20,23 +22,26 @@ export default class LogInForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    alert('A log in was submitted: ' + this.state.username);
-  }
+    Firebase.auth().signInWithEmailAndPassword(this.state.email.trim(), this.state.password
+    ).then((userCredentials) => {
+      this.props.dispatch(logIn(userCredentials.user.uid));
+    }).catch((error) => {alert(error)});
+  };
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
-          Username:
-          <input name="username" type="text" value={this.state.username}
+          Email:
+          <input name="email" type="email" value={this.state.email || ""}
                  onChange={this.handleFormChange}
-                 placeholder="Ex: ericlou101"
+                 placeholder="Ex: ericlou101@gmail.com"
                  required
           />
         </label>
         <label>
           Password:
-          <input name="password" type="password" value={this.state.password}
+          <input name="password" type="password" value={this.state.password || ""}
                  onChange={this.handleFormChange}
                  required
           />
@@ -47,3 +52,5 @@ export default class LogInForm extends React.Component {
     )
   }
 }
+
+export default connect()(LogInForm);

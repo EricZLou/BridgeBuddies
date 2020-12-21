@@ -1,6 +1,4 @@
 import React from 'react'
-import {connect} from 'react-redux';
-import {logIn} from '../redux/actions/Core';
 
 import LogInForm from '../components/LogInForm';
 import SignUpForm from '../components/SignUpForm';
@@ -8,7 +6,7 @@ import SignUpForm from '../components/SignUpForm';
 import '../css/Style.css';
 import '../css/SignInScreen.css'
 
-class SignInScreen extends React.Component {
+export default class SignInScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,8 +17,6 @@ class SignInScreen extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={() => {this.props.dispatch(logIn("Eric"));}}>log in as Eric</button>
-
         {/* LOG IN VIEW */}
         {this.state.log_in_view &&
           <div>
@@ -43,4 +39,3 @@ class SignInScreen extends React.Component {
     );
   }
 };
-export default connect()(SignInScreen);

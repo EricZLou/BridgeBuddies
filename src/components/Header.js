@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {addCoins, subCoins} from '../redux/actions/Core';
+import {addCoins} from '../redux/actions/Core';
 
 import {TOTAL_EXP} from '../SampleData'
 

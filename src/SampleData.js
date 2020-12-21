@@ -66,11 +66,11 @@ let STORE_CARDBACKS = {
   },
 };
 let STORE_CHARACTERS = {
-  "Jespade": {
-    name: "Jespade",
+  "Gespade": {
+    name: "Gespade",
     cost: 0,
     owned: true,
-    description: "Jespade is a really cool kid lol.",
+    description: "Gespade is a really cool kid lol.",
     category: "characters",
     file: "sreya1.png",
   },

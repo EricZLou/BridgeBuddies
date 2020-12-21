@@ -1,10 +1,12 @@
 import React from 'react'
+import {connect} from 'react-redux';
 
 import Firebase from '../Firebase';
+import {logIn} from '../redux/actions/Core';
 
 import '../css/Style.css';
 
-export default class SignUpForm extends React.Component {
+class SignUpForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -20,7 +22,43 @@ export default class SignUpForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    alert('A user was signed up: ' + this.state.username);
+    Firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password
+    ).then((userCredentials) => {
+
+      const userData = userCredentials.user;
+      userData.updateProfile({
+        displayName: `${this.state.firstname} ${this.state.lastname}`,
+        email: this.state.email,
+      });
+
+      const userDetailsPath = '/users/' + userData.uid + '/details';
+      Firebase.database().ref(userDetailsPath).set({
+        firstname: this.state.firstname,
+        lastname: this.state.lastname,
+      });
+
+      const userStatsPath = '/users/' + userData.uid + '/stats';
+      Firebase.database().ref(userStatsPath).set({
+        coins: 0,
+        level: "novice",
+        exp: 0,
+      });
+
+      const userStoreDataPath = '/users/' + userData.uid + '/storedata';
+      Firebase.database().ref(`${userStoreDataPath}/active`).set({
+        cardback: "red card",
+        character: "Gespade",
+        table: "classic table",
+      });
+      Firebase.database().ref(`${userStoreDataPath}/owned`).set({
+        cardbacks: ["red card"],
+        characters: ["Gespade"],
+        tables: ["classic table"],
+      });
+      return userData
+    }).then((userData) => {
+      this.props.dispatch(logIn(userData.uid));
+    }).catch((error) => {alert(error)});
   }
 
   render() {
@@ -28,7 +66,7 @@ export default class SignUpForm extends React.Component {
       <form onSubmit={this.handleSubmit}>
         <label>
           Email:
-          <input name="email" type="email" value={this.state.email}
+          <input name="email" type="email" value={this.state.email || ""}
                  onChange={this.handleFormChange}
                  placeholder="Ex: ericlou101@gmail.com"
                  required
@@ -36,18 +74,18 @@ export default class SignUpForm extends React.Component {
         </label>
         <label>
           <abbr title="Only use characters A-Z and digits 0-9.">User Name:</abbr>
-          <input name="username" type="text" value={this.state.username}
+          <input name="username" type="text" value={this.state.username || ""}
                  onChange={this.handleFormChange}
                  placeholder="Ex: ericlou101"
-                 minlength="5"
-                 maxlength="18"
+                 minLength="5"
+                 maxLength="18"
                  pattern="[A-Za-z0-9]*"
                  required
           />
         </label>
         <label>
           First Name:
-          <input name="firstname" type="text" value={this.state.firstname}
+          <input name="firstname" type="text" value={this.state.firstname || ""}
                  onChange={this.handleFormChange}
                  placeholder="Ex: Eric"
                  pattern="[A-Za-z]*"
@@ -56,7 +94,7 @@ export default class SignUpForm extends React.Component {
         </label>
         <label>
           Last Name:
-          <input name="lastname" type="text" value={this.state.lastname}
+          <input name="lastname" type="text" value={this.state.lastname || ""}
                  onChange={this.handleFormChange}
                  placeholder="Ex: Lou"
                  pattern="[A-Za-z]*"
@@ -65,9 +103,9 @@ export default class SignUpForm extends React.Component {
         </label>
         <label>
           Password:
-          <input name="password" type="password" value={this.state.password}
+          <input name="password" type="password" value={this.state.password || ""}
                  onChange={this.handleFormChange}
-                 minlength="8"
+                 minLength="8"
                  required
           />
         </label>
@@ -77,3 +115,5 @@ export default class SignUpForm extends React.Component {
     )
   }
 }
+
+export default connect()(SignUpForm);
