@@ -5,9 +5,7 @@ import '../css/Style.css';
 export default class LogInForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      invalid: false,
-    }
+    this.state = {};
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
