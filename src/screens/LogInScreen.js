@@ -1,9 +1,7 @@
 import React from 'react'
-import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {logIn} from '../redux/actions/Core';
 
-import Firebase from '../Firebase';
 import LogInForm from '../components/LogInForm';
 import SignUpForm from '../components/SignUpForm';
 

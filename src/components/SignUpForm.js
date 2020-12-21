@@ -1,5 +1,7 @@
 import React from 'react'
 
+import Firebase from '../Firebase';
+
 import '../css/Style.css';
 
 export default class SignUpForm extends React.Component {

@@ -1,5 +1,7 @@
 import React from 'react'
 
+import Firebase from '../Firebase';
+
 import '../css/Style.css';
 
 export default class LogInForm extends React.Component {
@@ -8,11 +10,6 @@ export default class LogInForm extends React.Component {
     this.state = {};
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  validate() {
-    if (this.state.email.length < 5) return false;
-    return true;
   }
 
   handleFormChange(event) {
