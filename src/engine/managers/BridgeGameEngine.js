@@ -1,6 +1,6 @@
 import BridgePlayingEngine from './BridgePlayingEngine';
 import BridgeBiddingEngine from './BridgeBiddingEngine';
-import {SEATS} from '../../constants/Game';
+import {SEATS} from '../../constants/GameEngine';
 
 export default class BridgeGameEngine {
   constructor() {

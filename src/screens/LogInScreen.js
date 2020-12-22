@@ -7,6 +7,7 @@ import SignUpForm from '../components/SignUpForm';
 import {logIn, homeScreenReady,
   setFirebasePaths, setUserDetails,
   setCoins, setExp, setLevel,
+  setStoreActive, setStoreOwned,
 } from '../redux/actions/Core';
 
 import '../css/Style.css';
@@ -33,9 +34,16 @@ class LogInScreen extends React.Component {
       this.props.dispatch(setLevel(snapshot.val().level_idx));
     });
   }
+  userStoreListener() {
+    Firebase.database().ref(this.props.storePath).on('value', (snapshot) => {
+      this.props.dispatch(setStoreActive(snapshot.val().active));
+      this.props.dispatch(setStoreOwned(snapshot.val().owned));
+    });
+  }
   async setUpFirebaseListeners() {
     await this.userDetailsListener();
     await this.userStatsListener();
+    await this.userStoreListener();
   }
 
   async handleFormSuccess(uid) {

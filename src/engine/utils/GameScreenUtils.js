@@ -1,4 +1,4 @@
-import {SEATS, PARTNERS} from '../../constants/Game'
+import {SEATS, PARTNERS} from '../../constants/GameEngine'
 
 export function getNextPlayer(seat) {
   switch(seat) {

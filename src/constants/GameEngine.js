@@ -56,7 +56,3 @@ export const BID_UNICODE_MAP = {
   [BID_OTHERS.DBL]: 'X',
   [BID_OTHERS.RDBL]: 'XX',
 };
-
-export const LEVELS = [
-  "Noobie", "Novice", "Intermediate", "Advanced", "Expert"
-]

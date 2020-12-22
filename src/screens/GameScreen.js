@@ -9,7 +9,7 @@ import Deck, {sortHand} from '../engine/Deck'
 import HeaderGame from '../components/HeaderGame'
 import Player from '../engine/Player'
 import ScoreSubScreen from '../screens/ScoreSubScreen'
-import {ALL_SEATS, BID_TYPES, GAMESTATES, SEATS} from '../constants/Game'
+import {ALL_SEATS, BID_TYPES, GAMESTATES, SEATS} from '../constants/GameEngine'
 import {getNextPlayer, getPrevPlayer, getPartner} from '../engine/utils/GameScreenUtils'
 
 import {GAME} from '../SampleData'

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {BID_LEVELS, BID_SUITS, BID_UNICODE_MAP, BID_TYPES, BID_OTHERS} from '../constants/Game'
+import {BID_LEVELS, BID_SUITS, BID_UNICODE_MAP, BID_TYPES, BID_OTHERS} from '../constants/GameEngine'
 
 import '../css/Style.css'
 import '../css/BiddingBox.css'

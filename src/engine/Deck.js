@@ -1,4 +1,4 @@
-import {SEATS, SUITS, VALUES} from '../constants/Game'
+import {SEATS, SUITS, VALUES} from '../constants/GameEngine'
 
 export default class Deck {
   constructor() {

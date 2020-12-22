@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import Firebase from '../Firebase'
 
 import {TOTAL_EXP} from '../SampleData'
-import {LEVELS} from '../constants/Game'
+import {LEVELS} from '../constants/Levels'
 
 import '../css/Style.css'
 import '../css/Header.css'
@@ -12,7 +12,7 @@ import '../css/ProfilePic.css'
 
 import bridge_clipart from '../media/bridge_clipart.png'
 import coin from '../media/coin.png'
-import sreya1 from '../media/store/characters/sreya1.png'
+import gespade from '../media/store/characters/gespade.png'
 
 class Header extends React.Component {
   render() {
@@ -42,7 +42,7 @@ class Header extends React.Component {
         </div>
         <div className="header-dropdown">
           <div className="image-cropper-header">
-            <img src={sreya1} alt="Profile" className="profile-pic-header"/>
+            <img src={gespade} alt="Profile" className="profile-pic-header"/>
           </div>
         </div>
       </div>

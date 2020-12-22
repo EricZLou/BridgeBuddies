@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {BID_TYPES, BID_UNICODE_MAP, SEATS} from '../constants/Game'
+import {BID_TYPES, BID_UNICODE_MAP, SEATS} from '../constants/GameEngine'
 
 import '../css/BidsOnBoard.css';
 

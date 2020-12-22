@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import {TOTAL_EXP} from '../SampleData'
-import {LEVELS} from '../constants/Game'
+import {LEVELS} from '../constants/Levels'
 
 import '../css/Style.css';
 import '../css/HeaderGame.css';
@@ -11,7 +11,7 @@ import '../css/ProfilePic.css';
 
 import bridge_clipart from '../media/bridge_clipart.png';
 import coin from '../media/coin.png';
-import sreya1 from '../media/store/characters/sreya1.png';
+import gespade from '../media/store/characters/gespade.png';
 
 class HeaderGame extends React.Component {
   render() {
@@ -34,7 +34,7 @@ class HeaderGame extends React.Component {
         </div>
         <div className="header-dropdown-game">
           <div className="image-cropper-header-game">
-            <img src={sreya1} alt="Profile" className="profile-pic-header-game"/>
+            <img src={gespade} alt="Profile" className="profile-pic-header-game"/>
           </div>
         </div>
       </div>
