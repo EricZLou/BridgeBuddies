@@ -2,7 +2,6 @@ import React from 'react'
 import {connect} from 'react-redux';
 
 import Firebase from '../Firebase';
-import {logIn} from '../redux/actions/Core';
 
 import '../css/Style.css';
 
@@ -27,24 +26,24 @@ class SignUpForm extends React.Component {
 
       const userData = userCredentials.user;
       userData.updateProfile({
-        displayName: `${this.state.firstname} ${this.state.lastname}`,
+        displayName: `${this.state.first_name} ${this.state.last_name}`,
         email: this.state.email,
       });
 
       const userDetailsPath = '/users/' + userData.uid + '/details';
       Firebase.database().ref(userDetailsPath).set({
-        firstname: this.state.firstname,
-        lastname: this.state.lastname,
+        first_name: this.state.first_name,
+        last_name: this.state.last_name,
       });
 
       const userStatsPath = '/users/' + userData.uid + '/stats';
       Firebase.database().ref(userStatsPath).set({
         coins: 0,
-        level: "novice",
         exp: 0,
+        level_idx: 0,
       });
 
-      const userStoreDataPath = '/users/' + userData.uid + '/storedata';
+      const userStoreDataPath = '/users/' + userData.uid + '/store';
       Firebase.database().ref(`${userStoreDataPath}/active`).set({
         cardback: "red card",
         character: "Gespade",
@@ -55,9 +54,9 @@ class SignUpForm extends React.Component {
         characters: ["Gespade"],
         tables: ["classic table"],
       });
-      return userData
-    }).then((userData) => {
-      this.props.dispatch(logIn(userData.uid));
+      return userData.uid
+    }).then((uid) => {
+      this.props.onFormSuccess(uid);
     }).catch((error) => {alert(error)});
   }
 
@@ -85,7 +84,7 @@ class SignUpForm extends React.Component {
         </label>
         <label>
           First Name:
-          <input name="firstname" type="text" value={this.state.firstname || ""}
+          <input name="first_name" type="text" value={this.state.first_name || ""}
                  onChange={this.handleFormChange}
                  placeholder="Ex: Eric"
                  pattern="[A-Za-z]*"
@@ -94,7 +93,7 @@ class SignUpForm extends React.Component {
         </label>
         <label>
           Last Name:
-          <input name="lastname" type="text" value={this.state.lastname || ""}
+          <input name="last_name" type="text" value={this.state.last_name || ""}
                  onChange={this.handleFormChange}
                  placeholder="Ex: Lou"
                  pattern="[A-Za-z]*"

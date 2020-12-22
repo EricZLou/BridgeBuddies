@@ -1,17 +1,18 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {addCoins} from '../redux/actions/Core';
+import React from 'react'
+import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
+import Firebase from '../Firebase'
 
 import {TOTAL_EXP} from '../SampleData'
+import {LEVELS} from '../constants/Game'
 
-import '../css/Style.css';
-import '../css/Header.css';
-import '../css/ProfilePic.css';
+import '../css/Style.css'
+import '../css/Header.css'
+import '../css/ProfilePic.css'
 
-import bridge_clipart from '../media/bridge_clipart.png';
-import coin from '../media/coin.png';
-import sreya1 from '../media/store/characters/sreya1.png';
+import bridge_clipart from '../media/bridge_clipart.png'
+import coin from '../media/coin.png'
+import sreya1 from '../media/store/characters/sreya1.png'
 
 class Header extends React.Component {
   render() {
@@ -29,7 +30,11 @@ class Header extends React.Component {
             <div className="level">{this.props.level}</div>
             <div className="right">
               <img src={coin} alt="Coin" className="coin-img"/>
-              <div className="num-coins" onClick={() => {this.props.dispatch(addCoins(10));}}>{this.props.coins}</div>
+              <div className="num-coins" onClick={() => {
+                Firebase.database().ref(this.props.userStatsPath).update(
+                  {coins: this.props.coins + 10}
+                );
+              }}>{this.props.coins}</div>
             </div>
           </div>
           <div className="exp">EXP: {this.props.exp} / {TOTAL_EXP}</div>
@@ -48,8 +53,9 @@ class Header extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     coins: state.coins,
-    level: state.experience.level,
-    exp: state.experience.exp,
+    exp: state.exp,
+    level: LEVELS[state.level_idx],
+    userStatsPath: state.firebasePaths.stats,
   }
 }
 export default connect(mapStateToProps)(Header);

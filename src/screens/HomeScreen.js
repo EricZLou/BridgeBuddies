@@ -31,7 +31,7 @@ class HomeScreen extends React.Component {
             <div className="container">
               <div className="title">MY FRIENDS</div>
               <hr className="hr-black"/>
-              <div className="friends">{`Hello ${this.props.userID}!`}</div>
+              <div className="friends">{`Hello ${this.props.userDetails.first_name}!`}</div>
             </div>
             <Link to="/store" className="store-link">
               <img src={store_image} alt="Store" className="store"/>
@@ -45,7 +45,8 @@ class HomeScreen extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    userID: state.userID
+    userID: state.userID,
+    userDetails: state.userDetails,
   }
 }
 export default connect(mapStateToProps)(HomeScreen);

@@ -18,7 +18,7 @@ class App extends React.Component {
   render() {
     const COMING_SOON = false;
     if (COMING_SOON) return <ComingSoonScreen/>;
-    if (!this.props.userID) return (
+    if (!this.props.homeScreenReady) return (
       <Router>
         <Switch>
           <Route exact path="/login"> <LogInScreen/> </Route>
@@ -41,7 +41,7 @@ class App extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    userID: state.userID,
+    homeScreenReady: state.homeScreenReady,
   }
 }
 export default connect(mapStateToProps)(App);

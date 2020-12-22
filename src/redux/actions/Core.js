@@ -1,28 +1,21 @@
 import {
-  ADD_COINS, SUB_COINS, addCoins, subCoins
-} from './CoinActions'
-
+  SET_FIREBASE_PATHS, setFirebasePaths
+} from './FirebasePaths'
 import {
-  ADD_EXP, addExp
-} from './ExpActions'
-
-import {
-  LOG_IN, logIn
+  LOG_IN, HOME_SCREEN_READY, logIn, homeScreenReady
 } from './LogInActions'
-
 import {
-  USER_FIREBASE_OBJECT, USER_DATABASE,
-  userFirebaseObject, userDatabase,
-} from './UserInfoActions'
+  SET_USER_DETAILS, setUserDetails
+} from './UserDetailsActions'
+import {
+  SET_COINS, SET_EXP, SET_LEVEL,
+  setCoins, setExp, setLevel,
+} from './UserStatsActions'
 
-
-export {ADD_COINS, SUB_COINS, addCoins, subCoins}
-
-export {ADD_EXP, addExp}
-
-export {LOG_IN, logIn}
-
+export {SET_FIREBASE_PATHS, setFirebasePaths}
+export {LOG_IN, HOME_SCREEN_READY, logIn, homeScreenReady}
+export {SET_USER_DETAILS, setUserDetails}
 export {
-  USER_FIREBASE_OBJECT, USER_DATABASE,
-  userFirebaseObject, userDatabase,
+  SET_COINS, SET_EXP, SET_LEVEL,
+  setCoins, setExp, setLevel,
 }

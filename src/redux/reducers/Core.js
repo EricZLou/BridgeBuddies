@@ -1,14 +1,13 @@
 import {combineReducers} from 'redux';
 
-import {coins} from './CoinReducers'
-import {experience} from './ExpReducers'
-import {userID} from './LogInReducers'
-import {userDatabase, userFirebaseObject} from './UserInfoReducers'
+import {firebasePaths} from './FirebasePathReducers'
+import {userID, homeScreenReady} from './LogInReducers'
+import {userDetails} from './UserInfoReducers'
+import {coins, exp, level_idx} from './UserStatsReducers'
 
 export default combineReducers({
-  coins,
-  experience,
-  userID,
-  userDatabase,
-  userFirebaseObject,
+  firebasePaths,
+  userID, homeScreenReady,
+  userDetails,
+  coins, exp, level_idx,
 })

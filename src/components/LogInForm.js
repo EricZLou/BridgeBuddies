@@ -2,7 +2,6 @@ import React from 'react'
 import {connect} from 'react-redux';
 
 import Firebase from '../Firebase';
-import {logIn} from '../redux/actions/Core';
 
 import '../css/Style.css';
 
@@ -24,7 +23,8 @@ class LogInForm extends React.Component {
     event.preventDefault();
     Firebase.auth().signInWithEmailAndPassword(this.state.email.trim(), this.state.password
     ).then((userCredentials) => {
-      this.props.dispatch(logIn(userCredentials.user.uid));
+      const uid = userCredentials.user.uid;
+      this.props.onFormSuccess(uid);
     }).catch((error) => {alert(error)});
   };
 

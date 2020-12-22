@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import {TOTAL_EXP} from '../SampleData'
+import {LEVELS} from '../constants/Game'
 
 import '../css/Style.css';
 import '../css/HeaderGame.css';
@@ -44,8 +45,8 @@ class HeaderGame extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     coins: state.coins,
-    level: state.experience.level,
-    exp: state.experience.exp,
+    exp: state.exp,
+    level: LEVELS[state.level_idx],
   }
 }
 export default connect(mapStateToProps)(HeaderGame);

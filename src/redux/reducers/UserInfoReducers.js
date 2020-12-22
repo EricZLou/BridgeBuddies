@@ -1,17 +1,14 @@
-import Firebase from '../../Firebase';
-
 import {
-  USER_FIREBASE_OBJECT, USER_DATABASE
+  SET_USER_DETAILS,
 } from '../actions/Core'
 
-export function userDatabase(state=null, action) {
-  if (action.type === USER_DATABASE)
-    return Firebase.database().ref(`/users/${Firebase.auth().currentUser.uid}`);
-  return state;
-}
-
-export function userFirebaseObject(state=null, action) {
-  if (action.type === USER_FIREBASE_OBJECT)
-    return Firebase.auth().currentUser;
+export function userDetails(state={first_name: null, last_name: null}, action) {
+  if (action.type === SET_USER_DETAILS) {
+    // make modifications in firebase here with action.userID
+    return {
+      first_name: action.first_name,
+      last_name: action.last_name,
+    };
+  }
   return state;
 }
