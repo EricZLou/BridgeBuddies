@@ -45,7 +45,6 @@ class HomeScreen extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    userID: state.userID,
     userDetails: state.userDetails,
   }
 }
