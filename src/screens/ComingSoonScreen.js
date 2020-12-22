@@ -11,11 +11,10 @@ export default function ComingSoonScreen() {
     <div className="App-container">
         <div className="cs-title">BRIDGE BUDDIES</div>
         <img src={logo} className="App-logo" alt="logo" />
-        <a className="cs-text"
-           href="https://github.com/EricZLou/BridgeBuddies"
+        <a href="https://bridge-buddies.vercel.app/"
            target="_blank"
            rel="noopener noreferrer">
-          Coming Soon
+          <button className="cs-button">Sneak Peek at the Work-In-Progress</button>
         </a>
         <img src={cover} alt="Characters" className="cs-characters"/>
     </div>

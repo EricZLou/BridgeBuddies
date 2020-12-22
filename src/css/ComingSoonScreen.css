@@ -37,11 +37,14 @@
   font-size: 1.5em;
 }
 
-.cs-text {
+.cs-button {
   font-size: 0.6em;
-  color: black;
-  font-weight: bold;
-  text-decoration: underline;
+  background-color: var(--theme-blue);
+  border-radius: 10px;
+  outline: 0;
+}
+.cs-button:hover {
+  background-color: var(--theme-light-blue);
 }
 .cs-characters {
   height: 20vh;
