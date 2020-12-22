@@ -21,11 +21,11 @@ class LogInForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    Firebase.auth().signInWithEmailAndPassword(this.state.email.trim(), this.state.password
-    ).then((userCredentials) => {
-      const uid = userCredentials.user.uid;
-      this.props.onFormSuccess(uid);
-    }).catch((error) => {alert(error)});
+    Firebase.auth().signInWithEmailAndPassword(this.state.email.trim(), this.state.password)
+      .then((userCredentials) => {
+        const uid = userCredentials.user.uid;
+        this.props.onFormSuccess(uid);
+      }).catch((error) => {alert(error)});
   };
 
   render() {

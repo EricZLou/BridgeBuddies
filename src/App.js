@@ -1,18 +1,18 @@
-import React from 'react';
+import React from 'react'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect
-} from "react-router-dom";
-import {connect} from 'react-redux';
+} from "react-router-dom"
+import {connect} from 'react-redux'
+
 
 import ComingSoonScreen from "./screens/ComingSoonScreen"
 import GameScreen from "./screens/GameScreen"
 import HomeScreen from "./screens/HomeScreen"
 import LogInScreen from "./screens/LogInScreen"
 import StoreScreen from "./screens/StoreScreen"
-
 
 class App extends React.Component {
   render() {

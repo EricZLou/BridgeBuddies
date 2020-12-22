@@ -1,16 +1,16 @@
 import React from 'react'
-import {connect} from 'react-redux';
+import {connect} from 'react-redux'
 
-import Firebase from '../Firebase';
-import LogInForm from '../components/LogInForm';
-import SignUpForm from '../components/SignUpForm';
+import Firebase from '../Firebase'
+import LogInForm from '../components/LogInForm'
+import SignUpForm from '../components/SignUpForm'
 import {logIn, homeScreenReady,
   setFirebasePaths, setUserDetails,
   setCoins, setExp, setLevel,
   setStoreActive, setStoreOwned,
-} from '../redux/actions/Core';
+} from '../redux/actions/Core'
 
-import '../css/Style.css';
+import '../css/Style.css'
 import '../css/LogInScreen.css'
 
 class LogInScreen extends React.Component {
@@ -18,8 +18,19 @@ class LogInScreen extends React.Component {
     super(props);
     this.state = {
       log_in_view: true,
+      ready: false,
     }
     this.handleFormSuccess = this.handleFormSuccess.bind(this);
+  }
+
+  componentDidMount() {
+    Firebase.auth().onAuthStateChanged(user => {
+      if (!user) this.setState({ready: true});
+      else {
+        this.handleFormSuccess(user.uid);
+        this.setState({ready: true});
+      }
+    });
   }
 
   userDetailsListener() {
@@ -59,6 +70,7 @@ class LogInScreen extends React.Component {
   }
 
   render() {
+    if (!this.state.ready) return (<div>LOADING</div>);
     return (
       <div>
         {/* LOG IN VIEW */}
