@@ -23,7 +23,7 @@
   flex: 12;
   flex-shrink: 2;
   text-align: center;
-  font-size: 4.0em;
+  font-size: 8vh;
 }
 .header-info {
   flex: 3;

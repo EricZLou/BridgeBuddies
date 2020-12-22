@@ -43,12 +43,12 @@
   overflow-y: hidden;
   white-space: nowrap;
   margin-bottom: 3vh;
-  height: 20vh;
+  height: 150px;
   background-color: var(--theme-light-blue);
 }
 .store-right .category .item {
   height: 100%;
-  width: 10vw;
+  width: 150px;
   display: inline-block;
   text-align: center;   /* center each image horizontally */
 }
