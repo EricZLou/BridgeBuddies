@@ -21,6 +21,7 @@ class LogInScreen extends React.Component {
       ready: false,
     }
     this.handleFormSuccess = this.handleFormSuccess.bind(this);
+    this.logInAsTestUser = this.logInAsTestUser.bind(this);
   }
 
   componentDidMount() {
@@ -69,6 +70,14 @@ class LogInScreen extends React.Component {
     await this.props.dispatch(homeScreenReady());
   }
 
+  logInAsTestUser() {
+    Firebase.auth().signInWithEmailAndPassword("foobar@gmail.com", "foobar123")
+      .then((userCredentials) => {
+        const uid = userCredentials.user.uid;
+        this.handleFormSuccess(uid);
+      }).catch((error) => {alert(error)});
+  }
+
   render() {
     if (!this.state.ready) return (<div>LOADING</div>);
     return (
@@ -77,6 +86,7 @@ class LogInScreen extends React.Component {
         {this.state.log_in_view &&
           <div>
             this is the log in view
+            <button onClick={this.logInAsTestUser}>Log in as test user</button>
             <LogInForm onFormSuccess={this.handleFormSuccess}/>
             Don't have an account?
             <button onClick={() => this.setState({log_in_view: false})}>Sign up here</button>
