@@ -2,7 +2,6 @@ const STORE_CARDBACKS = {
   "red card": {
     name: "red card",
     cost: 0,
-    owned: true,
     description: "A classic red card -- cool and simple.",
     category: "cardbacks",
     file: "Red.png",
@@ -10,7 +9,6 @@ const STORE_CARDBACKS = {
   "black card": {
     name: "black card",
     cost: 10,
-    owned: false,
     description: "A black and white card for old-times sake.",
     category: "cardbacks",
     file: "Black.png",
@@ -18,7 +16,6 @@ const STORE_CARDBACKS = {
   "blue card": {
     name: "blue card",
     cost: 20,
-    owned: false,
     description: "A blue card that harnesses the power of the sky.",
     category: "cardbacks",
     file: "Blue.png",
@@ -26,7 +23,6 @@ const STORE_CARDBACKS = {
   "light green card": {
     name: "light green card",
     cost: 30,
-    owned: false,
     description: "An obnoxiously bright green card.",
     category: "cardbacks",
     file: "LightGreen.png",
@@ -34,7 +30,6 @@ const STORE_CARDBACKS = {
   "gold card": {
     name: "gold card",
     cost: 100,
-    owned: false,
     description: "A pure gold card that glitters and shines.",
     category: "cardbacks",
     file: "Gold.png",
@@ -42,7 +37,6 @@ const STORE_CARDBACKS = {
   "blue-gold card": {
     name: "blue-gold card",
     cost: 500,
-    owned: false,
     description: "A mixed card that has dual powers.",
     category: "cardbacks",
     file: "BlueGold.png",
@@ -53,7 +47,6 @@ const STORE_CHARACTERS = {
   "Gespade": {
     name: "Gespade",
     cost: 0,
-    owned: true,
     description: "Gespade is a really cool kid lol.",
     category: "characters",
     file: "gespade.png",
@@ -61,7 +54,6 @@ const STORE_CHARACTERS = {
   "Hartley": {
     name: "Hartley",
     cost: 0,
-    owned: true,
     description: "Hartley loves to dress up.",
     category: "characters",
     file: "hartley.png",
@@ -69,7 +61,6 @@ const STORE_CHARACTERS = {
   "Klubby": {
     name: "Klubby",
     cost: 1000,
-    owned: false,
     description: "Klubby is classy and ready with some tricks up his sleeves!",
     category: "characters",
     file: "klubby.png",
@@ -77,7 +68,6 @@ const STORE_CHARACTERS = {
   "Fauna": {
     name: "Fauna",
     cost: 1000,
-    owned: false,
     description: "Fauna loves to hop around in her summer clothing.",
     category: "characters",
     file: "fauna.png",
@@ -85,7 +75,6 @@ const STORE_CHARACTERS = {
   "Snohocat": {
     name: "Snohocat",
     cost: 3000,
-    owned: false,
     description: "Snohocat is a... snow-cat!",
     category: "characters",
     file: "snohocat.png",
@@ -96,7 +85,6 @@ const STORE_TABLES = {
   "classic table": {
     name: "classic table",
     cost: 0,
-    owned: true,
     description: "The classic table.",
     category: "tables",
     file: "green2.jpg",

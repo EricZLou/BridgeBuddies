@@ -25,11 +25,15 @@
   font-weight: bold;
 }
 
-.store-info-buy {
+.store-info-buy-yes {
   background-color: var(--theme-light-green);
 }
-.store-info-buy:hover {
+.store-info-buy-yes:hover {
   background-color: var(--theme-green);
+}
+.store-info-buy-no {
+  background-color: var(--theme-light-grey);
+  pointer-events: none;
 }
 .store-info-use {
   background-color: var(--theme-light-cream);
@@ -39,9 +43,7 @@
 }
 .store-info-active {
   background-color: white;
-}
-.store-info-active:hover {
-  cursor: default;
+  pointer-events: none;
 }
 
 .store-coin-img {

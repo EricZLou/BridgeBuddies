@@ -36,19 +36,19 @@ class LogInScreen extends React.Component {
     this.listener3 = null;
   }
 
-  userDetailsListener() {
+  async userDetailsListener() {
     this.listener1 = Firebase.database().ref(this.props.detailsPath).on('value', (snapshot) => {
       this.props.dispatch(setUserDetails(snapshot.val().first_name, snapshot.val().last_name));
     });
   }
-  userStatsListener() {
+  async userStatsListener() {
     this.listener2 = Firebase.database().ref(this.props.statsPath).on('value', (snapshot) => {
       this.props.dispatch(setCoins(snapshot.val().coins));
       this.props.dispatch(setExp(snapshot.val().exp));
       this.props.dispatch(setLevel(snapshot.val().level_idx));
     });
   }
-  userStoreListener() {
+  async userStoreListener() {
     this.listener3 = Firebase.database().ref(this.props.storePath).on('value', (snapshot) => {
       this.props.dispatch(setStoreActive(snapshot.val().active));
       this.props.dispatch(setStoreOwned(snapshot.val().owned));

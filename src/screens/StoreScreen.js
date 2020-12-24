@@ -24,11 +24,13 @@ class StoreScreen extends React.Component {
   }
 
   handleItemClick(item) {
+    const owned = this.props.owned_items[item.category].includes(item.name);
     this.setState({
       shown_item: {
         ...item,
         active: (this.props.active_items[item.category] === item.name),
-        owned: (this.props.owned_items[item.category].includes(item.name)),
+        owned: owned,
+        buyable: !owned && item.cost <= this.props.coins,
       }
     });
   }
@@ -68,14 +70,36 @@ class StoreScreen extends React.Component {
     this.setState({store: store});
   }
 
-  handleItemPurchase(category, idx) {
-    let new_store = {...this.state.data};
-    new_store[category][idx].owned = true;
-    this.setState({data: new_store});
+  handleItemPurchase(category, name) {
+    let new_items = this.props.owned_items[category];
+    new_items.push(name);
+    Firebase.database().ref(`${this.props.userStorePath}/owned/${category}`).set(
+      new_items
+    ).then(() => {
+      Firebase.database().ref(this.props.userStatsPath).update(
+        {coins: this.props.coins - this.state.shown_item.cost}
+      );
+    }).then(() => {
+      this.setState({
+        shown_item: {
+          ...this.state.shown_item,
+          owned: true,
+        }
+      });
+    });
   }
 
-  handleItemUse() {
-
+  handleItemUse(category, name) {
+    Firebase.database().ref(`${this.props.userStorePath}/active/${category}`).set(
+      name
+    ).then(() => {
+      this.setState({
+        shown_item: {
+          ...this.state.shown_item,
+          active: true,
+        }
+      });
+    });
   }
 
   render() {
@@ -88,7 +112,7 @@ class StoreScreen extends React.Component {
               <div className="store-left">
                 <div className="store-title">Store</div>
                 <div className="store-info">
-                  {<StoreInfo
+                  {(this.state.shown_item !== null) && <StoreInfo
                     item={this.state.shown_item}
                     onPurchase={this.handleItemPurchase}
                     onUse={this.handleItemUse}
@@ -110,9 +134,11 @@ class StoreScreen extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    coins: state.coins,
     active_items: state.storeActive,
     owned_items: state.storeOwned,
-    firebasePaths: state.firebasePaths,
+    userStatsPath: state.firebasePaths.stats,
+    userStorePath: state.firebasePaths.store,
   }
 }
 export default connect(mapStateToProps)(StoreScreen);

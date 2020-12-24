@@ -5,6 +5,14 @@ import '../css/StoreInfo.css'
 import coin from '../media/coin.png';
 
 export default class StoreInfo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      owned: this.props.item.owned,
+      buyable: this.props.item.buyable,
+      active: this.props.item.active,
+    }
+  }
   render() {
     if (!this.props.item) return <div/>;
     const filepath = `${this.props.item.category}/${this.props.item.file}`;
@@ -23,7 +31,7 @@ export default class StoreInfo extends React.Component {
 
         {/* BUY THE ITEM */}
         {!this.props.item.owned &&
-          <button className="store-info-button store-info-buy"
+          <button className={"store-info-button "+(this.props.item.buyable?"store-info-buy-yes":"store-info-buy-no")}
                   onClick={() => this.props.onPurchase(
                     this.props.item.category, this.props.item.name
                   )}
@@ -35,7 +43,11 @@ export default class StoreInfo extends React.Component {
 
         {/* USE THE ITEM */}
         {this.props.item.owned && !this.props.item.active &&
-          <button className="store-info-button store-info-use">
+          <button className="store-info-button store-info-use"
+                  onClick={() => this.props.onUse(
+                    this.props.item.category, this.props.item.name
+                  )}
+          >
             Use
           </button>
         }
@@ -43,7 +55,7 @@ export default class StoreInfo extends React.Component {
         {/* ALREADY USING THE ITEM */}
         {this.props.item.active &&
           <button className="store-info-button store-info-active">
-            Already Active
+            Active
           </button>
         }
 
