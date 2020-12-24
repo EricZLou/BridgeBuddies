@@ -20,6 +20,8 @@ export default class StoreInfo extends React.Component {
         <div className="store-info-description">
           {this.props.item.description}
         </div>
+
+        {/* BUY THE ITEM */}
         {!this.props.item.owned &&
           <button className="store-info-button store-info-buy"
                   onClick={() => this.props.onPurchase(
@@ -30,11 +32,21 @@ export default class StoreInfo extends React.Component {
             {`${this.props.item.cost}`}
           </button>
         }
-        {this.props.item.owned &&
+
+        {/* USE THE ITEM */}
+        {this.props.item.owned && !this.props.item.active &&
           <button className="store-info-button store-info-use">
             Use
           </button>
         }
+
+        {/* ALREADY USING THE ITEM */}
+        {this.props.item.active &&
+          <button className="store-info-button store-info-active">
+            Already Active
+          </button>
+        }
+
       </div>
     )
   }

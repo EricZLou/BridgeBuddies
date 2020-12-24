@@ -45,9 +45,9 @@ class SignUpForm extends React.Component {
 
       const userStoreDataPath = '/users/' + userData.uid + '/store';
       Firebase.database().ref(`${userStoreDataPath}/active`).set({
-        cardback: "red card",
-        character: "Gespade",
-        table: "classic table",
+        cardbacks: "red card",
+        characters: "Gespade",
+        tables: "classic table",
       });
       Firebase.database().ref(`${userStoreDataPath}/owned`).set({
         cardbacks: ["red card"],

@@ -19,14 +19,29 @@
   display: block;
   text-align: center;
   margin: auto;
-  background-color: var(--theme-light-cream);
   border-radius: 20px;
   margin-top: 5vh;
   text-transform: uppercase;
   font-weight: bold;
 }
-.store-info-button:hover {
+
+.store-info-buy {
+  background-color: var(--theme-light-green);
+}
+.store-info-buy:hover {
+  background-color: var(--theme-green);
+}
+.store-info-use {
+  background-color: var(--theme-light-cream);
+}
+.store-info-use:hover {
   background-color: var(--theme-cream);
+}
+.store-info-active {
+  background-color: white;
+}
+.store-info-active:hover {
+  cursor: default;
 }
 
 .store-coin-img {

@@ -1,8 +1,10 @@
 :root {
   --theme-cream: #FFD9B3;
   --theme-blue: #B8E8FF;
+  --theme-green: #77DD77;
   --theme-light-cream: #FFECD9;
   --theme-light-blue: #DEF4FF;
+  --theme-light-green: #B4ECB4;
   --card-width: 100px;
   --card-height: calc(1056/691 * var(--card-width));
   --card-spacing: 25px;

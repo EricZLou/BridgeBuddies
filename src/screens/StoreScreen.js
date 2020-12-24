@@ -1,5 +1,7 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
+import Firebase from '../Firebase'
 import Header from '../components/Header'
 import StoreInfo from '../components/StoreInfo'
 
@@ -8,13 +10,13 @@ import {STORE} from '../constants/Store'
 import '../css/Style.css';
 import '../css/StoreScreen.css'
 
-export default class StoreScreen extends React.Component {
+class StoreScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: STORE,    // local copy of data until Firebase implemented
       store: null,
-      active_item: null,
+      shown_item: null,
     }
     this.handleItemClick = this.handleItemClick.bind(this);
     this.handleItemPurchase = this.handleItemPurchase.bind(this);
@@ -22,7 +24,13 @@ export default class StoreScreen extends React.Component {
   }
 
   handleItemClick(item) {
-    this.setState({active_item: item});
+    this.setState({
+      shown_item: {
+        ...item,
+        active: (this.props.active_items[item.category] === item.name),
+        owned: (this.props.owned_items[item.category].includes(item.name)),
+      }
+    });
   }
 
   createStoreItem(item, idx) {
@@ -33,7 +41,7 @@ export default class StoreScreen extends React.Component {
       key={idx}
       onClick={() => this.handleItemClick(item)}
     >
-      <img src={img} alt={`${item} store item`}/>
+      <img src={img} alt={`${item.name} store item`}/>
     </div>;
   }
 
@@ -81,7 +89,7 @@ export default class StoreScreen extends React.Component {
                 <div className="store-title">Store</div>
                 <div className="store-info">
                   {<StoreInfo
-                    item={this.state.active_item}
+                    item={this.state.shown_item}
                     onPurchase={this.handleItemPurchase}
                     onUse={this.handleItemUse}
                   />}
@@ -99,3 +107,12 @@ export default class StoreScreen extends React.Component {
     );
   }
 };
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    active_items: state.storeActive,
+    owned_items: state.storeOwned,
+    firebasePaths: state.firebasePaths,
+  }
+}
+export default connect(mapStateToProps)(StoreScreen);
