@@ -18,36 +18,38 @@ class LogInScreen extends React.Component {
     super(props);
     this.state = {
       log_in_view: true,
-      ready: false,
     }
     this.handleFormSuccess = this.handleFormSuccess.bind(this);
     this.logInAsTestUser = this.logInAsTestUser.bind(this);
   }
 
   componentDidMount() {
-    Firebase.auth().onAuthStateChanged(user => {
-      if (!user) this.setState({ready: true});
-      else {
-        this.handleFormSuccess(user.uid);
-        this.setState({ready: true});
-      }
+    this.auth_listener = Firebase.auth().onAuthStateChanged(user => {
+      if (user) this.handleFormSuccess(user.uid);
     });
   }
 
+  componentWillUnmount() {
+    this.auth_listener = null;
+    this.listener1 = null;
+    this.listener2 = null;
+    this.listener3 = null;
+  }
+
   userDetailsListener() {
-    Firebase.database().ref(this.props.detailsPath).on('value', (snapshot) => {
+    this.listener1 = Firebase.database().ref(this.props.detailsPath).on('value', (snapshot) => {
       this.props.dispatch(setUserDetails(snapshot.val().first_name, snapshot.val().last_name));
     });
   }
   userStatsListener() {
-    Firebase.database().ref(this.props.statsPath).on('value', (snapshot) => {
+    this.listener2 = Firebase.database().ref(this.props.statsPath).on('value', (snapshot) => {
       this.props.dispatch(setCoins(snapshot.val().coins));
       this.props.dispatch(setExp(snapshot.val().exp));
       this.props.dispatch(setLevel(snapshot.val().level_idx));
     });
   }
   userStoreListener() {
-    Firebase.database().ref(this.props.storePath).on('value', (snapshot) => {
+    this.listener3 = Firebase.database().ref(this.props.storePath).on('value', (snapshot) => {
       this.props.dispatch(setStoreActive(snapshot.val().active));
       this.props.dispatch(setStoreOwned(snapshot.val().owned));
     });
@@ -79,7 +81,6 @@ class LogInScreen extends React.Component {
   }
 
   render() {
-    if (!this.state.ready) return (<div>LOADING</div>);
     return (
       <div>
         {/* LOG IN VIEW */}

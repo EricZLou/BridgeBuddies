@@ -5,6 +5,7 @@ import Firebase from '../Firebase'
 
 import {TOTAL_EXP} from '../SampleData'
 import {LEVELS} from '../constants/Levels'
+import {logOut, homeScreenNotReady} from '../redux/actions/Core'
 
 import '../css/Style.css'
 import '../css/Header.css'
@@ -15,6 +16,21 @@ import coin from '../media/coin.png'
 import gespade from '../media/store/characters/gespade.png'
 
 class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onHeaderDropdownClick = this.onHeaderDropdownClick.bind(this);
+  }
+
+  onHeaderDropdownClick() {
+    this.props.dispatch(logOut());
+    this.props.dispatch(homeScreenNotReady());
+    Firebase.auth().signOut().then(function() {
+
+    }).catch(function(error) {
+
+    });
+  }
+
   render() {
     return (
       <div className="header-container">
@@ -40,7 +56,7 @@ class Header extends React.Component {
           <div className="exp">EXP: {this.props.exp} / {TOTAL_EXP}</div>
           <hr className="hr-black"/>
         </div>
-        <div className="header-dropdown">
+        <div className="header-dropdown" onClick={this.onHeaderDropdownClick}>
           <div className="image-cropper-header">
             <img src={gespade} alt="Profile" className="profile-pic-header"/>
           </div>

@@ -2,7 +2,8 @@ import {
   SET_FIREBASE_PATHS, setFirebasePaths
 } from './FirebasePathActions'
 import {
-  LOG_IN, HOME_SCREEN_READY, logIn, homeScreenReady
+  LOG_IN, LOG_OUT, HOME_SCREEN_READY, HOME_SCREEN_NOT_READY,
+  logIn, logOut, homeScreenReady, homeScreenNotReady,
 } from './LogInActions'
 import {
   SET_USER_DETAILS, setUserDetails
@@ -17,7 +18,10 @@ import {
 } from './UserStoreActions'
 
 export {SET_FIREBASE_PATHS, setFirebasePaths}
-export {LOG_IN, HOME_SCREEN_READY, logIn, homeScreenReady}
+export {
+  LOG_IN, LOG_OUT, HOME_SCREEN_READY, HOME_SCREEN_NOT_READY,
+  logIn, logOut, homeScreenReady, homeScreenNotReady,
+}
 export {SET_USER_DETAILS, setUserDetails}
 export {
   SET_COINS, SET_EXP, SET_LEVEL,
