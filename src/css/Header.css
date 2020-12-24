@@ -50,7 +50,46 @@
 .header-info .exp {
   font-weight: bold;
 }
+
+.header-dropdown-square {
+  margin: 0 1vh;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+}
+.header-dropdown-square:hover .profile-pic-header {
+  background-color: var(--theme-blue);
+}
+
 .header-dropdown {
   flex: 1;
-  padding: 0 1vh;
+  position: relative;
+  display: inline-block;
+  width: 10vh;
+  height: 10vh;
+  border-radius: 50%;
+}
+.header-dropdown:hover .profile-pic-header {
+  background-color: var(--theme-blue);
+}
+.header-dropdown-content {
+  display: block;
+  position: absolute;
+  right: 0;
+  min-width: 160px;
+  z-index: 1;
+  padding: 0px 0px 12px 12px;
+}
+.header-dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  box-shadow: -4px 8px 0px 0px rgba(0,0,0,0.4);
+  border-radius: 12px;
+  background-color: white;
+  text-decoration: none;
+  display: block;
+  margin-top: 12px;
+}
+.header-dropdown-content a:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
 }

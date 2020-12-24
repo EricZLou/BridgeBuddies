@@ -13,10 +13,6 @@
   width: auto;
   background-color: var(--theme-light-blue);
 }
-.profile-pic-header:hover {
-  background-color: var(--theme-blue);
-  cursor: pointer;
-}
 
 .image-cropper-header-game {
   position: relative;

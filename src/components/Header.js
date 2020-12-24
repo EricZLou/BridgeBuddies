@@ -18,17 +18,25 @@ import gespade from '../media/store/characters/gespade.png'
 class Header extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      dropdown: false,
+    }
     this.onHeaderDropdownClick = this.onHeaderDropdownClick.bind(this);
+    this.showDropdown = this.showDropdown.bind(this);
+    this.hideDropdown = this.hideDropdown.bind(this);
   }
 
   onHeaderDropdownClick() {
     this.props.dispatch(logOut());
     this.props.dispatch(homeScreenNotReady());
-    Firebase.auth().signOut().then(function() {
+    Firebase.auth().signOut().then(()=>{}).catch((error)=>{alert(error);});
+  }
 
-    }).catch(function(error) {
-
-    });
+  showDropdown() {
+    this.setState({dropdown: true});
+  }
+  hideDropdown() {
+    this.setState({dropdown: false});
   }
 
   render() {
@@ -56,9 +64,18 @@ class Header extends React.Component {
           <div className="exp">EXP: {this.props.exp} / {TOTAL_EXP}</div>
           <hr className="hr-black"/>
         </div>
-        <div className="header-dropdown" onClick={this.onHeaderDropdownClick}>
-          <div className="image-cropper-header">
-            <img src={gespade} alt="Profile" className="profile-pic-header"/>
+        <div className="header-dropdown-square" onMouseLeave={this.hideDropdown}>
+          <div className="header-dropdown" onMouseEnter={this.showDropdown}>
+            <div className="image-cropper-header">
+              <img src={gespade} alt="Profile" className="profile-pic-header"/>
+            </div>
+            {this.state.dropdown &&
+              <div className="header-dropdown-content">
+                <a>My Profile</a>
+                <a>Settings</a>
+                <a onClick={this.onHeaderDropdownClick}>Log Out</a>
+              </div>
+            }
           </div>
         </div>
       </div>
