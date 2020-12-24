@@ -14,7 +14,6 @@ class StoreScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: STORE,    // local copy of data until Firebase implemented
       store: null,
       shown_item: null,
     }
