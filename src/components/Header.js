@@ -71,9 +71,9 @@ class Header extends React.Component {
             </div>
             {this.state.dropdown &&
               <div className="header-dropdown-content">
-                <a>My Profile</a>
-                <a>Settings</a>
-                <a onClick={this.onHeaderDropdownClick}>Log Out</a>
+                <div>My Profile</div>
+                <div>Settings</div>
+                <div onClick={this.onHeaderDropdownClick}>Log Out</div>
               </div>
             }
           </div>
