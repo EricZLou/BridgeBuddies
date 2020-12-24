@@ -7,12 +7,10 @@ import {
 } from "react-router-dom"
 import {connect} from 'react-redux'
 
-
 import GameScreen from "./screens/GameScreen"
 import HomeScreen from "./screens/HomeScreen"
 import LogInScreen from "./screens/LogInScreen"
 import StoreScreen from "./screens/StoreScreen"
-import LoadingScreen from "./screens/LoadingScreen"
 
 class App extends React.Component {
   render() {
