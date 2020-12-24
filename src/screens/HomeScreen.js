@@ -21,7 +21,7 @@ class HomeScreen extends React.Component {
 
   componentDidMount() {
     if (this.dataLoaded()) this.setState({ready: true});
-    else this.interval = setInterval(this.waitForDataToLoad, 200);
+    else this.interval = setInterval(this.waitForDataToLoad, 500);
   }
 
   dataLoaded() {
