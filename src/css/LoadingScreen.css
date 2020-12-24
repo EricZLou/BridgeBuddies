@@ -23,7 +23,7 @@
 
 .App-container {
   color: black;
-  background: linear-gradient(to bottom, #66ccff, #ffccff);
+  background: linear-gradient(to top, var(--theme-light-cream), var(--theme-cream));
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -32,32 +32,19 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
 }
-.App {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--theme-light-cream);
-  height: calc(100vh - 100px);
-  width: calc(100vw - 100px);
-  top: 50px;
-  left: 50px;
-  border-radius: 20px;
-  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.3), 0 6px 40px 0 rgba(0, 0, 0, 0.29);
-}
 
 .cs-title {
   font-size: 1.5em;
 }
 
-.cs-text {
-  font-size: 0.6em;
-  color: black;
-  font-weight: bold;
-  text-decoration: underline;
+.cs-loading-text {
+  font-size: 1.0em;
+  background-color: var(--theme-blue);
+  padding: 0.2em 0.8em;
+  border-radius: 10px;
 }
 .cs-characters {
   height: 20vh;
   margin-top: 5vh;
-  border-bottom: 10px dotted var(--theme-cream);
+  border-bottom: 10px dotted var(--theme-blue);
 }

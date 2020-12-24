@@ -8,16 +8,14 @@ import {
 import {connect} from 'react-redux'
 
 
-import ComingSoonScreen from "./screens/ComingSoonScreen"
 import GameScreen from "./screens/GameScreen"
 import HomeScreen from "./screens/HomeScreen"
 import LogInScreen from "./screens/LogInScreen"
 import StoreScreen from "./screens/StoreScreen"
+import LoadingScreen from "./screens/LoadingScreen"
 
 class App extends React.Component {
   render() {
-    const COMING_SOON = false;
-    if (COMING_SOON) return <ComingSoonScreen/>;
     if (!this.props.homeScreenReady) return (
       <Router>
         <Switch>

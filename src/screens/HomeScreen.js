@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import Header from '../components/Header'
+import LoadingScreen from './LoadingScreen'
 
 import '../css/Style.css';
 import '../css/HomeScreen.css';
@@ -43,6 +44,7 @@ class HomeScreen extends React.Component {
 
   render() {
     return (<div>
+      {!this.state.ready && <LoadingScreen/>}
       {this.state.ready &&
         <div>
           <Header/>
