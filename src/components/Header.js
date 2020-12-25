@@ -20,12 +20,12 @@ class Header extends React.Component {
     this.state = {
       dropdown: false,
     }
-    this.onHeaderDropdownClick = this.onHeaderDropdownClick.bind(this);
+    this.onLogOutClick = this.onLogOutClick.bind(this);
     this.showDropdown = this.showDropdown.bind(this);
     this.hideDropdown = this.hideDropdown.bind(this);
   }
 
-  onHeaderDropdownClick() {
+  onLogOutClick() {
     Firebase.auth().signOut().then(()=>{
       this.props.dispatch(logOut());
       this.props.dispatch(homeScreenNotReady());
@@ -79,9 +79,9 @@ class Header extends React.Component {
             </div>
             {this.state.dropdown &&
               <div className="header-dropdown-content">
-                <div>My Profile</div>
-                <div>Settings</div>
-                <div onClick={this.onHeaderDropdownClick}>Log Out</div>
+                <Link to="/me" className="header-dropdown-item">My Profile</Link>
+                <Link to="/settings" className="header-dropdown-item">Settings</Link>
+                <div className="header-dropdown-item" onClick={this.onLogOutClick}>Log Out</div>
               </div>
             }
           </div>

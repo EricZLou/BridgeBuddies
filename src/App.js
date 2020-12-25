@@ -10,6 +10,8 @@ import {connect} from 'react-redux'
 import GameScreen from "./screens/GameScreen"
 import HomeScreen from "./screens/HomeScreen"
 import LogInScreen from "./screens/LogInScreen"
+import ProfileScreen from "./screens/ProfileScreen"
+import SettingsScreen from "./screens/SettingsScreen"
 import StoreScreen from "./screens/StoreScreen"
 
 class App extends React.Component {
@@ -28,6 +30,8 @@ class App extends React.Component {
           <Route exact path="/"> <HomeScreen/> </Route>
           <Route path="/store"> <StoreScreen/> </Route>
           <Route path="/game"> <GameScreen/> </Route>
+          <Route path="/me"> <ProfileScreen/> </Route>
+          <Route path="/settings"> <SettingsScreen/> </Route>
           <Redirect to="/"/>
         </Switch>
       </Router>
