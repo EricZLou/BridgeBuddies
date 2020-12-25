@@ -6,7 +6,7 @@ import Firebase from '../Firebase'
 import {TOTAL_EXP} from '../SampleData'
 import {LEVELS} from '../constants/Levels'
 import {logOut, homeScreenNotReady} from '../redux/actions/Core'
-import {STORE} from '../constants/Store'
+// import {STORE} from '../constants/Store'
 
 import '../css/Style.css'
 import '../css/Header.css'
@@ -67,7 +67,8 @@ class Header extends React.Component {
         <div className="header-dropdown-square" onMouseLeave={this.hideDropdown}>
           <div className="header-dropdown" onMouseEnter={this.showDropdown}>
             <div className="image-cropper-header">
-              <img src={require(`../media/store/characters/${STORE.characters[this.props.activeCharacter].file}`)} alt="Profile" className="profile-pic-header"/>
+              {/*<img src={require(`../media/store/characters/${STORE.characters[this.props.activeCharacter].file}`)} alt="Profile" className="profile-pic-header"/>*/}
+              <img src={require(`../media/store/characters/gespade.png`)} alt="Profile" className="profile-pic-header"/>
             </div>
             {this.state.dropdown &&
               <div className="header-dropdown-content">
@@ -89,7 +90,6 @@ const mapStateToProps = (state, ownProps) => {
     exp: state.exp,
     level: LEVELS[state.level_idx],
     userStatsPath: state.firebasePaths.stats,
-    userStorePath: state.firebasePaths.store,
     activeCharacter: state.storeActive.characters,
   }
 }
