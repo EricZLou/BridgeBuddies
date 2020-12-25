@@ -6,7 +6,6 @@ import Firebase from '../Firebase'
 import {TOTAL_EXP} from '../SampleData'
 import {LEVELS} from '../constants/Levels'
 import {logOut, homeScreenNotReady} from '../redux/actions/Core'
-import {STORE} from '../constants/Store'
 
 import '../css/Style.css'
 import '../css/Header.css'
@@ -27,9 +26,10 @@ class Header extends React.Component {
   }
 
   onHeaderDropdownClick() {
-    this.props.dispatch(logOut());
-    this.props.dispatch(homeScreenNotReady());
-    Firebase.auth().signOut().then(()=>{}).catch((error)=>{alert(error);});
+    Firebase.auth().signOut().then(()=>{
+      this.props.dispatch(logOut());
+      this.props.dispatch(homeScreenNotReady());
+    }).catch((error)=>{alert(error);});
   }
 
   showDropdown() {
@@ -68,7 +68,14 @@ class Header extends React.Component {
         <div className="header-dropdown-square" onMouseLeave={this.hideDropdown}>
           <div className="header-dropdown" onMouseEnter={this.showDropdown}>
             <div className="image-cropper-header">
-              <img src={require(`../media/store/characters/${this.store.characters[this.props.activeCharacter].file}`)} alt="Profile" className="profile-pic-header"/>
+              <img src={
+                     require(
+                       `../media/store/characters/${this.store.characters[this.props.activeCharacter].file}`
+                     )
+                   }
+                   alt="Profile"
+                   className="profile-pic-header"
+              />
             </div>
             {this.state.dropdown &&
               <div className="header-dropdown-content">
