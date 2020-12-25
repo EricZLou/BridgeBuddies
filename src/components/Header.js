@@ -39,11 +39,8 @@ class Header extends React.Component {
     this.setState({dropdown: false});
   }
 
-  componentDidMount() {
-    this.setState({img:require(`../media/store/characters/${STORE.characters[this.props.activeCharacter].file}`)});
-  }
-
   render() {
+    this.store = require('../constants/Store').STORE;
     return (
       <div className="header-container">
         <div className="header-space">
@@ -71,8 +68,7 @@ class Header extends React.Component {
         <div className="header-dropdown-square" onMouseLeave={this.hideDropdown}>
           <div className="header-dropdown" onMouseEnter={this.showDropdown}>
             <div className="image-cropper-header">
-              {/*<img src={require(`../media/store/characters/${STORE.characters[this.props.activeCharacter].file}`)} alt="Profile" className="profile-pic-header"/>*/}
-              <img src={this.state.img} alt="Profile" className="profile-pic-header"/>
+              <img src={require(`../media/store/characters/${this.store.characters[this.props.activeCharacter].file}`)} alt="Profile" className="profile-pic-header"/>
             </div>
             {this.state.dropdown &&
               <div className="header-dropdown-content">
