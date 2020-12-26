@@ -71,9 +71,9 @@ class HomeScreen extends React.Component {
                     }} ><button>Online</button></Link>
                   </div>
                 }
-                <Link to="/store" ><button>DAILY CHALLENGE</button></Link>
-                <Link to="/store" ><button>TOURNAMENTS</button></Link>
-                <Link to="/store" ><button>LEADERBOARDS</button></Link>
+                <Link to="/store" style={{pointerEvents: "none"}}><button>DAILY CHALLENGE</button></Link>
+                <Link to="/store" style={{pointerEvents: "none"}}><button>TOURNAMENTS</button></Link>
+                <Link to="/store" style={{pointerEvents: "none"}}><button>LEADERBOARDS</button></Link>
               </div>
             </div>
             <div className="mid-space">
