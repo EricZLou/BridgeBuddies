@@ -27,6 +27,7 @@ class Header extends React.Component {
 
   onLogOutClick() {
     Firebase.auth().signOut().then(()=>{
+      this.props.mySocket.close();
       this.props.dispatch(logOut());
       this.props.dispatch(homeScreenNotReady());
     }).catch((error)=>{alert(error);});
@@ -98,6 +99,7 @@ const mapStateToProps = (state, ownProps) => {
     level: LEVELS[state.level_idx],
     userStatsPath: state.firebasePaths.stats,
     activeCharacter: state.storeActive.characters,
+    mySocket: state.mySocket,
   }
 }
 export default connect(mapStateToProps)(Header);

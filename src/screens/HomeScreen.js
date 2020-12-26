@@ -1,16 +1,20 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
+import { io } from 'socket.io-client'
 
 import Header from '../components/Header'
 import LoadingScreen from './LoadingScreen'
 import {GAME_TYPES} from "../constants/GameEngine"
+import {setSocket, setNumUsersLoggedIn} from "../redux/actions/Core"
 
 import '../css/Style.css'
 import '../css/HomeScreen.css'
 
 import store_image from '../media/buttons/store.png'
 import cover from '../media/cover.png'
+
+const socketURL = 'http://localhost:8000'
 
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -24,8 +28,17 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
+    if (!this.props.mySocket)
+      this.initSocket();
     if (this.dataLoaded()) this.setState({ready: true});
     else this.interval = setInterval(this.waitForDataToLoad, 500);
+  }
+  initSocket = ()=>{
+    this.socket = io(socketURL);
+    this.socket.on("num users logged in", (num) => {
+      this.props.dispatch(setNumUsersLoggedIn(num));
+    });
+    this.props.dispatch(setSocket(this.socket));
   }
 
   togglePlayOptions() {
@@ -83,7 +96,10 @@ class HomeScreen extends React.Component {
               <div className="container">
                 <div className="title">MY FRIENDS</div>
                 <hr className="hr-black"/>
-                <div className="friends">{`Hello ${this.props.userDetails.first_name}!`}</div>
+                <div className="friends">{
+                  `Hello ${this.props.userDetails.first_name}! ` +
+                  `There are ${this.props.numUsersLoggedIn} users online!`
+                }</div>
               </div>
               <Link to="/store" className="store-link">
                 <img src={store_image} alt="Store" className="store"/>
@@ -104,6 +120,8 @@ const mapStateToProps = (state, ownProps) => {
     coins: state.coins,
     exp: state.exp,
     level: state.level_idx,
+    mySocket: state.mySocket,
+    numUsersLoggedIn: state.numUsersLoggedIn,
   }
 }
 export default connect(mapStateToProps)(HomeScreen);

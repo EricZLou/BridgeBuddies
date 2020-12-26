@@ -6,6 +6,10 @@ import {
   logIn, logOut, homeScreenReady, homeScreenNotReady,
 } from './LogInActions'
 import {
+  SET_SOCKET, SET_NUM_USERS_LOGGED_IN,
+  setSocket, setNumUsersLoggedIn,
+} from './SocketActions'
+import {
   SET_USER_DETAILS, setUserDetails
 } from './UserDetailsActions'
 import {
@@ -22,7 +26,13 @@ export {
   LOG_IN, LOG_OUT, HOME_SCREEN_READY, HOME_SCREEN_NOT_READY,
   logIn, logOut, homeScreenReady, homeScreenNotReady,
 }
-export {SET_USER_DETAILS, setUserDetails}
+export {
+  SET_SOCKET, SET_NUM_USERS_LOGGED_IN,
+  setSocket, setNumUsersLoggedIn,
+}
+export {
+  SET_USER_DETAILS, setUserDetails
+}
 export {
   SET_COINS, SET_EXP, SET_LEVEL,
   setCoins, setExp, setLevel,
