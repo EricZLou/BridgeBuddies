@@ -16,13 +16,19 @@ class HomeScreen extends React.Component {
     super(props);
     this.state = {
       ready: false,
+      showPlayOptions: false,
     }
+    this.togglePlayOptions = this.togglePlayOptions.bind(this);
     this.waitForDataToLoad = this.waitForDataToLoad.bind(this);
   }
 
   componentDidMount() {
     if (this.dataLoaded()) this.setState({ready: true});
     else this.interval = setInterval(this.waitForDataToLoad, 500);
+  }
+
+  togglePlayOptions() {
+    this.setState({showPlayOptions: !this.state.showPlayOptions});
   }
 
   dataLoaded() {
@@ -51,7 +57,13 @@ class HomeScreen extends React.Component {
           <div className="body-container">
             <div className="main-nav">
               <div className="container">
-                <Link to="/game" ><button>PLAY</button></Link>
+                <button onClick={this.togglePlayOptions}>PLAY</button>
+                {this.state.showPlayOptions &&
+                  <div className="play-options">
+                    <Link to="/game" ><button>Robots</button></Link>
+                    <Link to="/game" ><button>Online</button></Link>
+                  </div>
+                }
                 <Link to="/store" ><button>DAILY CHALLENGE</button></Link>
                 <Link to="/store" ><button>TOURNAMENTS</button></Link>
                 <Link to="/store" ><button>LEADERBOARDS</button></Link>
