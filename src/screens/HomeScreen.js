@@ -1,15 +1,16 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
+import React from 'react'
+import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 
 import Header from '../components/Header'
 import LoadingScreen from './LoadingScreen'
+import {GAME_TYPES} from "../constants/GameEngine"
 
-import '../css/Style.css';
-import '../css/HomeScreen.css';
+import '../css/Style.css'
+import '../css/HomeScreen.css'
 
-import store_image from '../media/buttons/store.png';
-import cover from '../media/cover.png';
+import store_image from '../media/buttons/store.png'
+import cover from '../media/cover.png'
 
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -60,8 +61,14 @@ class HomeScreen extends React.Component {
                 <button onClick={this.togglePlayOptions}>PLAY</button>
                 {this.state.showPlayOptions &&
                   <div className="play-options">
-                    <Link to="/game" ><button>Robots</button></Link>
-                    <Link to="/game" ><button>Online</button></Link>
+                    <Link to={{
+                      pathname: "/game",
+                      state: {type: GAME_TYPES.ROBOT},
+                    }} ><button>Robots</button></Link>
+                    <Link to={{
+                      pathname: "/game",
+                      state: {type: GAME_TYPES.ONLINE},
+                    }} ><button>Online</button></Link>
                   </div>
                 }
                 <Link to="/store" ><button>DAILY CHALLENGE</button></Link>

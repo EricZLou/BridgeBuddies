@@ -9,10 +9,8 @@ import Deck, {sortHand} from '../engine/Deck'
 import HeaderGame from '../components/HeaderGame'
 import Player from '../engine/Player'
 import ScoreSubScreen from '../screens/ScoreSubScreen'
-import {ALL_SEATS, BID_TYPES, GAMESTATES, SEATS} from '../constants/GameEngine'
+import {BID_TYPES, GAMESTATES, SEATS} from '../constants/GameEngine'
 import {getNextPlayer, getPrevPlayer, getPartner} from '../engine/utils/GameScreenUtils'
-
-import {GAME} from '../SampleData'
 
 import '../css/Style.css';
 import '../css/GameScreen.css';
@@ -22,7 +20,8 @@ import table from '../media/store/tables/green2.jpg'
 export default class GameScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.me = ALL_SEATS[Math.floor(Math.random() * 4)];
+    this.me = this.props.me;
+    this.players = this.props.players;
     this.deck = new Deck();
     this.hands = this.deck.generateHands();
     this.north = this.hands[SEATS.NORTH];
@@ -168,7 +167,7 @@ export default class GameScreen extends React.Component {
   createPlayer(seat) {
     return <Player
       seat={seat}
-      name={GAME[seat]}
+      name={this.players[seat]}
       cards={this[seat]}
       handlePlayerClick={this.handleGameScreenClick}
       is_my_turn={this.state.curr_player === seat}
