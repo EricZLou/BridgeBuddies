@@ -42,6 +42,7 @@
   background-color: var(--theme-blue);
   padding: 0.2em 0.8em;
   border-radius: 10px;
+  text-transform: uppercase;
 }
 .cs-characters {
   height: 20vh;
