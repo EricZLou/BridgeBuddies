@@ -3,14 +3,15 @@ import {connect} from 'react-redux'
 
 import GameScreen from './GameScreen'
 import LoadingScreen from './LoadingScreen'
-import {ALL_SEATS, SEATS} from '../constants/GameEngine'
+import {SEATS} from '../constants/GameEngine'
 
-import '../css/Style.css';
+import '../css/Style.css'
 
 class GameScreenOnline extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      game_info: null,
       ready: false,
     };
     this.cleanup = this.cleanup.bind(this);
@@ -23,9 +24,15 @@ class GameScreenOnline extends React.Component {
   componentDidMount() {
     // clean up in case user reloads page
     window.addEventListener("beforeunload", this.cleanup);
-    this.props.mySocket.on("start game", (game_info) => {
-      console.log(game_info);
-      this.setState({ready: true});
+    this.props.mySocket.on("game data", (game_info) => {
+      this.setState({
+        game_info: game_info,
+      })
+    });
+    this.props.mySocket.on("start game", () => {
+      this.setState({
+        ready: true,
+      });
     });
     this.props.mySocket.emit("online game request", this.props.first_name);
   }
@@ -36,18 +43,17 @@ class GameScreenOnline extends React.Component {
   }
 
   render() {
-    const me = ALL_SEATS[Math.floor(Math.random() * 4)];
     if (!this.state.ready) return (<LoadingScreen text={"Waiting for 4 players..."}/>);
     return (
       <GameScreen
-        me={me}
+        me={this.state.game_info.me}
         players={{
-          [SEATS.NORTH]: "Paul",
-          [SEATS.EAST]: "Tim",
-          [SEATS.SOUTH]: "Elizabeth",
-          [SEATS.WEST]: "Chris",
-          [me]: `${this.props.first_name}`,
+          [SEATS.NORTH]: this.state.game_info[SEATS.NORTH],
+          [SEATS.EAST]: this.state.game_info[SEATS.EAST],
+          [SEATS.SOUTH]: this.state.game_info[SEATS.SOUTH],
+          [SEATS.WEST]: this.state.game_info[SEATS.WEST],
         }}
+        my_cards={this.state.game_info.cards}
       />
     );
   }

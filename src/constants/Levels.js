@@ -1,3 +1,3 @@
-export const LEVELS = [
+exports.LEVELS = [
   "Noobie", "Novice", "Intermediate", "Advanced", "Expert"
 ]

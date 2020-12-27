@@ -1,5 +1,11 @@
 const io = require("./index.js").io;
 
+const Deck = require('../engine/Deck').Deck;
+const sortHand = require('../engine/Deck').sortHand;
+
+const SEATS = require('../constants/GameEngine').SEATS;
+const ALL_SEATS = require('../constants/GameEngine').ALL_SEATS;
+
 let NUM_USERS_LOGGED_IN = 0;
 let GAME_IDX = 1;
 
@@ -22,18 +28,37 @@ class DefaultDict {
       ExGqzw5Z99uxxzTZAAAJ: "elizabeth",
       1GsjcrvmvBIUmpImAAAE: "paul",
     },
-    room2: {
-
-    },
     ...
   }
 }
 */
 let ONLINE_GAME_ROOMS = new DefaultDict(Map);
 
+function prepareHands() {
+  const deck = new Deck();
+  return deck.generateHands();
+}
 function prepareGameInfoForRoom(room) {
-  console.log(room);
-  return "HELLO";
+  let game_info = {};
+  let idx = 0;
+  for (let [uid, name] of ONLINE_GAME_ROOMS[room]) {
+    game_info[ALL_SEATS[idx++]] = name;
+  }
+  /* {NORTH: "foo", EAST: "eric", ...}*/
+  return game_info;
+}
+function dispatchGame(room) {
+  const hands = prepareHands();
+  const game_info = prepareGameInfoForRoom(room);
+  let idx = 0;
+  for (let [uid, name] of ONLINE_GAME_ROOMS[room]) {
+    io.to(uid).emit('game data', {
+      ...game_info,
+      me: ALL_SEATS[idx],
+      cards: hands[ALL_SEATS[idx++]],
+    });
+  }
+  io.to(room).emit('start game');
 }
 
 module.exports = function(socket) {
@@ -62,13 +87,11 @@ module.exports = function(socket) {
     const room = `room${GAME_IDX}`;
     socket.join(room);
     socket.room = room;
-    socket.first_name = first_name;
-    ONLINE_GAME_ROOMS[room].set(socket.id, socket.first_name);
+    ONLINE_GAME_ROOMS[room].set(socket.id, first_name);
     console.log(`[JOIN] ${room} - ${socket.id}`);
     // if room is full, send notice to entire room to start game
     if (ONLINE_GAME_ROOMS[room].size === 4) {
-      const game_info = prepareGameInfoForRoom(room);
-      io.to(room).emit('start game', game_info);
+      dispatchGame(room);
       console.log(`[START GAME] ${room}`);
     }
   });

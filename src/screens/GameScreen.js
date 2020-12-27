@@ -5,7 +5,8 @@ import BidsOnBoard from '../engine/BidsOnBoard'
 import BridgeGameEngine from '../engine/managers/BridgeGameEngine'
 import CardsOnBoard from '../engine/CardsOnBoard'
 import CurrentGameStats from '../engine/CurrentGameStats'
-import Deck, {sortHand} from '../engine/Deck'
+// import Deck, {sortHand} from '../engine/Deck'
+// import Deck, {sortHand} from '../engine/Deck'
 import HeaderGame from '../components/HeaderGame'
 import Player from '../engine/Player'
 import ScoreSubScreen from '../screens/ScoreSubScreen'
@@ -17,17 +18,25 @@ import '../css/GameScreen.css';
 
 import table from '../media/store/tables/green2.jpg'
 
+const Deck = require('../engine/Deck').Deck
+const sortHand = require('../engine/Deck').sortHand
+
+
 export default class GameScreen extends React.Component {
   constructor(props) {
     super(props);
     this.me = this.props.me;
     this.players = this.props.players;
-    this.deck = new Deck();
-    this.hands = this.deck.generateHands();
-    this.north = this.hands[SEATS.NORTH];
-    this.east = this.hands[SEATS.EAST];
-    this.south = this.hands[SEATS.SOUTH];
-    this.west = this.hands[SEATS.WEST];
+    if (!this.props.my_cards) {
+      this.deck = new Deck();
+      this.hands = this.deck.generateHands();
+      this.north = this.hands[SEATS.NORTH];
+      this.east = this.hands[SEATS.EAST];
+      this.south = this.hands[SEATS.SOUTH];
+      this.west = this.hands[SEATS.WEST];
+    } else {
+      this[this.me] = this.props.my_cards;
+    }
     this.game_engine = new BridgeGameEngine();
     this.cards_on_board = [];
     this.bids_on_board = [];
@@ -150,7 +159,7 @@ export default class GameScreen extends React.Component {
 
   resetGame() {
     this.game_engine.reset();
-    this.hands = this.deck.generateHands();
+    // this.hands = this.deck.generateHands();
     this.setState({
       game_state: GAMESTATES.BIDDING,
       ready_to_play: false,

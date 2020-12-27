@@ -91,7 +91,7 @@ const STORE_TABLES = {
   },
 };
 
-export const STORE = {
+exports.STORE = {
   cardbacks: STORE_CARDBACKS,
   characters: STORE_CHARACTERS,
   tables: STORE_TABLES,
