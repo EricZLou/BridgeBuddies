@@ -108,4 +108,15 @@ module.exports = function(socket) {
     IN-GAME HANDLERS
   ************************************************************/
 
+  // HANDLE BID CLICK
+  socket.on('bid click', (bid, seat) => {
+    console.log(`[BID] ${seat}: ${bid}`);
+    socket.to(socket.room).emit('bid click', bid, seat);
+  });
+
+  // HANDLE CARD CLICK
+  socket.on('card click', (card, seat) => {
+    console.log(`[CARD] ${seat}: ${card}`);
+    socket.to(socket.room).emit('card click', card, seat);
+  });
 }

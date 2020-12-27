@@ -26,6 +26,7 @@ class GameScreenRobots extends React.Component {
           [SEATS.WEST]: "Robot",
           [me]: `${this.props.first_name}`,
         }}
+        online={false}
       />
     );
   }
