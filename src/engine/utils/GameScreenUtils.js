@@ -1,4 +1,4 @@
-import {SEATS, PARTNERS} from '../../constants/GameEngine'
+const {SEATS, PARTNERS} = require('../../constants/GameEngine')
 
 export function getNextPlayer(seat) {
   switch(seat) {

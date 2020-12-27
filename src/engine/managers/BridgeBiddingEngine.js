@@ -1,4 +1,4 @@
-import {BID_TYPES as BT, BID_SUIT_ORDER_MAP, SEATS} from '../../constants/GameEngine'
+const {BID_TYPES, BID_SUIT_ORDER_MAP, SEATS} = require('../../constants/GameEngine')
 
 export default class BridgeBiddingEngine {
   constructor() {
@@ -11,36 +11,36 @@ export default class BridgeBiddingEngine {
   }
   isValidBid(bid, bidder) { // bid = {type: 'suit', suit: 'c','d','h','s','nt','pass', level= 1...7}
     if (this.bidHistory.length === 0) {
-      if (bid.type === BT.PASS || bid.type === BT.SUIT) return true;
-      else if (bid.type === BT.DBL || bid.type === BT.RDBL) return false;
+      if (bid.type === BID_TYPES.PASS || bid.type === BID_TYPES.SUIT) return true;
+      else if (bid.type === BID_TYPES.DBL || bid.type === BID_TYPES.RDBL) return false;
       else throw new Error('InvalidBidTypeError');
     }
-    if (bid.type === BT.PASS) { return true; }
-    if (bid.type === BT.DBL) {
-      if (this.bidHistory[this.bidHistory.length-1].bid.type === BT.SUIT)
+    if (bid.type === BID_TYPES.PASS) { return true; }
+    if (bid.type === BID_TYPES.DBL) {
+      if (this.bidHistory[this.bidHistory.length-1].bid.type === BID_TYPES.SUIT)
         return true;
       else if (this.bidHistory.length >= 3) {
-        if (this.bidHistory[this.bidHistory.length-1].bid.type === BT.PASS &&
-            this.bidHistory[this.bidHistory.length-2].bid.type === BT.PASS &&
-            this.bidHistory[this.bidHistory.length-3].bid.type === BT.SUIT) {
+        if (this.bidHistory[this.bidHistory.length-1].bid.type === BID_TYPES.PASS &&
+            this.bidHistory[this.bidHistory.length-2].bid.type === BID_TYPES.PASS &&
+            this.bidHistory[this.bidHistory.length-3].bid.type === BID_TYPES.SUIT) {
           return true;
         }
       }
       return false;
     }
-    if (bid.type === BT.RDBL) {
-      if (this.bidHistory[this.bidHistory.length-1].bid.type === BT.DBL)
+    if (bid.type === BID_TYPES.RDBL) {
+      if (this.bidHistory[this.bidHistory.length-1].bid.type === BID_TYPES.DBL)
         return true;
       else if (this.bidHistory.length >= 3) {
-        if (this.bidHistory[this.bidHistory.length-1].bid.type === BT.PASS &&
-            this.bidHistory[this.bidHistory.length-2].bid.type === BT.PASS &&
-            this.bidHistory[this.bidHistory.length-3].bid.type === BT.DBL) {
+        if (this.bidHistory[this.bidHistory.length-1].bid.type === BID_TYPES.PASS &&
+            this.bidHistory[this.bidHistory.length-2].bid.type === BID_TYPES.PASS &&
+            this.bidHistory[this.bidHistory.length-3].bid.type === BID_TYPES.DBL) {
           return true;
         }
       }
       return false;
     }
-    if (bid.type === BT.SUIT) {
+    if (bid.type === BID_TYPES.SUIT) {
       if (this.prevSuitBid.bidder === '') { // this bid would be first suit bid
         return true;
       }
@@ -57,11 +57,11 @@ export default class BridgeBiddingEngine {
   isBiddingComplete() {
     const historylen = this.bidHistory.length;
     if (historylen >= 3) {
-      if (this.bidHistory[historylen-1].bid.type === BT.PASS &&
-          this.bidHistory[historylen-2].bid.type === BT.PASS &&
-          this.bidHistory[historylen-3].bid.type === BT.PASS) {
+      if (this.bidHistory[historylen-1].bid.type === BID_TYPES.PASS &&
+          this.bidHistory[historylen-2].bid.type === BID_TYPES.PASS &&
+          this.bidHistory[historylen-3].bid.type === BID_TYPES.PASS) {
         if (this.prevSuitBid.bidder !== '') return true;
-        else if (historylen === 4 && this.bidHistory[historylen-4].bid.type === BT.PASS) // all pass
+        else if (historylen === 4 && this.bidHistory[historylen-4].bid.type === BID_TYPES.PASS) // all pass
           return true;
       }
     }
@@ -84,7 +84,7 @@ export default class BridgeBiddingEngine {
     for (let i=0; i<this.bidHistory.length; i++) {
       if ((this.bidHistory[i].bidder === seatA ||
         this.bidHistory[i].bidder === seatB) &&
-        this.bidHistory[i].bid.type === BT.SUIT &&
+        this.bidHistory[i].bid.type === BID_TYPES.SUIT &&
         this.bidHistory[i].bid.suit === finalBid.bid.suit)
         return {
           suit: finalBid.bid.suit,
@@ -102,7 +102,7 @@ export default class BridgeBiddingEngine {
       bid: bid,
       bidder: bidder
     });
-    if (bid.type === BT.SUIT) {
+    if (bid.type === BID_TYPES.SUIT) {
       this.prevSuitBid = {
         bid: bid,
         bidder: bidder

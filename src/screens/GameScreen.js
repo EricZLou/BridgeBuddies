@@ -10,7 +10,6 @@ import OnlinePlayer from '../engine/players/OnlinePlayer'
 import Player from '../engine/players/Player'
 import RobotPlayer from '../engine/players/RobotPlayer'
 import ScoreSubScreen from '../screens/ScoreSubScreen'
-import {BID_TYPES, GAMESTATES, SEATS} from '../constants/GameEngine'
 import {getNextPlayer, getPrevPlayer, getPartner} from '../engine/utils/GameScreenUtils'
 import {setCurrPlayer, setGameEngine, setGameState, setReadyToPlay} from '../redux/actions/Core'
 
@@ -19,8 +18,8 @@ import '../css/GameScreen.css'
 
 import table from '../media/store/tables/green2.jpg'
 
-const Deck = require('../engine/Deck').Deck
-const sortHand = require('../engine/Deck').sortHand
+const {Deck, sortHand} = require('../engine/Deck')
+const {BID_TYPES, GAMESTATES, SEATS} = require('../constants/GameEngine')
 
 
 class GameScreen extends React.Component {
@@ -103,6 +102,7 @@ class GameScreen extends React.Component {
     if (this.props.curr_player === seat &&
         this.props.game_engine.isValidCard(card, this[seat])
     ) {
+      if (this.props.online) this.props.emitCardClick(card, seat);
       this.props.game_engine.setDummy(getPartner(this.contract.declarer));
       this.props.game_engine.playCard(card, seat);
       this.updateHands(seat, card);
@@ -137,6 +137,7 @@ class GameScreen extends React.Component {
   handleBidClick(bid) {
     if (this.props.game_state !== GAMESTATES.BIDDING) return;
     if (this.props.game_engine.isValidBid(bid, this.props.curr_player)) {
+      if (this.props.online) this.props.handleBidClick(bid);
       this.props.game_engine.doBid(bid, this.props.curr_player);
       this.updateBidsOnBoard(this.props.curr_player, bid);
       if (bid.type === BID_TYPES.SUIT) {

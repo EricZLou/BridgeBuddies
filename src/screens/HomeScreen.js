@@ -5,7 +5,6 @@ import { io } from 'socket.io-client'
 
 import Header from '../components/Header'
 import LoadingScreen from './LoadingScreen'
-import {GAME_TYPES} from "../constants/GameEngine"
 import {setSocket, setNumUsersLoggedIn} from "../redux/actions/Core"
 
 import '../css/Style.css'
@@ -14,6 +13,7 @@ import '../css/HomeScreen.css'
 import store_image from '../media/buttons/store.png'
 import cover from '../media/cover.png'
 
+const {GAME_TYPES} = require('../constants/GameEngine')
 const socketURL = 'http://localhost:8000'
 
 class HomeScreen extends React.Component {

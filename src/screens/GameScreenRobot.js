@@ -3,10 +3,12 @@ import {connect} from 'react-redux'
 
 import BridgeGameEngine from '../engine/managers/BridgeGameEngine'
 import GameScreen from './GameScreen'
-import {ALL_SEATS, SEATS} from '../constants/GameEngine'
 import {setCurrPlayer, setGameEngine, setGameState, setReadyToPlay} from '../redux/actions/Core'
 
 import '../css/Style.css'
+
+const {ALL_SEATS, SEATS} = require('../constants/GameEngine')
+
 
 class GameScreenRobots extends React.Component {
   constructor(props) {

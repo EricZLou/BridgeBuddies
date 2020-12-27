@@ -5,10 +5,11 @@ import Firebase from '../Firebase'
 import Header from '../components/Header'
 import StoreInfo from '../components/StoreInfo'
 
-import {STORE} from '../constants/Store'
-
 import '../css/Style.css';
 import '../css/StoreScreen.css'
+
+const {STORE} = require('../constants/Store')
+
 
 class StoreScreen extends React.Component {
   constructor(props) {

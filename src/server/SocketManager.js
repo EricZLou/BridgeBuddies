@@ -1,10 +1,8 @@
 const io = require("./index.js").io;
 
-const Deck = require('../engine/Deck').Deck;
-const sortHand = require('../engine/Deck').sortHand;
+const {Deck, sortHand} = require('../engine/Deck');
 
-const SEATS = require('../constants/GameEngine').SEATS;
-const ALL_SEATS = require('../constants/GameEngine').ALL_SEATS;
+const {ALL_SEATS, SEATS} = require('../constants/GameEngine');
 
 let NUM_USERS_LOGGED_IN = 0;
 let GAME_IDX = 1;

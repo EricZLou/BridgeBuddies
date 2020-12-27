@@ -1,6 +1,4 @@
-const SEATS = require("../constants/GameEngine.js").SEATS;
-const SUITS = require("../constants/GameEngine.js").SUITS;
-const VALUES = require("../constants/GameEngine.js").VALUES;
+const {SEATS, SUITS, VALUES} = require("../constants/GameEngine")
 
 class Deck {
   constructor() {

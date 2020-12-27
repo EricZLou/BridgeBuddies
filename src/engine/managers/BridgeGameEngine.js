@@ -1,6 +1,7 @@
-import BridgePlayingEngine from './BridgePlayingEngine';
-import BridgeBiddingEngine from './BridgeBiddingEngine';
-import {SEATS} from '../../constants/GameEngine';
+import BridgePlayingEngine from './BridgePlayingEngine'
+import BridgeBiddingEngine from './BridgeBiddingEngine'
+
+const {SEATS} = require('../../constants/GameEngine')
 
 export default class BridgeGameEngine {
   constructor() {

@@ -1,9 +1,9 @@
 import React from 'react'
 
-import {BID_LEVELS, BID_SUITS, BID_UNICODE_MAP, BID_TYPES, BID_OTHERS} from '../constants/GameEngine'
-
 import '../css/Style.css'
 import '../css/BiddingBox.css'
+
+const {BID_LEVELS, BID_SUITS, BID_OTHERS, BID_TYPES, BID_UNICODE_MAP} = require('../constants/GameEngine');
 
 export default class BiddingBox extends React.Component {
   render() {
