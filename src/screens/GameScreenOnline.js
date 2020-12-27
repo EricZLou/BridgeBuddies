@@ -1,9 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux'
 
+import BridgeGameEngine from '../engine/managers/BridgeGameEngine'
 import GameScreen from './GameScreen'
 import LoadingScreen from './LoadingScreen'
 import {SEATS} from '../constants/GameEngine'
+import {setCurrPlayer, setGameEngine, setGameState, setReadyToPlay} from '../redux/actions/Core'
 
 import '../css/Style.css'
 
@@ -14,6 +16,7 @@ class GameScreenOnline extends React.Component {
       game_info: null,
       ready: false,
     };
+    this.props.dispatch(setGameEngine(new BridgeGameEngine()));
     this.cleanup = this.cleanup.bind(this);
   }
 
@@ -63,6 +66,10 @@ const mapStateToProps = (state, ownProps) => {
   return {
     first_name: state.userDetails.first_name,
     mySocket: state.mySocket,
+    curr_player: state.curr_player,
+    game_engine: state.game_engine,
+    game_state: state.game_state,
+    ready_to_play: state.ready_to_play,
   }
 }
 export default connect(mapStateToProps)(GameScreenOnline);
