@@ -6,7 +6,7 @@ import BidsOnBoard from '../engine/BidsOnBoard'
 import CardsOnBoard from '../engine/CardsOnBoard'
 import CurrentGameStats from '../engine/CurrentGameStats'
 import HeaderGame from '../components/HeaderGame'
-import Player from '../engine/Player'
+import RobotPlayer from '../engine/players/RobotPlayer'
 import ScoreSubScreen from '../screens/ScoreSubScreen'
 import {BID_TYPES, GAMESTATES, SEATS} from '../constants/GameEngine'
 import {getNextPlayer, getPrevPlayer, getPartner} from '../engine/utils/GameScreenUtils'
@@ -26,7 +26,6 @@ class GameScreen extends React.Component {
     super(props);
     this.me = this.props.me;
     this.players = this.props.players;
-    this.game_engine = this.props.game_engine;
     if (!this.props.my_cards) {
       this.deck = new Deck();
       this.hands = this.deck.generateHands();
@@ -87,12 +86,12 @@ class GameScreen extends React.Component {
   }
 
   handleClearCardsEvent = (e) => {
-    if (this.game_engine.isTrickOver()) {
-      this.game_engine.clearTrick();
+    if (this.props.game_engine.isTrickOver()) {
+      this.props.game_engine.clearTrick();
       this.cards_on_board = [];
       this.props.dispatch(setReadyToPlay(true));
     }
-    if (this.game_engine.isGameOver()) {
+    if (this.props.game_engine.isGameOver()) {
       this.props.dispatch(setGameState(GAMESTATES.RESULTS));
     }
   }
@@ -100,14 +99,14 @@ class GameScreen extends React.Component {
   handleGameScreenClick(seat, card) {
     if (this.props.game_state !== GAMESTATES.PLAYING) return;
     if (this.props.curr_player === seat &&
-        this.game_engine.isValidCard(card, this[seat])
+        this.props.game_engine.isValidCard(card, this[seat])
     ) {
-      this.game_engine.setDummy(getPartner(this.contract.declarer));
-      this.game_engine.playCard(card, seat);
+      this.props.game_engine.setDummy(getPartner(this.contract.declarer));
+      this.props.game_engine.playCard(card, seat);
       this.updateHands(seat, card);
       this.updateCardsOnBoard(seat, card);
-      if (this.game_engine.isTrickOver()) {
-        this.props.dispatch(setCurrPlayer(this.game_engine.getRoundWinner()));
+      if (this.props.game_engine.isTrickOver()) {
+        this.props.dispatch(setCurrPlayer(this.props.game_engine.getRoundWinner()));
         this.props.dispatch(setReadyToPlay(false));
       } else {
         this.goToNextPlayer();
@@ -116,12 +115,12 @@ class GameScreen extends React.Component {
   }
 
   handleBiddingComplete() {
-    this.contract = this.game_engine.getContract();
+    this.contract = this.props.game_engine.getContract();
     if (this.contract.suit === "pass") {
       this.props.dispatch(setGameState(GAMESTATES.RESULTS));
       return;
     }
-    this.game_engine.setTrumpSuit(this.contract.suit);
+    this.props.game_engine.setTrumpSuit(this.contract.suit);
     this.north = sortHand(this.north, this.contract.suit);
     this.east = sortHand(this.east, this.contract.suit);
     this.south = sortHand(this.south, this.contract.suit);
@@ -135,15 +134,15 @@ class GameScreen extends React.Component {
 
   handleBidClick(bid) {
     if (this.props.game_state !== GAMESTATES.BIDDING) return;
-    if (this.game_engine.isValidBid(bid, this.props.curr_player)) {
-      this.game_engine.doBid(bid, this.props.curr_player);
+    if (this.props.game_engine.isValidBid(bid, this.props.curr_player)) {
+      this.props.game_engine.doBid(bid, this.props.curr_player);
       this.updateBidsOnBoard(this.props.curr_player, bid);
       if (bid.type === BID_TYPES.SUIT) {
         console.log(`[${this.props.curr_player}] Bid ${bid.level}${bid.suit}`);
       } else {
         console.log(`[${this.props.curr_player}] Bid ${bid.type}`);
       }
-      if (this.game_engine.isBiddingComplete()) {
+      if (this.props.game_engine.isBiddingComplete()) {
         this.handleBiddingComplete();
       } else {
         this.goToNextPlayer();
@@ -152,7 +151,7 @@ class GameScreen extends React.Component {
   }
 
   resetGame() {
-    this.game_engine.reset();
+    this.props.game_engine.reset();
     // this.hands = this.deck.generateHands();
     this.props.dispatch(setCurrPlayer(SEATS.SOUTH));
     this.props.dispatch(setGameState(GAMESTATES.BIDDING));
@@ -166,7 +165,7 @@ class GameScreen extends React.Component {
   }
 
   createPlayer(seat) {
-    return <Player
+    return <RobotPlayer
       seat={seat}
       name={this.players[seat]}
       cards={this[seat]}
@@ -174,9 +173,9 @@ class GameScreen extends React.Component {
       is_my_turn={this.props.curr_player === seat}
       opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].card.suit}
       ready_to_play={this.props.ready_to_play}
-      visible={seat === this.me || seat === this.game_engine.dummy}
-      clickable={(seat === this.me && seat !== this.game_engine.dummy) ||
-                 (seat === getPartner(this.me) && seat === this.game_engine.dummy)}
+      visible={seat === this.me || seat === this.props.game_engine.dummy}
+      clickable={(seat === this.me && seat !== this.props.game_engine.dummy) ||
+                 (seat === getPartner(this.me) && seat === this.props.game_engine.dummy)}
     />
   }
 
@@ -238,9 +237,9 @@ class GameScreen extends React.Component {
                 {(this.props.game_state === GAMESTATES.PLAYING) &&
                   <div className="current-game-stats-container">
                     <CurrentGameStats
-                      tricks_won_NS={this.game_engine.tricks_won_NS}
-                      tricks_won_EW={this.game_engine.tricks_won_EW}
-                      contract={this.game_engine.getContract()}
+                      tricks_won_NS={this.props.game_engine.tricks_won_NS}
+                      tricks_won_EW={this.props.game_engine.tricks_won_EW}
+                      contract={this.props.game_engine.getContract()}
                     />
                   </div>
                 }
@@ -250,7 +249,7 @@ class GameScreen extends React.Component {
         }
         {(this.props.game_state === GAMESTATES.RESULTS) &&
           <ScoreSubScreen
-            score={this.game_engine.getMyScore(this.me)}
+            score={this.props.game_engine.getMyScore(this.me)}
             resetGame={this.resetGame}
           />
         }

@@ -1,14 +1,14 @@
 import React from 'react'
 
-import Hand from './Hand'
+import Hand from '../Hand'
+import Player from './Player'
 import PlayerTitle from './PlayerTitle'
 
-import '../css/Player.css'
+import '../../css/Player.css'
 
-export default class Player extends React.Component {
+export default class RobotPlayer extends Player {
   constructor(props) {
     super(props);
-    this.seat = this.props.seat;
   }
 
   async sleep(ms) {
@@ -55,7 +55,7 @@ export default class Player extends React.Component {
         />
         <div className="player-title">
           <PlayerTitle
-            seat={this.seat}
+            seat={this.props.seat}
             is_my_turn={this.props.is_my_turn}
             name={this.props.name}
           />
