@@ -8,10 +8,6 @@ import '../../css/Player.css'
 
 
 export default class OnlinePlayer extends Player {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidUpdate() {
 
   }

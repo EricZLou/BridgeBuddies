@@ -8,10 +8,6 @@ import '../../css/Player.css'
 
 
 export default class RobotPlayer extends Player {
-  constructor(props) {
-    super(props);
-  }
-
   async sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }

@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import BridgeGameEngine from '../engine/managers/BridgeGameEngine'
 import GameScreen from './GameScreen'
 import LoadingScreen from './LoadingScreen'
-import {setCurrPlayer, setGameEngine, setGameState, setReadyToPlay} from '../redux/actions/Core'
+import {setGameEngine} from '../redux/actions/Core'
 
 import '../css/Style.css'
 
