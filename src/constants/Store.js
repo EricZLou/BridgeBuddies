@@ -91,10 +91,8 @@ const STORE_TABLES = {
   },
 };
 
-const STORE = {
+export const STORE = {
   cardbacks: STORE_CARDBACKS,
   characters: STORE_CHARACTERS,
   tables: STORE_TABLES,
 }
-
-module.exports = {STORE};

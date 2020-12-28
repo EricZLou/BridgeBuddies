@@ -2,7 +2,7 @@ import {
   SET_CURR_PLAYER, SET_GAME_ENGINE, SET_GAME_STATE, SET_READY_TO_PLAY
 } from '../actions/Core'
 
-const {GAMESTATES, SEATS} = require('../../constants/GameEngine')
+import {GAMESTATES, SEATS} from '../../constants/GameEngine'
 
 export function curr_player(state=SEATS.SOUTH, action) {
   switch (action.type) {

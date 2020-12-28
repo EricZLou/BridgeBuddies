@@ -2,7 +2,7 @@ import React from 'react'
 
 import '../css/BidsOnBoard.css'
 
-const {BID_TYPES, BID_UNICODE_MAP, SEATS} = require('../constants/GameEngine')
+import {BID_TYPES, BID_UNICODE_MAP, SEATS} from '../constants/GameEngine'
 
 
 export default class BidsOnBoard extends React.Component {

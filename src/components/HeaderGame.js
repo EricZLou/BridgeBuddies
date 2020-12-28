@@ -10,7 +10,7 @@ import bridge_clipart from '../media/bridge_clipart.png'
 import coin from '../media/coin.png'
 import gespade from '../media/store/characters/gespade.png'
 
-const {LEVELS, TOTAL_EXP} = require('../constants/Levels')
+import {LEVELS, TOTAL_EXP} from '../constants/Levels'
 
 
 class HeaderGame extends React.Component {

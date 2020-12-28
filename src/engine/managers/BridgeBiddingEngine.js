@@ -1,4 +1,4 @@
-const {BID_TYPES, BID_SUIT_ORDER_MAP, SEATS} = require('../../constants/GameEngine')
+import {BID_TYPES, BID_SUIT_ORDER_MAP, SEATS} from '../../constants/GameEngine'
 
 
 export default class BridgeBiddingEngine {
