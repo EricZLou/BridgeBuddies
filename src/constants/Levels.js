@@ -4,4 +4,4 @@ const LEVELS = [
 
 const TOTAL_EXP = 1000;
 
-module.exports = {LEVELS, TOTLA_EXP};
+module.exports = {LEVELS, TOTAL_EXP};
