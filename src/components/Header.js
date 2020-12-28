@@ -42,6 +42,7 @@ class Header extends React.Component {
   }
 
   render() {
+    this.store = require('../constants/Store').STORE;
     return (
       <div className="header-container">
         <div className="header-space">
@@ -71,7 +72,7 @@ class Header extends React.Component {
             <div className="image-cropper-header">
               <img src={
                      require(
-                       `../media/store/characters/${require('../constants/Store').STORE.characters[this.props.activeCharacter].file}`
+                       `../media/store/characters/${this.store.characters[this.props.activeCharacter].file}`
                      )
                    }
                    alt="Profile"
