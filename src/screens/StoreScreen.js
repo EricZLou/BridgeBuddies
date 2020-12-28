@@ -8,7 +8,7 @@ import StoreInfo from '../components/StoreInfo'
 import '../css/Style.css'
 import '../css/StoreScreen.css'
 
-const {STORE} = require('../constants/Store')
+import {STORE} from '../constants/Store'
 
 
 class StoreScreen extends React.Component {

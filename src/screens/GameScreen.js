@@ -18,8 +18,8 @@ import '../css/GameScreen.css'
 
 import table from '../media/store/tables/green2.jpg'
 
-const {Deck, sortHand} = require('../engine/Deck')
-const {BID_TYPES, GAMESTATES, SEATS} = require('../constants/GameEngine')
+import {Deck, sortHand} from '../engine/Deck'
+import {BID_TYPES, GAMESTATES, SEATS} from '../constants/GameEngine'
 
 
 class GameScreen extends React.Component {

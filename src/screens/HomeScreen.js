@@ -13,7 +13,7 @@ import '../css/HomeScreen.css'
 import store_image from '../media/buttons/store.png'
 import cover from '../media/cover.png'
 
-const {GAME_TYPES} = require('../constants/GameEngine')
+import {GAME_TYPES} from '../constants/GameEngine'
 const socketURL = 'http://localhost:8000'
 
 

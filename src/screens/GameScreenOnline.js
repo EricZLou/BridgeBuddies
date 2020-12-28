@@ -8,7 +8,7 @@ import {setGameEngine} from '../redux/actions/Core'
 
 import '../css/Style.css'
 
-const {SEATS} = require('../constants/GameEngine')
+import {SEATS} from '../constants/GameEngine'
 
 
 class GameScreenOnline extends React.Component {

@@ -15,7 +15,7 @@ import ProfileScreen from "./screens/ProfileScreen"
 import SettingsScreen from "./screens/SettingsScreen"
 import StoreScreen from "./screens/StoreScreen"
 
-const {GAME_TYPES} = require("./constants/GameEngine")
+import {GAME_TYPES} from "./constants/GameEngine"
 
 
 class App extends React.Component {
