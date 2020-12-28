@@ -1,8 +1,12 @@
-const express = require('express');
+import express from "express";
+import path from "path";
+import http from "http";
+import {Server} from "socket.io";
+import SocketManager from "./SocketManager.js";
+
 const app = express();
-const path = require('path');
-const server = require('http').createServer(app);
-const io = module.exports.io = require("socket.io")(server, {
+const server = http.createServer(app);
+export const io = new Server(server, {
   cors: {
     origin: '*',
     methods: ["GET", "POST"]
@@ -10,8 +14,6 @@ const io = module.exports.io = require("socket.io")(server, {
 });
 
 const PORT = process.env.PORT || 8000;
-
-const SocketManager = require("./SocketManager");
 
 // app.use(express.static(path.join(__dirname, '/../../build')));
 io.on('connection', SocketManager);

@@ -1,6 +1,6 @@
-const io = require("./index.js").io;
-const {Deck} = require('../engine/Deck');
-const {ALL_SEATS} = require('../constants/GameEngine');
+import {io} from "./index.js"
+import {Deck} from "../engine/Deck.js"
+import {ALL_SEATS} from "../constants/GameEngine.js"
 
 let NUM_USERS_LOGGED_IN = 0;
 let GAME_IDX = 1;
@@ -57,7 +57,7 @@ function dispatchGame(room) {
   io.to(room).emit('start game');
 }
 
-module.exports = function(socket) {
+export default function SocketManager(socket) {
   /************************************************************
     NUM USERS LOGGED IN
   ************************************************************/

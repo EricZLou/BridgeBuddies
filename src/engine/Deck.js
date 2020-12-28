@@ -1,6 +1,7 @@
-const {SEATS, SUITS, VALUES} = require("../constants/GameEngine")
+import {SEATS, SUITS, VALUES} from "../constants/GameEngine.js"
 
-class Deck {
+
+export class Deck {
   constructor() {
     this.deck = [];
     for (let suit of SUITS) {
@@ -39,7 +40,7 @@ function _sortSuitByValue(card_a, card_b) {
   return -(card_a.value - card_b.value);
 }
 
-function sortHand(hand, trump='C') {
+export function sortHand(hand, trump='C') {
   let clubs = [];
   let diamonds = [];
   let hearts = [];
@@ -74,5 +75,3 @@ function sortHand(hand, trump='C') {
   if (trump === 'H') return hearts.concat(spades,diamonds,clubs);
   return spades.concat(hearts,clubs,diamonds);
 };
-
-module.exports = {Deck, sortHand};
