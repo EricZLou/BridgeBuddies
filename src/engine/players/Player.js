@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 import Hand from '../Hand'
 import PlayerTitle from './PlayerTitle'
-import {getPartner} from '../utils/GameScreenUtils'
+import {getNextPlayer, getPartner} from '../utils/GameScreenUtils'
 import {setCurrPlayer, setReadyToPlay} from '../../redux/actions/Core'
 
 import '../../css/Player.css'
@@ -16,24 +16,34 @@ export class Player extends React.Component {
   constructor(props) {
     super(props);
     this.seat = this.props.seat;
+    this.cards = this.props.cards;
     this.handleCardPlay = this.handleCardPlay.bind(this);
   }
 
-  handleCardPlay(seat, card) {
+  updateHand(card_played) {
+    for (let idx in this.cards) {
+      if (JSON.stringify(this.cards[idx]) === JSON.stringify(card_played)) {
+        console.log(`[${this.seat}] Play ${card_played.suit} ${card_played.value}`);
+        this.cards.splice(idx, 1);
+        return;
+      }
+    }
+  }
+
+  handleCardPlay(card) {
     if (this.props.game_state !== GAMESTATES.PLAYING) return;
-    if (this.props.curr_player === seat &&
-        this.props.game_engine.isValidCard(card, this[seat])
+    if (this.props.curr_player === this.seat &&
+        this.props.game_engine.isValidCard(card, this.cards)
     ) {
-      if (this.props.online) this.props.emitCardClick(card, seat);
       this.props.game_engine.setDummy(getPartner(this.props.contract.declarer));
-      this.props.game_engine.playCard(card, seat);
-      this.updateHands(seat, card);
-      this.updateCardsOnBoard(seat, card);
+      this.props.game_engine.playCard(card, this.seat);
+      this.updateHand(card);
+      this.props.updateCardsOnBoard(this.seat, card);
       if (this.props.game_engine.isTrickOver()) {
-        this.props.dispatch(setCurrPlayer(this.props.game_engine.getRoundWinner()));
         this.props.dispatch(setReadyToPlay(false));
+        this.props.dispatch(setCurrPlayer(this.props.game_engine.getRoundWinner()));
       } else {
-        this.goToNextPlayer();
+        this.props.dispatch(setCurrPlayer(getNextPlayer(this.seat)));
       }
     }
   }
@@ -42,7 +52,7 @@ export class Player extends React.Component {
     return (
       <div>
         <Hand
-          cards={this.props.cards}
+          cards={this.cards}
           seat={this.seat}
           handleCardPlay={this.handleCardPlay}
           visible={this.props.visible}
@@ -51,8 +61,8 @@ export class Player extends React.Component {
         <div className="player-title">
           <PlayerTitle
             seat={this.seat}
-            is_my_turn={this.props.is_my_turn}
             name={this.props.name}
+            is_my_turn={this.props.curr_player === this.seat}
           />
         </div>
       </div>

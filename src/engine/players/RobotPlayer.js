@@ -1,4 +1,5 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
 import Hand from '../Hand'
 import {Player} from './Player'
@@ -6,7 +7,7 @@ import PlayerTitle from './PlayerTitle'
 
 
 // REPRESENTS A CPU
-export default class RobotPlayer extends Player {
+class RobotPlayer extends Player {
   async sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
@@ -14,7 +15,7 @@ export default class RobotPlayer extends Player {
   playCard() {
     this.sleep(1000).then(() => {
       let cardx = null;
-      const cards = this.props.cards;
+      const cards = this.cards;
       if (!this.props.opening_suit) {
         cardx = cards[Math.floor(Math.random() * cards.length)];
       }
@@ -29,21 +30,21 @@ export default class RobotPlayer extends Player {
         }
         if (!found) cardx = cards[0];
       }
-      this.handleCardPlay(this.seat, cardx);
+      this.handleCardPlay(cardx);
     });
   }
 
   componentDidUpdate() {
     if (this.props.clickable)
       return;
-    if (this.props.is_my_turn && this.props.ready_to_play) this.playCard();
+    if (this.props.curr_player === this.seat && this.props.ready_to_play) this.playCard();
   }
 
   render() {
     return (
       <div>
         <Hand
-          cards={this.props.cards}
+          cards={this.cards}
           seat={this.seat}
           handleCardPlay={this.handleCardPlay}
           visible={this.props.visible}
@@ -52,7 +53,7 @@ export default class RobotPlayer extends Player {
         <div className="player-title">
           <PlayerTitle
             seat={this.seat}
-            is_my_turn={this.props.is_my_turn}
+            is_my_turn={this.props.curr_player === this.seat}
             name={this.props.name}
           />
         </div>
@@ -60,3 +61,14 @@ export default class RobotPlayer extends Player {
     )
   }
 };
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    contract: state.contract,
+    curr_player: state.curr_player,
+    game_engine: state.game_engine,
+    game_state: state.game_state,
+    ready_to_play: state.ready_to_play,
+  }
+}
+export default connect(mapStateToProps)(RobotPlayer);

@@ -1,4 +1,5 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
 import Hand from '../Hand'
 import {Player} from './Player'
@@ -6,11 +7,7 @@ import PlayerTitle from './PlayerTitle'
 
 
 // REPRESENTS AN ONLINE PLAYER (except current user)
-export default class OnlinePlayer extends Player {
-  constructor(props) {
-    super(props);
-  }
-
+class OnlinePlayer extends Player {
   render() {
     return (
       <div>
@@ -24,7 +21,7 @@ export default class OnlinePlayer extends Player {
         <div className="player-title">
           <PlayerTitle
             seat={this.seat}
-            is_my_turn={this.props.is_my_turn}
+            is_my_turn={this.props.curr_player === this.seat}
             name={this.props.name}
           />
         </div>
@@ -32,3 +29,14 @@ export default class OnlinePlayer extends Player {
     )
   }
 };
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    contract: state.contract,
+    curr_player: state.curr_player,
+    game_engine: state.game_engine,
+    game_state: state.game_state,
+    ready_to_play: state.ready_to_play,
+  }
+}
+export default connect(mapStateToProps)(OnlinePlayer);

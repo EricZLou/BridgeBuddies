@@ -1,28 +1,43 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
 import Card from './Card'
+import {sortHand} from './Deck'
 
 import '../css/Hand.css'
 
 
-export default class Hand extends React.Component {
+class Hand extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      cards: this.props.cards,
+      sorted: false,
+    }
     this.seat = this.props.seat;
+  }
+
+  componentDidUpdate() {
+    if (this.props.contract && !this.state.sorted) {
+      this.setState({
+        cards: sortHand(this.state.cards, this.props.contract.suit),
+        sorted: true,
+      });
+    }
   }
 
   render() {
     const card_spacing = getComputedStyle(document.documentElement)
       .getPropertyValue('--card-spacing');
     let cards_list = [];
-    if (this.props.cards) {
-      cards_list = this.props.cards.map((card, idx) => {
+    if (this.state.cards) {
+      cards_list = this.state.cards.map((card, idx) => {
         return (
           <div className="hand" style={{left: parseInt(card_spacing)*idx}} key={idx}>
             <Card
               value={card.value}
               suit={card.suit}
-              handleCardPlay={this.props.handleCardPlay.bind(this, this.seat)}
+              handleCardPlay={this.props.handleCardPlay.bind(this)}
               visible={this.props.visible}
               hoverable={this.props.clickable}
             />
@@ -33,7 +48,7 @@ export default class Hand extends React.Component {
       for (let idx = 0; idx < 13; idx++) {
         cards_list.push(
           <div className="hand" style={{left: parseInt(card_spacing)*idx}} key={idx}>
-            <Card visible={this.props.visible}/>
+            <Card visible={false}/>
           </div>
         )
       }
@@ -45,3 +60,10 @@ export default class Hand extends React.Component {
     )
   }
 };
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    contract: state.contract,
+  }
+}
+export default connect(mapStateToProps)(Hand);

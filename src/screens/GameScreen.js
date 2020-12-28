@@ -30,16 +30,18 @@ class GameScreen extends React.Component {
     if (!this.props.my_cards) {
       this.deck = new Deck();
       this.hands = this.deck.generateHands();
-      this.north = this.hands[SEATS.NORTH];
-      this.east = this.hands[SEATS.EAST];
-      this.south = this.hands[SEATS.SOUTH];
-      this.west = this.hands[SEATS.WEST];
     } else {
-      this[this.me] = this.props.my_cards;
+      this.hands = {};
+      this.hands[this.me] = this.props.my_cards;
     }
+    this.north = this.hands[SEATS.NORTH];
+    this.east = this.hands[SEATS.EAST];
+    this.south = this.hands[SEATS.SOUTH];
+    this.west = this.hands[SEATS.WEST];
     this.cards_on_board = [];
     this.bids_on_board = [];
     this.handleBidClick = this.handleBidClick.bind(this);
+    this.updateCardsOnBoard = this.updateCardsOnBoard.bind(this);
     this.resetGame = this.resetGame.bind(this);
   }
 
@@ -60,16 +62,6 @@ class GameScreen extends React.Component {
       this.props.dispatch(setCurrPlayer(SEATS.WEST));
     else if (this.props.curr_player === SEATS.WEST)
       this.props.dispatch(setCurrPlayer(SEATS.NORTH));
-  }
-
-  updateHands(seat, card_played) {
-    for (let idx in this[seat]) {
-      if (JSON.stringify(this[seat][idx]) === JSON.stringify(card_played)) {
-        console.log(`[${seat}] Play ${card_played.suit} ${card_played.value}`);
-        this[seat].splice(idx, 1);
-        return;
-      }
-    }
   }
 
   updateCardsOnBoard(seat, card) {
@@ -104,10 +96,8 @@ class GameScreen extends React.Component {
       return;
     }
     this.props.game_engine.setTrumpSuit(contract.suit);
-    this.north = sortHand(this.north, contract.suit);
-    this.east = sortHand(this.east, contract.suit);
-    this.south = sortHand(this.south, contract.suit);
-    this.west = sortHand(this.west, contract.suit);
+    this[this.me] = sortHand(this[this.me], contract.suit);
+    // this.props.game_engine.setDummy(getPartner(contract.declarer));
 
     this.props.dispatch(setCurrPlayer(getNextPlayer(contract.declarer)));
     this.props.dispatch(setGameState(GAMESTATES.PLAYING));
@@ -140,10 +130,6 @@ class GameScreen extends React.Component {
     this.props.dispatch(setCurrPlayer(SEATS.SOUTH));
     this.props.dispatch(setGameState(GAMESTATES.BIDDING));
     this.props.dispatch(setReadyToPlay(false));
-    this.north = this.hands[SEATS.NORTH];
-    this.east = this.hands[SEATS.EAST];
-    this.south = this.hands[SEATS.SOUTH];
-    this.west = this.hands[SEATS.WEST];
     this.cards_on_board = [];
     this.bids_on_board = [];
   }
@@ -157,10 +143,8 @@ class GameScreen extends React.Component {
       seat={seat}
       name={this.players[seat]}
       cards={this[seat]}
-      handlePlayerClick={this.handleGameScreenClick}
-      is_my_turn={this.props.curr_player === seat}
+      updateCardsOnBoard={this.updateCardsOnBoard}
       opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].card.suit}
-      ready_to_play={this.props.ready_to_play}
       visible={seat === this.me || seat === this.props.game_engine.dummy}
       clickable={(seat === this.me && seat !== this.props.game_engine.dummy) ||
                  (seat === getPartner(this.me) && seat === this.props.game_engine.dummy)}
