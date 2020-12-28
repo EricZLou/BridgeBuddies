@@ -19,7 +19,7 @@ export default class BiddingBox extends React.Component {
           {BID_SUIT_LIST.map((suit, idx) => {
             return <div className={"bid " + suit}
                         key={idx}
-                        onClick={this.props.handleBidClick.bind(this, {type: BID_TYPES.SUIT, level: level, suit: suit})}>
+                        onClick={this.props.handleBidPlay.bind(this, {type: BID_TYPES.SUIT, level: level, suit: suit})}>
               {level}{BID_UNICODE_MAP[suit]}
             </div>
           })}
@@ -31,7 +31,7 @@ export default class BiddingBox extends React.Component {
       other_bids.push(
         <div className={"bid " + other}
              key={other}
-             onClick={this.props.handleBidClick.bind(this, {type: BID_TYPES[other]})}>
+             onClick={this.props.handleBidPlay.bind(this, {type: BID_TYPES[other]})}>
           {BID_UNICODE_MAP[BID_OTHERS[other]]}
         </div>
       )

@@ -1,10 +1,14 @@
 .bidding-box {
+  position: fixed;
+  bottom: 0;
+  right: 0;
   background-color: white;
   padding: 10px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   display: flex;
   min-width: var(--hand-width);
+  z-index: 5;
 }
 
 .bidding-box .suit-bids {

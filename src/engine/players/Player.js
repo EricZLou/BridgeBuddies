@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
+import BiddingBox from '../BiddingBox'
 import Hand from '../Hand'
 import PlayerTitle from './PlayerTitle'
 import {getNextPlayer, getPartner} from '../utils/GameScreenUtils'
@@ -15,16 +16,20 @@ import {GAMESTATES} from '../../constants/GameEngine'
 export class Player extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      cards: this.props.cards,
+    }
     this.seat = this.props.seat;
-    this.cards = this.props.cards;
     this.handleCardPlay = this.handleCardPlay.bind(this);
+    this.handleBidPlay = this.handleBidPlay.bind(this);
   }
 
   updateHand(card_played) {
-    for (let idx in this.cards) {
-      if (JSON.stringify(this.cards[idx]) === JSON.stringify(card_played)) {
-        console.log(`[${this.seat}] Play ${card_played.suit} ${card_played.value}`);
-        this.cards.splice(idx, 1);
+    for (let idx in this.state.cards) {
+      if (JSON.stringify(this.state.cards[idx]) === JSON.stringify(card_played)) {
+        let cards_copy = [...this.state.cards];
+        cards_copy.splice(idx, 1);
+        this.setState({cards: cards_copy});
         return;
       }
     }
@@ -33,9 +38,8 @@ export class Player extends React.Component {
   handleCardPlay(card) {
     if (this.props.game_state !== GAMESTATES.PLAYING) return;
     if (this.props.curr_player === this.seat &&
-        this.props.game_engine.isValidCard(card, this.cards)
+        this.props.game_engine.isValidCard(card, this.state.cards)
     ) {
-      this.props.game_engine.setDummy(getPartner(this.props.contract.declarer));
       this.props.game_engine.playCard(card, this.seat);
       this.updateHand(card);
       this.props.updateCardsOnBoard(this.seat, card);
@@ -48,11 +52,28 @@ export class Player extends React.Component {
     }
   }
 
+  handleBidPlay(bid) {
+    if (this.props.game_state !== GAMESTATES.BIDDING) return;
+    // if (this.props.curr_player === this.seat &&
+    if (true &&
+      this.props.game_engine.isValidBid(bid, this.props.curr_player)
+    ) {
+      if (this.props.online) this.props.handleBidClick(bid);
+      this.props.game_engine.doBid(bid, this.props.curr_player);
+      this.props.updateBidsOnBoard(this.props.curr_player, bid);
+      if (this.props.game_engine.isBiddingComplete()) {
+        this.props.handleBiddingComplete();
+      } else {
+        this.props.dispatch(setCurrPlayer(getNextPlayer(this.seat)));
+      }
+    }
+  }
+
   render() {
     return (
       <div>
         <Hand
-          cards={this.cards}
+          cards={this.state.cards}
           seat={this.seat}
           handleCardPlay={this.handleCardPlay}
           visible={this.props.visible}
@@ -65,6 +86,13 @@ export class Player extends React.Component {
             is_my_turn={this.props.curr_player === this.seat}
           />
         </div>
+        {(this.props.game_state === GAMESTATES.BIDDING && this.props.curr_player === this.seat) &&
+          <div className="bidding-box-container">
+            <BiddingBox
+              handleBidPlay={this.handleBidPlay}
+            />
+          </div>
+        }
       </div>
     )
   }

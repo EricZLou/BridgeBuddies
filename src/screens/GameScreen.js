@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import BiddingBox from '../engine/BiddingBox'
 import BidsOnBoard from '../engine/BidsOnBoard'
 import CardsOnBoard from '../engine/CardsOnBoard'
 import CurrentGameStats from '../engine/CurrentGameStats'
@@ -19,7 +18,7 @@ import '../css/GameScreen.css'
 import table from '../media/store/tables/green2.jpg'
 
 import {Deck, sortHand} from '../engine/Deck'
-import {BID_TYPES, GAMESTATES, SEATS} from '../constants/GameEngine'
+import {GAMESTATES, SEATS} from '../constants/GameEngine'
 
 
 class GameScreen extends React.Component {
@@ -40,8 +39,9 @@ class GameScreen extends React.Component {
     this.west = this.hands[SEATS.WEST];
     this.cards_on_board = [];
     this.bids_on_board = [];
-    this.handleBidClick = this.handleBidClick.bind(this);
     this.updateCardsOnBoard = this.updateCardsOnBoard.bind(this);
+    this.updateBidsOnBoard = this.updateBidsOnBoard.bind(this);
+    this.handleBiddingComplete = this.handleBiddingComplete.bind(this);
     this.resetGame = this.resetGame.bind(this);
   }
 
@@ -97,31 +97,12 @@ class GameScreen extends React.Component {
     }
     this.props.game_engine.setTrumpSuit(contract.suit);
     this[this.me] = sortHand(this[this.me], contract.suit);
-    // this.props.game_engine.setDummy(getPartner(contract.declarer));
+    this.props.game_engine.setDummy(getPartner(contract.declarer));
 
     this.props.dispatch(setCurrPlayer(getNextPlayer(contract.declarer)));
     this.props.dispatch(setGameState(GAMESTATES.PLAYING));
     this.props.dispatch(setReadyToPlay(true));
     // we set the dummy after the first card has been played above
-  }
-
-  handleBidClick(bid) {
-    if (this.props.game_state !== GAMESTATES.BIDDING) return;
-    if (this.props.game_engine.isValidBid(bid, this.props.curr_player)) {
-      if (this.props.online) this.props.handleBidClick(bid);
-      this.props.game_engine.doBid(bid, this.props.curr_player);
-      this.updateBidsOnBoard(this.props.curr_player, bid);
-      if (bid.type === BID_TYPES.SUIT) {
-        console.log(`[${this.props.curr_player}] Bid ${bid.level}${bid.suit}`);
-      } else {
-        console.log(`[${this.props.curr_player}] Bid ${bid.type}`);
-      }
-      if (this.props.game_engine.isBiddingComplete()) {
-        this.handleBiddingComplete();
-      } else {
-        this.goToNextPlayer();
-      }
-    }
   }
 
   resetGame() {
@@ -135,6 +116,7 @@ class GameScreen extends React.Component {
   }
 
   createPlayer(seat) {
+    console.log(`creating player ${seat}`);
     let PlayerType;
     if (seat === this.me) PlayerType = Player;
     else if (this.props.online) PlayerType = OnlinePlayer;
@@ -144,8 +126,10 @@ class GameScreen extends React.Component {
       name={this.players[seat]}
       cards={this[seat]}
       updateCardsOnBoard={this.updateCardsOnBoard}
+      updateBidsOnBoard={this.updateBidsOnBoard}
+      handleBiddingComplete={this.handleBiddingComplete}
       opening_suit={this.cards_on_board.length === 0 ? null : this.cards_on_board[0].card.suit}
-      visible={seat === this.me || seat === this.props.game_engine.dummy}
+      visible={seat === this.me || (seat === this.props.game_engine.dummy && this.props.game_engine.firstCardPlayed())}
       clickable={(seat === this.me && seat !== this.props.game_engine.dummy) ||
                  (seat === getPartner(this.me) && seat === this.props.game_engine.dummy)}
     />
@@ -199,13 +183,6 @@ class GameScreen extends React.Component {
                 </div>
               </div>
               <div className="right">
-                {(this.props.game_state === GAMESTATES.BIDDING) &&
-                  <div className="bidding-box-container">
-                    <BiddingBox
-                      handleBidClick={this.handleBidClick}
-                    />
-                  </div>
-                }
                 {(this.props.game_state === GAMESTATES.PLAYING) &&
                   <div className="current-game-stats-container">
                     <CurrentGameStats

@@ -48,6 +48,9 @@ export default class BridgeGameEngine {
   playCard(card, player) {
     this.play_engine.playCard(card, player);
   }
+  firstCardPlayed() {
+    return this.play_engine.firstCardPlayed();
+  }
   isTrickOver() {
     return this.play_engine.isTrickOver();
   }

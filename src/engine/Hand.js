@@ -18,7 +18,7 @@ class Hand extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.contract && !this.state.sorted) {
+    if (this.state.cards && this.props.contract && !this.state.sorted) {
       this.setState({
         cards: sortHand(this.state.cards, this.props.contract.suit),
         sorted: true,

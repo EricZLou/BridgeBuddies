@@ -45,9 +45,3 @@
   left: calc((100% - var(--hand-width)) / 2);
   top: calc((100% - var(--card-height)) / 2);
 }
-
-.bidding-box-container {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}

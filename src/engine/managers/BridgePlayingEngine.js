@@ -13,6 +13,9 @@ export default class BridgePlayingEngine {
   clearTrick() {
     this.cards_on_board = [];
   }
+  firstCardPlayed() {
+    return this.cards_on_board.length !== 0;
+  }
   isValidCard(card, cardsInHand) {
     if (this.cards_on_board.length === 0) return true;
     const opening_suit = this.cards_on_board[0].card.suit;
