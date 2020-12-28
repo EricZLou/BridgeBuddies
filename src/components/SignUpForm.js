@@ -1,9 +1,10 @@
 import React from 'react'
-import {connect} from 'react-redux';
+import {connect} from 'react-redux'
 
-import Firebase from '../Firebase';
+import Firebase from '../Firebase'
 
-import '../css/Style.css';
+import '../css/Style.css'
+
 
 class SignUpForm extends React.Component {
   constructor(props) {

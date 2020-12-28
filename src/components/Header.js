@@ -3,8 +3,6 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import Firebase from '../Firebase'
 
-import {TOTAL_EXP} from '../SampleData'
-import {LEVELS} from '../constants/Levels'
 import {logOut, homeScreenNotReady} from '../redux/actions/Core'
 
 import '../css/Style.css'
@@ -13,6 +11,9 @@ import '../css/ProfilePic.css'
 
 import bridge_clipart from '../media/bridge_clipart.png'
 import coin from '../media/coin.png'
+
+const {LEVELS, TOTAL_EXP} = require('../constants/Levels')
+
 
 class Header extends React.Component {
   constructor(props) {

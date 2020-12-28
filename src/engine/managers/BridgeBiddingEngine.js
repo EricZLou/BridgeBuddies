@@ -1,5 +1,6 @@
 const {BID_TYPES, BID_SUIT_ORDER_MAP, SEATS} = require('../../constants/GameEngine')
 
+
 export default class BridgeBiddingEngine {
   constructor() {
     this.bidHistory = [];

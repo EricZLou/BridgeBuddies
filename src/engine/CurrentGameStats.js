@@ -1,6 +1,7 @@
-import React from 'react';
+import React from 'react'
 
-import '../css/CurrentGameStats.css';
+import '../css/CurrentGameStats.css'
+
 
 export default class CurrentGameStats extends React.Component {
   constructor(props) {

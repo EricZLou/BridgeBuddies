@@ -4,6 +4,7 @@ import '../../css/PlayerTitle.css'
 
 import klubby from '../../media/store/characters/klubby.png'
 
+
 export default class PlayerTitle extends React.Component {
   render() {
     return (

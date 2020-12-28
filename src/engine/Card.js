@@ -5,6 +5,7 @@ import '../css/Card.css'
 
 import card_back_red from '../media/store/cardbacks/Red.png'
 
+
 export default class Card extends React.Component {
   render() {
     if (!this.props.visible) {

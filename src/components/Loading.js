@@ -1,8 +1,9 @@
-import React from 'react';
+import React from 'react'
 
-import '../css/ComingSoonScreen.css';
+import '../css/ComingSoonScreen.css'
 
-import logo from '../media/logo.svg';
+import logo from '../media/logo.svg'
+
 
 export default function Loading() {
   return (

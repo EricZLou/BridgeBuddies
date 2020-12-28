@@ -1,10 +1,11 @@
-import React from 'react';
+import React from 'react'
 import {connect} from 'react-redux'
 
 import Header from '../components/Header'
 import LoadingScreen from './LoadingScreen'
 
-import '../css/Style.css';
+import '../css/Style.css'
+
 
 class SettingsScreen extends React.Component {
   constructor(props) {

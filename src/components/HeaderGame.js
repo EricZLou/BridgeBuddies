@@ -1,17 +1,17 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
+import React from 'react'
+import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 
-import {TOTAL_EXP} from '../SampleData'
-import {LEVELS} from '../constants/Levels'
+import '../css/Style.css'
+import '../css/HeaderGame.css'
+import '../css/ProfilePic.css'
 
-import '../css/Style.css';
-import '../css/HeaderGame.css';
-import '../css/ProfilePic.css';
+import bridge_clipart from '../media/bridge_clipart.png'
+import coin from '../media/coin.png'
+import gespade from '../media/store/characters/gespade.png'
 
-import bridge_clipart from '../media/bridge_clipart.png';
-import coin from '../media/coin.png';
-import gespade from '../media/store/characters/gespade.png';
+const {LEVELS, TOTAL_EXP} = require('../constants/Levels')
+
 
 class HeaderGame extends React.Component {
   render() {

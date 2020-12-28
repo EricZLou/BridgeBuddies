@@ -6,6 +6,7 @@ import '../css/LoadingScreen.css'
 import cover from '../media/cover.png'
 import logo from '../media/logo.svg'
 
+
 export default class LoadingScreen extends React.Component {
   render() {
     return (

@@ -2,7 +2,8 @@ import React from 'react'
 
 import '../css/StoreInfo.css'
 
-import coin from '../media/coin.png';
+import coin from '../media/coin.png'
+
 
 export default class StoreInfo extends React.Component {
   constructor(props) {

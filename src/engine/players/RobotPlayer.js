@@ -6,6 +6,7 @@ import PlayerTitle from './PlayerTitle'
 
 import '../../css/Player.css'
 
+
 export default class RobotPlayer extends Player {
   constructor(props) {
     super(props);

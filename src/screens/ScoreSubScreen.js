@@ -2,6 +2,7 @@ import React from 'react'
 
 import '../css/ScoreSubScreen.css'
 
+
 export default class ScoreSubScreen extends React.Component {
   render() {
     return (

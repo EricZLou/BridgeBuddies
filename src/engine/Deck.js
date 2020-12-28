@@ -34,7 +34,6 @@ class Deck {
     };
   }
 }
-exports.Deck = Deck;
 
 function _sortSuitByValue(card_a, card_b) {
   return -(card_a.value - card_b.value);
@@ -76,4 +75,4 @@ function sortHand(hand, trump='C') {
   return spades.concat(hearts,clubs,diamonds);
 };
 
-exports.sortHand = sortHand;
+module.exports = {Deck, sortHand};

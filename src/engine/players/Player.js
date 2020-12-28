@@ -5,6 +5,7 @@ import PlayerTitle from './PlayerTitle'
 
 import '../../css/Player.css'
 
+
 export default class Player extends React.Component {
   constructor(props) {
     super(props);
