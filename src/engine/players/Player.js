@@ -1,19 +1,41 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
 import Hand from '../Hand'
 import PlayerTitle from './PlayerTitle'
+import {getPartner} from '../utils/GameScreenUtils'
+import {setCurrPlayer, setReadyToPlay} from '../../redux/actions/Core'
 
 import '../../css/Player.css'
 
+import {GAMESTATES} from '../../constants/GameEngine'
 
-export default class Player extends React.Component {
+
+// REPRESENTS THE USER
+export class Player extends React.Component {
   constructor(props) {
     super(props);
     this.seat = this.props.seat;
+    this.handleCardPlay = this.handleCardPlay.bind(this);
   }
 
-  componentDidUpdate() {
-
+  handleCardPlay(seat, card) {
+    if (this.props.game_state !== GAMESTATES.PLAYING) return;
+    if (this.props.curr_player === seat &&
+        this.props.game_engine.isValidCard(card, this[seat])
+    ) {
+      if (this.props.online) this.props.emitCardClick(card, seat);
+      this.props.game_engine.setDummy(getPartner(this.props.contract.declarer));
+      this.props.game_engine.playCard(card, seat);
+      this.updateHands(seat, card);
+      this.updateCardsOnBoard(seat, card);
+      if (this.props.game_engine.isTrickOver()) {
+        this.props.dispatch(setCurrPlayer(this.props.game_engine.getRoundWinner()));
+        this.props.dispatch(setReadyToPlay(false));
+      } else {
+        this.goToNextPlayer();
+      }
+    }
   }
 
   render() {
@@ -21,8 +43,8 @@ export default class Player extends React.Component {
       <div>
         <Hand
           cards={this.props.cards}
-          seat={this.props.seat}
-          handleHandClick={this.props.handlePlayerClick}
+          seat={this.seat}
+          handleCardPlay={this.handleCardPlay}
           visible={this.props.visible}
           clickable={this.props.clickable}
         />
@@ -37,3 +59,14 @@ export default class Player extends React.Component {
     )
   }
 };
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    contract: state.contract,
+    curr_player: state.curr_player,
+    game_engine: state.game_engine,
+    game_state: state.game_state,
+    ready_to_play: state.ready_to_play,
+  }
+}
+export default connect(mapStateToProps)(Player);

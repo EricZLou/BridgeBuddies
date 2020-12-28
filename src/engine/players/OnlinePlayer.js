@@ -1,15 +1,14 @@
 import React from 'react'
 
 import Hand from '../Hand'
-import Player from './Player'
+import {Player} from './Player'
 import PlayerTitle from './PlayerTitle'
 
-import '../../css/Player.css'
 
-
+// REPRESENTS AN ONLINE PLAYER (except current user)
 export default class OnlinePlayer extends Player {
-  componentDidUpdate() {
-
+  constructor(props) {
+    super(props);
   }
 
   render() {
@@ -17,14 +16,14 @@ export default class OnlinePlayer extends Player {
       <div>
         <Hand
           cards={this.props.cards}
-          seat={this.props.seat}
-          handleHandClick={this.props.handlePlayerClick}
+          seat={this.seat}
+          handleCardPlay={this.handleCardPlay}
           visible={this.props.visible}
           clickable={this.props.clickable}
         />
         <div className="player-title">
           <PlayerTitle
-            seat={this.props.seat}
+            seat={this.seat}
             is_my_turn={this.props.is_my_turn}
             name={this.props.name}
           />

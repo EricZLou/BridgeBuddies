@@ -1,8 +1,17 @@
 import {
-  SET_CURR_PLAYER, SET_GAME_ENGINE, SET_GAME_STATE, SET_READY_TO_PLAY
+  SET_CONTRACT, SET_CURR_PLAYER, SET_GAME_ENGINE, SET_GAME_STATE, SET_READY_TO_PLAY
 } from '../actions/Core'
 
 import {GAMESTATES, SEATS} from '../../constants/GameEngine'
+
+export function contract(state="", action) {
+  switch (action.type) {
+    case SET_CONTRACT:
+      return action.contract;
+    default:
+      return state;
+  }
+}
 
 export function curr_player(state=SEATS.SOUTH, action) {
   switch (action.type) {

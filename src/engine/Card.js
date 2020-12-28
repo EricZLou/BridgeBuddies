@@ -17,10 +17,17 @@ export default class Card extends React.Component {
     }
 
     const card_img = require('../media/cards/'+this.props.value.toString()+this.props.suit+'.png');
+    const card = {value: this.props.value, suit: this.props.suit};
+
+    let card_class;
+    if (this.props.hoverable) card_class = "card-hoverable";
+    else if (this.props.onBoard) card_class = "card-on-board";
+    else card_class = "card";
+
     return (
       <div
-        className={this.props.hoverable ? "card-hoverable" : (this.props.onBoard ? "card-on-board" : "card")}
-        onClick={this.props.handleCardClick.bind(this, {value: this.props.value, suit: this.props.suit})}
+        className={card_class}
+        onClick={this.props.handleCardPlay.bind(this, card)}
       >
         <img src={card_img} alt="Card."/>
       </div>

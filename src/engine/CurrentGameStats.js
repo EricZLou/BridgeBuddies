@@ -1,9 +1,10 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
 import '../css/CurrentGameStats.css'
 
 
-export default class CurrentGameStats extends React.Component {
+class CurrentGameStats extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,3 +23,10 @@ export default class CurrentGameStats extends React.Component {
     )
   }
 };
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    contract: state.contract,
+  }
+}
+export default connect(mapStateToProps)(CurrentGameStats);

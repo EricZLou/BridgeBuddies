@@ -22,7 +22,7 @@ export default class Hand extends React.Component {
             <Card
               value={card.value}
               suit={card.suit}
-              handleCardClick={this.props.handleHandClick.bind(this, this.seat)}
+              handleCardPlay={this.props.handleCardPlay.bind(this, this.seat)}
               visible={this.props.visible}
               hoverable={this.props.clickable}
             />

@@ -1,12 +1,11 @@
 import React from 'react'
 
 import Hand from '../Hand'
-import Player from './Player'
+import {Player} from './Player'
 import PlayerTitle from './PlayerTitle'
 
-import '../../css/Player.css'
 
-
+// REPRESENTS A CPU
 export default class RobotPlayer extends Player {
   async sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -30,7 +29,7 @@ export default class RobotPlayer extends Player {
         }
         if (!found) cardx = cards[0];
       }
-      this.props.handlePlayerClick(this.seat, cardx);
+      this.handleCardPlay(this.seat, cardx);
     });
   }
 
@@ -45,14 +44,14 @@ export default class RobotPlayer extends Player {
       <div>
         <Hand
           cards={this.props.cards}
-          seat={this.props.seat}
-          handleHandClick={this.props.handlePlayerClick}
+          seat={this.seat}
+          handleCardPlay={this.handleCardPlay}
           visible={this.props.visible}
           clickable={this.props.clickable}
         />
         <div className="player-title">
           <PlayerTitle
-            seat={this.props.seat}
+            seat={this.seat}
             is_my_turn={this.props.is_my_turn}
             name={this.props.name}
           />

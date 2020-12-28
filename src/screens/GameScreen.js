@@ -6,12 +6,12 @@ import BidsOnBoard from '../engine/BidsOnBoard'
 import CardsOnBoard from '../engine/CardsOnBoard'
 import CurrentGameStats from '../engine/CurrentGameStats'
 import HeaderGame from '../components/HeaderGame'
-// import OnlinePlayer from '../engine/players/OnlinePlayer'
-// import Player from '../engine/players/Player'
+import OnlinePlayer from '../engine/players/OnlinePlayer'
+import Player from '../engine/players/Player'
 import RobotPlayer from '../engine/players/RobotPlayer'
 import ScoreSubScreen from '../screens/ScoreSubScreen'
 import {getNextPlayer, getPrevPlayer, getPartner} from '../engine/utils/GameScreenUtils'
-import {setCurrPlayer, setGameEngine, setGameState, setReadyToPlay} from '../redux/actions/Core'
+import {setContract, setCurrPlayer, setGameEngine, setGameState, setReadyToPlay} from '../redux/actions/Core'
 
 import '../css/Style.css'
 import '../css/GameScreen.css'
@@ -39,13 +39,12 @@ class GameScreen extends React.Component {
     }
     this.cards_on_board = [];
     this.bids_on_board = [];
-    this.contract = null;
-    this.handleGameScreenClick = this.handleGameScreenClick.bind(this);
     this.handleBidClick = this.handleBidClick.bind(this);
     this.resetGame = this.resetGame.bind(this);
   }
 
   componentWillUnmount() {
+    this.props.dispatch(setContract(""));
     this.props.dispatch(setCurrPlayer(SEATS.SOUTH));
     this.props.dispatch(setGameEngine(""));
     this.props.dispatch(setGameState(GAMESTATES.BIDDING));
@@ -97,38 +96,20 @@ class GameScreen extends React.Component {
     }
   }
 
-  handleGameScreenClick(seat, card) {
-    if (this.props.game_state !== GAMESTATES.PLAYING) return;
-    if (this.props.curr_player === seat &&
-        this.props.game_engine.isValidCard(card, this[seat])
-    ) {
-      if (this.props.online) this.props.emitCardClick(card, seat);
-      this.props.game_engine.setDummy(getPartner(this.contract.declarer));
-      this.props.game_engine.playCard(card, seat);
-      this.updateHands(seat, card);
-      this.updateCardsOnBoard(seat, card);
-      if (this.props.game_engine.isTrickOver()) {
-        this.props.dispatch(setCurrPlayer(this.props.game_engine.getRoundWinner()));
-        this.props.dispatch(setReadyToPlay(false));
-      } else {
-        this.goToNextPlayer();
-      }
-    }
-  }
-
   handleBiddingComplete() {
-    this.contract = this.props.game_engine.getContract();
-    if (this.contract.suit === "pass") {
+    const contract = this.props.game_engine.getContract();
+    this.props.dispatch(setContract(contract));
+    if (contract.suit === "pass") {
       this.props.dispatch(setGameState(GAMESTATES.RESULTS));
       return;
     }
-    this.props.game_engine.setTrumpSuit(this.contract.suit);
-    this.north = sortHand(this.north, this.contract.suit);
-    this.east = sortHand(this.east, this.contract.suit);
-    this.south = sortHand(this.south, this.contract.suit);
-    this.west = sortHand(this.west, this.contract.suit);
+    this.props.game_engine.setTrumpSuit(contract.suit);
+    this.north = sortHand(this.north, contract.suit);
+    this.east = sortHand(this.east, contract.suit);
+    this.south = sortHand(this.south, contract.suit);
+    this.west = sortHand(this.west, contract.suit);
 
-    this.props.dispatch(setCurrPlayer(getNextPlayer(this.contract.declarer)));
+    this.props.dispatch(setCurrPlayer(getNextPlayer(contract.declarer)));
     this.props.dispatch(setGameState(GAMESTATES.PLAYING));
     this.props.dispatch(setReadyToPlay(true));
     // we set the dummy after the first card has been played above
@@ -168,7 +149,11 @@ class GameScreen extends React.Component {
   }
 
   createPlayer(seat) {
-    return <RobotPlayer
+    let PlayerType;
+    if (seat === this.me) PlayerType = Player;
+    else if (this.props.online) PlayerType = OnlinePlayer;
+    else PlayerType = RobotPlayer;
+    return <PlayerType
       seat={seat}
       name={this.players[seat]}
       cards={this[seat]}
@@ -242,7 +227,6 @@ class GameScreen extends React.Component {
                     <CurrentGameStats
                       tricks_won_NS={this.props.game_engine.tricks_won_NS}
                       tricks_won_EW={this.props.game_engine.tricks_won_EW}
-                      contract={this.props.game_engine.getContract()}
                     />
                   </div>
                 }
@@ -263,6 +247,7 @@ class GameScreen extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    contract: state.contract,
     curr_player: state.curr_player,
     game_engine: state.game_engine,
     game_state: state.game_state,
