@@ -1,6 +1,6 @@
 import {io} from "./index.js"
 import {Deck} from "../engine/Deck.js"
-import {ALL_SEATS} from "../constants/GameEngine.js"
+import {ALL_SEATS, PARTNERS} from "../constants/GameEngine.js"
 
 
 let NUM_USERS_LOGGED_IN = 0;
@@ -107,8 +107,14 @@ export default function SocketManager(socket) {
 
   // HANDLE BID CLICK
   socket.on('bid click', (bid, seat) => {
-    console.log(`[BID] ${seat}: ${bid}`);
+    console.log(`[BID] ${seat}: ${bid.level}${bid.suit}`);
     socket.to(socket.room).emit('bid click', bid, seat);
+  });
+
+  // BIDDING END -- SEND DUMMY HAND
+  socket.on('dummy hand', (cards) => {
+    console.log(`[DUMMY HAND] received`)
+    socket.to(socket.room).emit('dummy hand', cards);
   });
 
   // HANDLE CARD CLICK

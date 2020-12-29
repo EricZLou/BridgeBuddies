@@ -4,7 +4,7 @@ import BridgeBiddingEngine from './BridgeBiddingEngine'
 import {SEATS} from '../../constants/GameEngine'
 
 
-export default class BridgeGameEngine {
+class BridgeGameEngine {
   constructor() {
     this.bid_engine = new BridgeBiddingEngine();
     this.play_engine = new BridgePlayingEngine();
@@ -48,14 +48,17 @@ export default class BridgeGameEngine {
   playCard(card, player) {
     this.play_engine.playCard(card, player);
   }
-  firstCardPlayed() {
-    return this.play_engine.firstCardPlayed();
+  firstCardOfTrickPlayed() {
+    return this.play_engine.firstCardOfTrickPlayed();
   }
   isTrickOver() {
     return this.play_engine.isTrickOver();
   }
   isGameOver() {
     return this.tricks_won_NS + this.tricks_won_EW === 13;
+  }
+  getRoundSuit() {
+    return this.play_engine.getRoundSuit();
   }
   getRoundWinner() {
     const winner = this.play_engine.getRoundWinner();
@@ -77,3 +80,5 @@ export default class BridgeGameEngine {
     return this.getScoreEW();
   }
 }
+
+export let game_engine = new BridgeGameEngine();

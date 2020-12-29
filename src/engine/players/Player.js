@@ -2,9 +2,11 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 import BiddingBox from '../BiddingBox'
+import {sortHand} from '../Deck'
 import Hand from '../Hand'
 import PlayerTitle from './PlayerTitle'
-import {getNextPlayer, getPartner} from '../utils/GameScreenUtils'
+import {game_engine} from '../managers/BridgeGameEngine'
+import {getNextPlayer} from '../utils/GameScreenUtils'
 import {setCurrPlayer, setReadyToPlay} from '../../redux/actions/Core'
 
 import '../../css/Player.css'
@@ -18,10 +20,20 @@ export class Player extends React.Component {
     super(props);
     this.state = {
       cards: this.props.cards,
+      sorted: false,
     }
     this.seat = this.props.seat;
-    this.handleCardPlay = this.handleCardPlay.bind(this);
-    this.handleBidPlay = this.handleBidPlay.bind(this);
+    this.handleBidPlayWrap = this.handleBidPlayWrap.bind(this);
+    this.handleCardPlayWrap = this.handleCardPlayWrap.bind(this);
+  }
+
+  componentDidUpdate() {
+    if (this.state.cards && this.props.contract && !this.state.sorted) {
+      this.setState({
+        cards: sortHand(this.state.cards, this.props.contract.suit),
+        sorted: true,
+      });
+    }
   }
 
   updateHand(card_played) {
@@ -35,38 +47,61 @@ export class Player extends React.Component {
     }
   }
 
-  handleCardPlay(card) {
-    if (this.props.game_state !== GAMESTATES.PLAYING) return;
-    if (this.props.curr_player === this.seat &&
-        this.props.game_engine.isValidCard(card, this.state.cards)
-    ) {
-      this.props.game_engine.playCard(card, this.seat);
-      this.updateHand(card);
-      this.props.updateCardsOnBoard(this.seat, card);
-      if (this.props.game_engine.isTrickOver()) {
-        this.props.dispatch(setReadyToPlay(false));
-        this.props.dispatch(setCurrPlayer(this.props.game_engine.getRoundWinner()));
-      } else {
-        this.props.dispatch(setCurrPlayer(getNextPlayer(this.seat)));
-      }
+  processBidPlayForSeat(bid, seat) {
+    if (bid.level)
+      console.log(`[GAME PLAY] ${seat} bids ${bid.level}${bid.suit}`);
+    else
+      console.log(`[GAME PLAY] ${seat} bids ${bid.type}`);
+    game_engine.doBid(bid, seat);
+    this.props.updateBidsOnBoard(seat, bid);
+    if (game_engine.isBiddingComplete()) {
+      this.props.handleBiddingComplete();
+    } else {
+      this.props.dispatch(setCurrPlayer(getNextPlayer(seat)));
     }
   }
 
   handleBidPlay(bid) {
-    if (this.props.game_state !== GAMESTATES.BIDDING) return;
-    // if (this.props.curr_player === this.seat &&
-    if (true &&
-      this.props.game_engine.isValidBid(bid, this.props.curr_player)
+    if (this.props.game_state !== GAMESTATES.BIDDING) return false;
+    if (this.props.curr_player === this.seat &&
+      game_engine.isValidBid(bid, this.props.curr_player)
     ) {
-      if (this.props.online) this.props.handleBidClick(bid);
-      this.props.game_engine.doBid(bid, this.props.curr_player);
-      this.props.updateBidsOnBoard(this.props.curr_player, bid);
-      if (this.props.game_engine.isBiddingComplete()) {
-        this.props.handleBiddingComplete();
-      } else {
-        this.props.dispatch(setCurrPlayer(getNextPlayer(this.seat)));
-      }
+      this.processBidPlayForSeat(bid, this.seat)
+      this.making_bid = false;
+      return true;
     }
+    return false;
+  }
+  handleBidPlayWrap(bid) {
+    this.handleBidPlay(bid);
+  }
+
+  processCardPlayForSeat(card, seat) {
+    console.log(`[GAME PLAY] ${seat} plays ${card.value}${card.suit}`)
+    game_engine.playCard(card, seat);
+    // this.updateHand(card);
+    this.props.updateCardsOnBoard(seat, card);
+    if (game_engine.isTrickOver()) {
+      this.props.dispatch(setReadyToPlay(false));
+      this.props.dispatch(setCurrPlayer(game_engine.getRoundWinner()));
+    } else {
+      this.props.dispatch(setCurrPlayer(getNextPlayer(seat)));
+    }
+  }
+
+  handleCardPlay(card) {
+    if (this.props.game_state !== GAMESTATES.PLAYING) return false;
+    if (this.props.curr_player === this.seat &&
+        game_engine.isValidCard(card, this.state.cards)
+    ) {
+      this.processCardPlayForSeat(card, this.seat);
+      this.playing_card = false;
+      return true;
+    }
+    return false;
+  }
+  handleCardPlayWrap(card) {
+    this.handleCardPlay(card);
   }
 
   render() {
@@ -75,7 +110,7 @@ export class Player extends React.Component {
         <Hand
           cards={this.state.cards}
           seat={this.seat}
-          handleCardPlay={this.handleCardPlay}
+          handleCardPlay={this.handleCardPlayWrap}
           visible={this.props.visible}
           clickable={this.props.clickable}
         />
@@ -86,11 +121,11 @@ export class Player extends React.Component {
             is_my_turn={this.props.curr_player === this.seat}
           />
         </div>
-        {(this.props.game_state === GAMESTATES.BIDDING && this.props.curr_player === this.seat) &&
+        {this.props.game_state === GAMESTATES.BIDDING &&
+          this.props.curr_player === this.seat &&
+          this.show_bidding_box &&
           <div className="bidding-box-container">
-            <BiddingBox
-              handleBidPlay={this.handleBidPlay}
-            />
+            <BiddingBox handleBidPlay={this.handleBidPlayWrap}/>
           </div>
         }
       </div>
@@ -102,7 +137,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     contract: state.contract,
     curr_player: state.curr_player,
-    game_engine: state.game_engine,
     game_state: state.game_state,
     ready_to_play: state.ready_to_play,
   }

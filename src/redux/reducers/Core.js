@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 
 import {firebasePaths} from './FirebasePathReducers'
-import {contract, curr_player, game_engine, game_state, ready_to_play} from './GamePropReducers'
+import {contract, curr_player, game_state, player_cards, ready_to_play} from './GamePropReducers'
 import {userID, homeScreenReady} from './LogInReducers'
 import {mySocket, numUsersLoggedIn} from './SocketReducers'
 import {userDetails} from './UserInfoReducers'
@@ -12,7 +12,7 @@ import {LOG_OUT} from '../actions/Core'
 
 const appReducers = combineReducers({
   firebasePaths,
-  contract, curr_player, game_engine, game_state, ready_to_play,
+  contract, curr_player, game_state, player_cards, ready_to_play,
   userID, homeScreenReady,
   mySocket, numUsersLoggedIn,
   userDetails,

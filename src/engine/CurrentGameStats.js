@@ -16,9 +16,8 @@ class CurrentGameStats extends React.Component {
   render() {
     return (
       <div className="current-game-stats">
-        {this.props.tricks_won_NS}
-        {this.props.tricks_won_EW}
-        {this.props.contract.declarer}
+        {`NS: ${this.props.tricks_won_NS}, EW: ${this.props.tricks_won_EW}, `}
+        {`Contract: ${this.props.contract.level}${this.props.contract.suit} by ${this.props.contract.declarer}`}
       </div>
     )
   }

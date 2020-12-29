@@ -1,5 +1,5 @@
 import {
-  SET_CONTRACT, SET_CURR_PLAYER, SET_GAME_ENGINE, SET_GAME_STATE, SET_READY_TO_PLAY
+  SET_CONTRACT, SET_CURR_PLAYER, SET_GAME_STATE, SET_PLAYER_CARDS, SET_READY_TO_PLAY
 } from '../actions/Core'
 
 import {GAMESTATES, SEATS} from '../../constants/GameEngine'
@@ -22,19 +22,19 @@ export function curr_player(state=SEATS.SOUTH, action) {
   }
 }
 
-export function game_engine(state="", action) {
+export function game_state(state=GAMESTATES.BIDDING, action) {
   switch (action.type) {
-    case SET_GAME_ENGINE:
-      return action.engine;
+    case SET_GAME_STATE:
+      return action.game_state;
     default:
       return state;
   }
 }
 
-export function game_state(state=GAMESTATES.BIDDING, action) {
+export function player_cards(state={}, action) {
   switch (action.type) {
-    case SET_GAME_STATE:
-      return action.game_state;
+    case SET_PLAYER_CARDS:
+      return action.cards;
     default:
       return state;
   }

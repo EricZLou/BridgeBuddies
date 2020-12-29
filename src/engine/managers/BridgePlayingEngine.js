@@ -3,18 +3,21 @@ export default class BridgePlayingEngine {
     this.cards_on_board = [];
     this.trump_suit = null;
   }
-  setTrumpSuit(trump_suit) {
-    this.trump_suit = trump_suit;
-  }
   reset() {
     this.cards_on_board = [];
     this.trump_suit = null;
   }
+  setTrumpSuit(trump_suit) {
+    this.trump_suit = trump_suit;
+  }
   clearTrick() {
     this.cards_on_board = [];
   }
-  firstCardPlayed() {
+  firstCardOfTrickPlayed() {
     return this.cards_on_board.length !== 0;
+  }
+  getRoundSuit() {
+    return this.cards_on_board[0].card.suit;
   }
   isValidCard(card, cardsInHand) {
     if (this.cards_on_board.length === 0) return true;
