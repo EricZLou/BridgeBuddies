@@ -70,7 +70,7 @@ class LogInScreen extends React.Component {
     ));
     await this.setUpFirebaseListeners();
     await this.props.dispatch(logIn(uid));
-    await this.props.dispatch(homeScreenReady());
+    await this.props.dispatch(homeScreenReady(true));
   }
 
   logInAsTestUser() {
