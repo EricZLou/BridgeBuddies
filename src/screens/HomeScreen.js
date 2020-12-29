@@ -13,7 +13,7 @@ import '../css/HomeScreen.css'
 import store_image from '../media/buttons/store.png'
 import cover from '../media/cover.png'
 
-import {GAME_TYPES} from '../constants/GameEngine'
+import {GAMETYPES} from '../constants/GameEngine'
 const socketURL = 'http://localhost:8000'
 // const socketURL = '/'
 
@@ -78,11 +78,11 @@ class HomeScreen extends React.Component {
                   <div className="play-options">
                     <Link to={{
                       pathname: "/game",
-                      state: {type: GAME_TYPES.ROBOT},
+                      state: {type: GAMETYPES.ROBOT},
                     }} ><button>Robots</button></Link>
                     <Link to={{
                       pathname: "/game",
-                      state: {type: GAME_TYPES.ONLINE},
+                      state: {type: GAMETYPES.ONLINE},
                     }} ><button>Online</button></Link>
                   </div>
                 }

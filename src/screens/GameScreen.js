@@ -5,10 +5,6 @@ import BidsOnBoard from '../engine/BidsOnBoard'
 import CardsOnBoard from '../engine/CardsOnBoard'
 import CurrentGameStats from '../engine/CurrentGameStats'
 import HeaderGame from '../components/HeaderGame'
-import OfflinePlayer from '../engine/players/OfflinePlayer'
-import OnlineOpponent from '../engine/players/OnlineOpponent'
-import OnlinePlayer from '../engine/players/OnlinePlayer'
-import RobotOpponent from '../engine/players/RobotOpponent'
 import ScoreSubScreen from '../screens/ScoreSubScreen'
 import {Deck} from '../engine/Deck'
 import {game_engine} from '../engine/managers/BridgeGameEngine'
@@ -118,12 +114,6 @@ class GameScreen extends React.Component {
   }
 
   render() {
-    const PlayerType = this.props.online ? OnlinePlayer : OfflinePlayer;
-    const OpponentType = this.props.online ? OnlineOpponent : RobotOpponent;
-
-    console.log(`creating ${PlayerType === OnlinePlayer ? "online":"offline"} player`);
-    console.log(`creating ${OpponentType === OnlineOpponent ? "online":"robot"} opponent`);
-
     const partner = getPartner(this.me);
     const next_player = getNextPlayer(this.me);
     const prev_player = getPrevPlayer(this.me);
@@ -140,7 +130,7 @@ class GameScreen extends React.Component {
               <div className="left"/>
               <div className="middle">
                 <div className="game-player">
-                  <OpponentType
+                  <this.props.OpponentType
                     seat={partner}
                     name={this.props.players[partner]}
                     cards={this.hands[partner]}
@@ -158,7 +148,7 @@ class GameScreen extends React.Component {
             <div className="middle">
               <div className="left">
                 <div className="game-player">
-                  <OpponentType
+                  <this.props.OpponentType
                     seat={next_player}
                     name={this.props.players[next_player]}
                     cards={this.hands[next_player]}
@@ -180,7 +170,7 @@ class GameScreen extends React.Component {
               </div>
               <div className="right">
                 <div className="game-player">
-                  <OpponentType
+                  <this.props.OpponentType
                     seat={prev_player}
                     name={this.props.players[prev_player]}
                     cards={this.hands[prev_player]}
@@ -198,7 +188,7 @@ class GameScreen extends React.Component {
               <div className="left"/>
               <div className="middle">
                 <div className="game-player">
-                  <PlayerType
+                  <this.props.PlayerType
                     seat={this.me}
                     name={this.props.players[this.me]}
                     cards={this.hands[this.me]}

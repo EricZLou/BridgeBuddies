@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 
 import GameScreen from './GameScreen'
 import LoadingScreen from './LoadingScreen'
+import OnlineOpponent from '../engine/players/OnlineOpponent'
+import OnlinePlayer from '../engine/players/OnlinePlayer'
 
 import '../css/Style.css'
 
@@ -60,7 +62,8 @@ class GameScreenOnline extends React.Component {
           [SEATS.WEST]: this.state.game_info[SEATS.WEST],
         }}
         my_cards={this.state.game_info.cards}
-        online={true}
+        PlayerType = {OnlinePlayer}
+        OpponentType = {OnlineOpponent}
       />
     );
   }
