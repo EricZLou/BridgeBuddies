@@ -34,6 +34,8 @@ export function game_state(state=GAMESTATES.BIDDING, action) {
 export function player_cards(state={}, action) {
   switch (action.type) {
     case SET_PLAYER_CARDS:
+      if (action.seat)
+        return {...state, [action.seat]: action.cards};
       return action.cards;
     default:
       return state;

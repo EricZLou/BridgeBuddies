@@ -19,8 +19,9 @@ export const setGameState = (game_state) => ({
   game_state,
 });
 
-export const setPlayerCards = (cards) => ({
+export const setPlayerCards = ({seat=null, cards}) => ({
   type: SET_PLAYER_CARDS,
+  seat,
   cards,
 });
 
