@@ -1,16 +1,16 @@
 ## About Bridge Buddies
-An interactive platform made to encourage younger generations to play bridge, an card game with an average player age of 71.
+An interactive platform made to encourage younger generations to play bridge, a card game with an average player age of 71.
 
-#### Quick Links  
+### Quick Links  
 [`Bridge Buddies`](https://bridgebuddies.org/) is the official **production** website  
 [`Heroku`](https://bridge-buddies.herokuapp.com/) runs **master** branch on **server**  
 [`Vercel`](https://bridge-buddies.vercel.app/) runs **latest master** branch **without server**
 
-#### Motivation
+### Motivation
 
 [coming soon]
 
-#### Vision
+### Vision
 
 [coming soon]
 
