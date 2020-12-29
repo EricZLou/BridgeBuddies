@@ -20,10 +20,13 @@ class DefaultDict {
 /*
   ONLINE_GAME_ROOMS = {
     room1: {
-      qrjCPRDdQ6vY8b9fAAAE: "eric",
-      pTDpdDyNCaa1l-U1AAAH: "tim",
-      ExGqzw5Z99uxxzTZAAAJ: "elizabeth",
-      1GsjcrvmvBIUmpImAAAE: "paul",
+      num_people: 3,
+      users: {
+        qrjCPRDdQ6vY8b9fAAAE: "eric",
+        pTDpdDyNCaa1l-U1AAAH: "tim",
+        ExGqzw5Z99uxxzTZAAAJ: "elizabeth",
+        1GsjcrvmvBIUmpImAAAE: "paul",
+      },
     },
     ...
   }
