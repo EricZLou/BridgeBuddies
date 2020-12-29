@@ -14,7 +14,7 @@ import store_image from '../media/buttons/store.png'
 import cover from '../media/cover.png'
 
 import {GAME_TYPES} from '../constants/GameEngine'
-const socketURL = 'http://localhost:8000'
+const socketURL = '/'
 
 
 class HomeScreen extends React.Component {
