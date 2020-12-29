@@ -7,44 +7,45 @@ import Hand from '../Hand'
 import PlayerTitle from './PlayerTitle'
 import {game_engine} from '../managers/BridgeGameEngine'
 import {getNextPlayer} from '../utils/GameScreenUtils'
-import {setCurrPlayer, setReadyToPlay} from '../../redux/actions/Core'
+import {setCurrPlayer, setPlayerCards, setReadyToPlay} from '../../redux/actions/Core'
 
 import '../../css/Player.css'
 
 import {GAMESTATES} from '../../constants/GameEngine'
 
 
-// REPRESENTS THE USER
+// REPRESENTS
 export class Player extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      cards: this.props.cards,
-      sorted: false,
-    }
+    // this.state = {
+    //   sorted: false,
+    // }
     this.seat = this.props.seat;
     this.handleBidPlayWrap = this.handleBidPlayWrap.bind(this);
     this.handleCardPlayWrap = this.handleCardPlayWrap.bind(this);
   }
 
-  componentDidUpdate() {
-    if (this.state.cards && this.props.contract && !this.state.sorted) {
-      this.setState({
-        cards: sortHand(this.state.cards, this.props.contract.suit),
-        sorted: true,
-      });
-    }
-  }
-
+  // componentDidUpdate() {
+  //   if (this.state.cards && this.props.contract && !this.state.sorted) {
+  //     this.setState({
+  //       cards: sortHand(this.state.cards, this.props.contract.suit),
+  //       sorted: true,
+  //     });
+  //   }
+  // }
+  //
   updateHand(card_played) {
-    for (let idx in this.state.cards) {
-      if (JSON.stringify(this.state.cards[idx]) === JSON.stringify(card_played)) {
-        let cards_copy = [...this.state.cards];
+    let cards_copy = [...this.props.cards];
+    for (let idx in this.props.cards) {
+      if (JSON.stringify(this.props.cards[idx]) === JSON.stringify(card_played)) {
         cards_copy.splice(idx, 1);
-        this.setState({cards: cards_copy});
+        this.props.dispatch(setPlayerCards({seat: this.seat, cards: cards_copy}));
         return;
       }
     }
+    cards_copy.pop();
+    this.props.dispatch(setPlayerCards({seat: this.seat, cards: cards_copy}));
   }
 
   processBidPlayForSeat(bid, seat) {
@@ -79,7 +80,7 @@ export class Player extends React.Component {
   processCardPlayForSeat(card, seat) {
     console.log(`[GAME PLAY] ${seat} plays ${card.value}${card.suit}`)
     game_engine.playCard(card, seat);
-    // this.updateHand(card);
+    this.updateHand(card);
     this.props.updateCardsOnBoard(seat, card);
     if (game_engine.isTrickOver()) {
       this.props.dispatch(setReadyToPlay(false));
@@ -92,7 +93,7 @@ export class Player extends React.Component {
   handleCardPlay(card) {
     if (this.props.game_state !== GAMESTATES.PLAYING) return false;
     if (this.props.curr_player === this.seat &&
-        game_engine.isValidCard(card, this.state.cards)
+        game_engine.isValidCard(card, this.props.cards)
     ) {
       this.processCardPlayForSeat(card, this.seat);
       this.playing_card = false;
@@ -108,7 +109,7 @@ export class Player extends React.Component {
     return (
       <div>
         <Hand
-          cards={this.state.cards}
+          cards={this.props.cards}
           seat={this.seat}
           handleCardPlay={this.handleCardPlayWrap}
           visible={this.props.visible}
@@ -135,6 +136,7 @@ export class Player extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    cards: state.player_cards[ownProps.seat],
     contract: state.contract,
     curr_player: state.curr_player,
     game_state: state.game_state,

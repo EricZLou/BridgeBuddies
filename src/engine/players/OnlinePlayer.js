@@ -2,6 +2,7 @@ import {connect} from 'react-redux'
 
 import {Player} from './Player'
 import {game_engine} from '../managers/BridgeGameEngine'
+import {setPlayerCards} from '../../redux/actions/Core'
 
 import {PARTNERS} from '../../constants/GameEngine'
 
@@ -17,12 +18,14 @@ class OnlinePlayer extends Player {
     // in-game play
     this.props.mySocket.on("bid click", (bid, seat) => {
       this.processBidPlayForSeat(bid, seat);
-      if (game_engine.isBiddingComplete() && this.seat === PARTNERS[this.props.contract.declarer])
-        this.props.mySocket.emit("dummy hand", this.cards);
+      const dummy = PARTNERS[this.props.contract.declarer];
+      if (game_engine.isBiddingComplete() && this.seat === dummy)
+        this.props.mySocket.emit("dummy hand", this.props.cards);
     });
     this.props.mySocket.on("dummy hand", (cards) => {
+      const dummy = PARTNERS[this.props.contract.declarer];
+      this.props.dispatch(setPlayerCards({seat: dummy, cards: cards}));
       console.log("received cards");
-      console.log(cards);
     });
     this.props.mySocket.on("card click", (card, seat) => {
       this.processCardPlayForSeat(card, seat);
@@ -44,6 +47,7 @@ class OnlinePlayer extends Player {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    cards: state.player_cards[ownProps.seat],
     contract: state.contract,
     curr_player: state.curr_player,
     game_state: state.game_state,

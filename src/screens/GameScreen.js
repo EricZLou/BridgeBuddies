@@ -6,7 +6,6 @@ import CardsOnBoard from '../engine/CardsOnBoard'
 import CurrentGameStats from '../engine/CurrentGameStats'
 import HeaderGame from '../components/HeaderGame'
 import ScoreSubScreen from '../screens/ScoreSubScreen'
-import {Deck} from '../engine/Deck'
 import {game_engine} from '../engine/managers/BridgeGameEngine'
 import {getNextPlayer, getPrevPlayer, getPartner} from '../engine/utils/GameScreenUtils'
 import {setContract, setCurrPlayer, setGameState, setReadyToPlay} from '../redux/actions/Core'
@@ -28,13 +27,6 @@ class GameScreen extends React.Component {
       first_card_of_game_played: false,
     };
     this.me = this.props.me;
-    if (!this.props.my_cards) {
-      this.deck = new Deck();
-      this.hands = this.deck.generateHands();
-    } else {
-      this.hands = {};
-      this.hands[this.me] = this.props.my_cards;
-    }
     this.updateBidsOnBoard = this.updateBidsOnBoard.bind(this);
     this.updateCardsOnBoard = this.updateCardsOnBoard.bind(this);
     this.handleBiddingComplete = this.handleBiddingComplete.bind(this);
@@ -96,12 +88,11 @@ class GameScreen extends React.Component {
     this.props.dispatch(setCurrPlayer(getNextPlayer(contract.declarer)));
     this.props.dispatch(setGameState(GAMESTATES.PLAYING));
     this.props.dispatch(setReadyToPlay(true));
-    // we set the dummy after the first card has been played above
   }
 
   resetGame() {
     game_engine.reset();
-    this.hands = this.deck.generateHands();
+    // this.props.resetGame();
     this.props.dispatch(setContract(""));
     this.props.dispatch(setCurrPlayer(SEATS.SOUTH));
     this.props.dispatch(setGameState(GAMESTATES.BIDDING));
@@ -133,7 +124,6 @@ class GameScreen extends React.Component {
                   <this.props.OpponentType
                     seat={partner}
                     name={this.props.players[partner]}
-                    cards={this.hands[partner]}
                     updateCardsOnBoard={this.updateCardsOnBoard}
                     updateBidsOnBoard={this.updateBidsOnBoard}
                     handleBiddingComplete={this.handleBiddingComplete}
@@ -151,7 +141,6 @@ class GameScreen extends React.Component {
                   <this.props.OpponentType
                     seat={next_player}
                     name={this.props.players[next_player]}
-                    cards={this.hands[next_player]}
                     updateCardsOnBoard={this.updateCardsOnBoard}
                     updateBidsOnBoard={this.updateBidsOnBoard}
                     handleBiddingComplete={this.handleBiddingComplete}
@@ -173,7 +162,6 @@ class GameScreen extends React.Component {
                   <this.props.OpponentType
                     seat={prev_player}
                     name={this.props.players[prev_player]}
-                    cards={this.hands[prev_player]}
                     updateCardsOnBoard={this.updateCardsOnBoard}
                     updateBidsOnBoard={this.updateBidsOnBoard}
                     handleBiddingComplete={this.handleBiddingComplete}
@@ -191,7 +179,6 @@ class GameScreen extends React.Component {
                   <this.props.PlayerType
                     seat={this.me}
                     name={this.props.players[this.me]}
-                    cards={this.hands[this.me]}
                     updateCardsOnBoard={this.updateCardsOnBoard}
                     updateBidsOnBoard={this.updateBidsOnBoard}
                     handleBiddingComplete={this.handleBiddingComplete}

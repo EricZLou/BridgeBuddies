@@ -20,7 +20,7 @@ class RobotPlayer extends Player {
   playCard() {
     this.sleep(1000).then(() => {
       let cardx = null;
-      const cards = this.state.cards;
+      const cards = this.props.cards;
       if (!game_engine.firstCardOfTrickPlayed()) {
         cardx = cards[Math.floor(Math.random() * cards.length)];
       }
@@ -58,8 +58,8 @@ class RobotPlayer extends Player {
     if (this.props.game_state === GAMESTATES.BIDDING) {
       this.making_bid = true;
       this.makeBid();
-    } else {
-      if (!this.plaing_card && this.props.ready_to_play) {
+    } else if (this.props.game_state === GAMESTATES.PLAYING) {
+      if (!this.playing_card && this.props.ready_to_play) {
         this.playing_card = true;
         this.playCard();
       }
@@ -69,6 +69,7 @@ class RobotPlayer extends Player {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    cards: state.player_cards[ownProps.seat],
     curr_player: state.curr_player,
     game_state: state.game_state,
     ready_to_play: state.ready_to_play,
