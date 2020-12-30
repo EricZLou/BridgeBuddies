@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
   Switch,
   Route,
   Redirect
@@ -21,15 +21,15 @@ import {GAMETYPES} from "./constants/GameEngine"
 class App extends React.Component {
   render() {
     if (!this.props.homeScreenReady) return (
-      <Router>
+      <BrowserRouter>
         <Switch>
           <Route exact path="/login"> <LogInScreen/> </Route>
           <Redirect to="/login"/>
         </Switch>
-      </Router>
+      </BrowserRouter>
     );
     return (
-      <Router>
+      <BrowserRouter>
         <Switch>
           <Route exact path="/"> <HomeScreen/> </Route>
           <Route path="/store"> <StoreScreen/> </Route>
@@ -41,7 +41,7 @@ class App extends React.Component {
           <Route path="/settings"> <SettingsScreen/> </Route>
           <Redirect to="/"/>
         </Switch>
-      </Router>
+      </BrowserRouter>
     );
   }
 }

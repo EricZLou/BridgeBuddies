@@ -6,7 +6,6 @@ import CardsOnBoard from '../engine/CardsOnBoard'
 import CurrentGameStats from '../engine/CurrentGameStats'
 import HeaderGame from '../components/HeaderGame'
 import ScoreSubScreen from '../screens/ScoreSubScreen'
-import {game_engine} from '../engine/managers/BridgeGameEngine'
 import {getNextPlayer, getPrevPlayer, getPartner} from '../engine/utils/GameScreenUtils'
 import {clearCardsOnBoard, finishPlaying, setReadyToPlay} from '../redux/actions/Core'
 
@@ -24,17 +23,12 @@ class GameScreen extends React.Component {
     this.me = this.props.me;
   }
 
-  componentDidMount() {
-    game_engine.reset();
-  }
-
   handleClearCardsEvent = (e) => {
-    if (game_engine.isTrickOver()) {
-      game_engine.clearTrick();
+    if (this.props.cards_on_board.length === 4) {
       this.props.dispatch(clearCardsOnBoard());
       this.props.dispatch(setReadyToPlay(true));
     }
-    if (game_engine.isGameOver()) {
+    if (this.props.tricks_played === 13) {
       this.props.dispatch(finishPlaying());
     }
   }
@@ -57,22 +51,12 @@ class GameScreen extends React.Component {
               <div className="left"/>
               <div className="middle">
                 <div className="game-player">
-                  {partner === game_engine.dummy && this.props.first_card_played &&
-                    <this.props.PlayerType
-                      seat={partner}
-                      name={this.props.players[partner]}
-                      visible={partner === game_engine.dummy && this.props.first_card_played}
-                      clickable={partner === game_engine.dummy && this.props.first_card_played}
-                    />
-                  }
-                  {!(partner === game_engine.dummy && this.props.first_card_played) &&
-                    <this.props.OpponentType
-                      seat={partner}
-                      name={this.props.players[partner]}
-                      visible={partner === game_engine.dummy && this.props.first_card_played}
-                      clickable={partner === game_engine.dummy && this.props.first_card_played}
-                    />
-                  }
+                  <this.props.OpponentType
+                    seat={partner}
+                    name={this.props.players[partner]}
+                    visible={partner === this.props.dummy && this.props.first_card_played}
+                    clickable={partner === this.props.dummy && this.props.first_card_played}
+                  />
                 </div>
               </div>
               <div className="right"/>
@@ -84,7 +68,7 @@ class GameScreen extends React.Component {
                   <this.props.OpponentType
                     seat={next_player}
                     name={this.props.players[next_player]}
-                    visible={next_player === game_engine.dummy && this.props.first_card_played}
+                    visible={next_player === this.props.dummy && this.props.first_card_played}
                     clickable={false}
                   />
                 </div>
@@ -100,7 +84,7 @@ class GameScreen extends React.Component {
                   <this.props.OpponentType
                     seat={prev_player}
                     name={this.props.players[prev_player]}
-                    visible={prev_player === game_engine.dummy && this.props.first_card_played}
+                    visible={prev_player === this.props.dummy && this.props.first_card_played}
                     clickable={false}
                   />
                 </div>
@@ -115,7 +99,7 @@ class GameScreen extends React.Component {
                     seat={this.me}
                     name={this.props.players[this.me]}
                     visible={true}
-                    clickable={this.me !== game_engine.dummy}
+                    clickable={this.me !== this.props.dummy}
                   />
                 </div>
               </div>
@@ -139,8 +123,11 @@ class GameScreen extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    cards_on_board: state.cards_on_board,
+    dummy: state.dummy,
     first_card_played: state.first_card_played,
     game_state: state.game_state,
+    tricks_played: state.tricks_won.NS + state.tricks_won.EW,
   }
 }
 export default connect(mapStateToProps)(GameScreen);

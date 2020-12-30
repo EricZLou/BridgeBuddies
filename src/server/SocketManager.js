@@ -111,7 +111,7 @@ export default function SocketManager(socket) {
   // HANDLE BID CLICK
   socket.on('bid click', (bid, seat) => {
     console.log(`[BID] ${seat}: ${bid.level}${bid.suit}`);
-    socket.to(socket.room).emit('bid click', bid, seat);
+    io.in(socket.room).emit('bid click', bid, seat);
   });
 
   // BIDDING END -- SEND DUMMY HAND
@@ -123,6 +123,6 @@ export default function SocketManager(socket) {
   // HANDLE CARD CLICK
   socket.on('card click', (card, seat) => {
     console.log(`[CARD] ${seat}: ${card}`);
-    socket.to(socket.room).emit('card click', card, seat);
+    io.in(socket.room).emit('card click', card, seat);
   });
 }

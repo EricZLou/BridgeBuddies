@@ -2,7 +2,7 @@ import {combineReducers} from 'redux'
 
 import {firebasePaths} from './FirebasePathReducers'
 import {
-  bid_history, card_history, cards_on_board, contract, curr_player,
+  bid_history, card_history, cards_on_board, contract, curr_player, dummy,
   first_card_played, game_state, hands, ready_to_play, tricks_won,
 } from './GamePropReducers'
 import {userID, homeScreenReady} from './LogInReducers'
@@ -15,7 +15,7 @@ import {LOG_OUT} from '../actions/Core'
 
 const appReducers = combineReducers({
   firebasePaths,
-  bid_history, card_history, cards_on_board, contract, curr_player,
+  bid_history, card_history, cards_on_board, contract, curr_player, dummy,
   first_card_played, game_state, hands, ready_to_play, tricks_won,
   userID, homeScreenReady,
   mySocket, numUsersLoggedIn,

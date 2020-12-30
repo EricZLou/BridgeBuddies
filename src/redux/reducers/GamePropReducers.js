@@ -5,8 +5,8 @@ import {
   CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, FINISH_TRICK, PLAY_CARD,
 } from '../actions/Core'
 
-import {game_engine} from '../../engine/managers/BridgeGameEngine'
-import {getNextPlayer} from '../../engine/utils/GameScreenUtils'
+import {getRoundWinner} from '../../engine/managers/BridgeGameEngine'
+import {getNextPlayer, getPartner} from '../../engine/utils/GameScreenUtils'
 import {sortHand} from '../../engine/Deck'
 import {BID_SUITS, GAMESTATES, SEATS} from '../../constants/GameEngine'
 
@@ -65,7 +65,16 @@ export function curr_player(state="", action) {
     case FINISH_BIDDING:
       return getNextPlayer(action.contract.declarer);
     case FINISH_TRICK:
-      return game_engine.getRoundWinner();
+      return getRoundWinner(action.winner);
+    default:
+      return state;
+  }
+}
+
+export function dummy(state="", action) {
+  switch (action.type) {
+    case FINISH_BIDDING:
+      return getPartner(action.contract.declarer);
     default:
       return state;
   }

@@ -1,11 +1,9 @@
 import {connect} from 'react-redux'
 
 import {Player} from './Player'
-import {game_engine} from '../managers/BridgeGameEngine'
+import {isBiddingComplete, isValidBid, isValidCard} from '../managers/BridgeGameEngine'
 import {sortHand} from '../Deck'
 import {setHand} from '../../redux/actions/Core'
-
-import {PARTNERS} from '../../constants/GameEngine'
 
 
 // REPRESENTS CURRENT USER PLAYING ONLINE
@@ -18,30 +16,30 @@ class OnlinePlayer extends Player {
   componentDidMount() {
     // in-game play
     this.props.mySocket.on("bid click", (bid, seat) => {
+      console.log(`[player] received bid click ${bid.suit}${bid.level} from ${seat}`);
       this.processBidPlayForSeat(bid, seat);
-      const dummy = PARTNERS[this.props.contract.declarer];
-      if (game_engine.isBiddingComplete() && this.seat === dummy) {
+      if (isBiddingComplete(this.props.bid_history) && this.seat === this.props.dummy) {
         const sorted_hand = sortHand(this.props.cards, this.props.contract.suit);
         this.props.mySocket.emit("dummy hand", sorted_hand);
       }
     });
     this.props.mySocket.on("dummy hand", (cards) => {
-      const dummy = PARTNERS[this.props.contract.declarer];
-      this.props.dispatch(setHand({seat: dummy, cards: cards}));
+      this.props.dispatch(setHand({seat: this.props.dummy, cards: cards}));
     });
     this.props.mySocket.on("card click", (card, seat) => {
+      console.log(`[player] received card click ${card.suit}${card.value} from ${seat}`);
       this.processCardPlayForSeat(card, seat);
     });
   }
 
   handleBidPlayWrap(bid) {
-    if (this.handleBidPlay(bid)) {
+    if (this.props.curr_player === this.seat && isValidBid({history: this.props.bid_history, bid: bid})) {
       this.props.mySocket.emit("bid click", bid, this.seat);
     }
   }
 
   handleCardPlayWrap(card) {
-    if (this.handleCardPlay(card)) {
+    if (this.props.curr_player === this.seat && isValidCard({cards_on_board: this.props.cards_on_board, card: card, cards_in_hand: this.props.cards})) {
       this.props.mySocket.emit("card click", card, this.seat);
     }
   }
@@ -49,9 +47,12 @@ class OnlinePlayer extends Player {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    bid_history: state.bid_history,
     cards: state.hands[ownProps.seat],
+    cards_on_board: state.cards_on_board,
     contract: state.contract,
     curr_player: state.curr_player,
+    dummy: state.dummy,
     game_state: state.game_state,
     ready_to_play: state.ready_to_play,
     mySocket: state.mySocket,

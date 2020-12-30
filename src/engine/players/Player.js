@@ -4,7 +4,9 @@ import {connect} from 'react-redux'
 import BiddingBox from '../BiddingBox'
 import Hand from '../Hand'
 import PlayerTitle from './PlayerTitle'
-import {game_engine} from '../managers/BridgeGameEngine'
+import {
+  isValidBid, isBiddingComplete, getContract, isValidCard, getRoundWinner
+} from '../managers/BridgeGameEngine'
 import {finishBidding, finishTrick, incrementCurrPlayer, makeBid, playCard, setReadyToPlay} from '../../redux/actions/Core'
 
 import '../../css/Player.css'
@@ -27,9 +29,8 @@ export class Player extends React.Component {
     else
       console.log(`[GAME PLAY] ${seat} bids ${bid.type}`);
     this.props.dispatch(makeBid({bid: bid, seat: seat}));
-    game_engine.doBid(bid, seat);
-    if (game_engine.isBiddingComplete()) {
-      this.props.dispatch(finishBidding(game_engine.getContract()));
+    if (isBiddingComplete(this.props.bid_history)) {
+      this.props.dispatch(finishBidding(getContract(this.props.bid_history)));
       this.props.dispatch(setReadyToPlay(true));
     } else {
       this.props.dispatch(incrementCurrPlayer());
@@ -37,14 +38,12 @@ export class Player extends React.Component {
   }
 
   handleBidPlay(bid) {
-    if (this.props.curr_player === this.seat &&
-      game_engine.isValidBid(bid)
-    ) {
+    if (this.props.curr_player === this.seat && isValidBid({
+      history: this.props.bid_history, bid: bid
+    })) {
       this.processBidPlayForSeat(bid, this.seat)
       this.making_bid = false;
-      return true;
     }
-    return false;
   }
   handleBidPlayWrap(bid) {
     this.handleBidPlay(bid);
@@ -53,9 +52,11 @@ export class Player extends React.Component {
   processCardPlayForSeat(card, seat) {
     console.log(`[GAME PLAY] ${seat} plays ${card.value}${card.suit}`)
     this.props.dispatch(playCard({card: card, seat: seat}));
-    game_engine.playCard(card, seat);
-    if (game_engine.isTrickOver()) {
-      this.props.dispatch(finishTrick());
+    console.log(`cards on board: ${this.props.cards_on_board.length}`);
+    if (this.props.cards_on_board.length === 4) {
+      const winner = getRoundWinner({history: this.props.cards_on_board, contract: this.props.contract});
+      console.log(`winned ${winner}`);
+      this.props.dispatch(finishTrick(winner));
       this.props.dispatch(setReadyToPlay(false));
     } else {
       this.props.dispatch(incrementCurrPlayer());
@@ -63,14 +64,12 @@ export class Player extends React.Component {
   }
 
   handleCardPlay(card) {
-    if (this.props.curr_player === this.seat &&
-        game_engine.isValidCard(card, this.props.cards)
-    ) {
+    if (this.props.curr_player === this.seat && isValidCard({
+      cards_on_board: this.props.cards_on_board, card: card, cards_in_hand: this.props.cards
+    })) {
       this.processCardPlayForSeat(card, this.seat);
       this.playing_card = false;
-      return true;
     }
-    return false;
   }
   handleCardPlayWrap(card) {
     this.handleCardPlay(card);
@@ -106,7 +105,9 @@ export class Player extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    bid_history: state.bid_history,
     cards: state.hands[ownProps.seat],
+    cards_on_board: state.cards_on_board,
     contract: state.contract,
     curr_player: state.curr_player,
     game_state: state.game_state,
