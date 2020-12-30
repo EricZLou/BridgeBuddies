@@ -2,12 +2,10 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 import BiddingBox from '../BiddingBox'
-import {sortHand} from '../Deck'
 import Hand from '../Hand'
 import PlayerTitle from './PlayerTitle'
 import {game_engine} from '../managers/BridgeGameEngine'
-import {getNextPlayer} from '../utils/GameScreenUtils'
-import {setCurrPlayer, setPlayerCards, setReadyToPlay} from '../../redux/actions/Core'
+import {finishBidding, finishTrick, incrementCurrPlayer, makeBid, playCard, setReadyToPlay} from '../../redux/actions/Core'
 
 import '../../css/Player.css'
 
@@ -18,34 +16,9 @@ import {GAMESTATES} from '../../constants/GameEngine'
 export class Player extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   sorted: false,
-    // }
     this.seat = this.props.seat;
     this.handleBidPlayWrap = this.handleBidPlayWrap.bind(this);
     this.handleCardPlayWrap = this.handleCardPlayWrap.bind(this);
-  }
-
-  // componentDidUpdate() {
-  //   if (this.state.cards && this.props.contract && !this.state.sorted) {
-  //     this.setState({
-  //       cards: sortHand(this.state.cards, this.props.contract.suit),
-  //       sorted: true,
-  //     });
-  //   }
-  // }
-  //
-  updateHand(card_played) {
-    let cards_copy = [...this.props.cards];
-    for (let idx in this.props.cards) {
-      if (JSON.stringify(this.props.cards[idx]) === JSON.stringify(card_played)) {
-        cards_copy.splice(idx, 1);
-        this.props.dispatch(setPlayerCards({seat: this.seat, cards: cards_copy}));
-        return;
-      }
-    }
-    cards_copy.pop();
-    this.props.dispatch(setPlayerCards({seat: this.seat, cards: cards_copy}));
   }
 
   processBidPlayForSeat(bid, seat) {
@@ -53,19 +26,20 @@ export class Player extends React.Component {
       console.log(`[GAME PLAY] ${seat} bids ${bid.level}${bid.suit}`);
     else
       console.log(`[GAME PLAY] ${seat} bids ${bid.type}`);
+    this.props.dispatch(makeBid({bid: bid, seat: seat}));
     game_engine.doBid(bid, seat);
-    this.props.updateBidsOnBoard(seat, bid);
     if (game_engine.isBiddingComplete()) {
-      this.props.handleBiddingComplete();
+      console.log(game_engine.getContract());
+      this.props.dispatch(finishBidding(game_engine.getContract()));
+      this.props.dispatch(setReadyToPlay(true));
     } else {
-      this.props.dispatch(setCurrPlayer(getNextPlayer(seat)));
+      this.props.dispatch(incrementCurrPlayer());
     }
   }
 
   handleBidPlay(bid) {
-    if (this.props.game_state !== GAMESTATES.BIDDING) return false;
     if (this.props.curr_player === this.seat &&
-      game_engine.isValidBid(bid, this.props.curr_player)
+      game_engine.isValidBid(bid)
     ) {
       this.processBidPlayForSeat(bid, this.seat)
       this.making_bid = false;
@@ -79,19 +53,17 @@ export class Player extends React.Component {
 
   processCardPlayForSeat(card, seat) {
     console.log(`[GAME PLAY] ${seat} plays ${card.value}${card.suit}`)
+    this.props.dispatch(playCard({card: card, seat: seat}));
     game_engine.playCard(card, seat);
-    this.updateHand(card);
-    this.props.updateCardsOnBoard(seat, card);
     if (game_engine.isTrickOver()) {
+      this.props.dispatch(finishTrick());
       this.props.dispatch(setReadyToPlay(false));
-      this.props.dispatch(setCurrPlayer(game_engine.getRoundWinner()));
     } else {
-      this.props.dispatch(setCurrPlayer(getNextPlayer(seat)));
+      this.props.dispatch(incrementCurrPlayer());
     }
   }
 
   handleCardPlay(card) {
-    if (this.props.game_state !== GAMESTATES.PLAYING) return false;
     if (this.props.curr_player === this.seat &&
         game_engine.isValidCard(card, this.props.cards)
     ) {
@@ -119,7 +91,6 @@ export class Player extends React.Component {
           <PlayerTitle
             seat={this.seat}
             name={this.props.name}
-            is_my_turn={this.props.curr_player === this.seat}
           />
         </div>
         {this.props.game_state === GAMESTATES.BIDDING &&
@@ -136,7 +107,7 @@ export class Player extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    cards: state.player_cards[ownProps.seat],
+    cards: state.hands[ownProps.seat],
     contract: state.contract,
     curr_player: state.curr_player,
     game_state: state.game_state,

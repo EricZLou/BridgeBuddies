@@ -5,7 +5,7 @@ import GameScreen from './GameScreen'
 import OfflinePlayer from '../engine/players/OfflinePlayer'
 import RobotOpponent from '../engine/players/RobotOpponent'
 import {Deck} from '../engine/Deck'
-import {setPlayerCards} from '../redux/actions/Core'
+import {newGame} from '../redux/actions/Core'
 
 import '../css/Style.css'
 
@@ -20,8 +20,8 @@ class GameScreenRobots extends React.Component {
 
   componentDidMount() {
     const deck = new Deck();
-    const hands = deck.generateHands();
-    this.props.dispatch(setPlayerCards({cards: hands}));
+    const all_hands = deck.generateHands();
+    this.props.dispatch(newGame(all_hands));
   }
 
   render() {

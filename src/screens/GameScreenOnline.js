@@ -5,7 +5,7 @@ import GameScreen from './GameScreen'
 import LoadingScreen from './LoadingScreen'
 import OnlineOpponent from '../engine/players/OnlineOpponent'
 import OnlinePlayer from '../engine/players/OnlinePlayer'
-import {setPlayerCards} from '../redux/actions/Core'
+import {newGame} from '../redux/actions/Core'
 
 import '../css/Style.css'
 
@@ -35,18 +35,18 @@ class GameScreenOnline extends React.Component {
       this.setState({
         game_info: game_info,
       });
-      let other_player_cards = [];
+      let other_hands = [];
       for (let i = 1; i <= 13; i++) {
-        other_player_cards.push({});
+        other_hands.push({});
       }
-      const all_player_cards = {
-        [SEATS.NORTH]: [...other_player_cards],
-        [SEATS.EAST]: [...other_player_cards],
-        [SEATS.SOUTH]: [...other_player_cards],
-        [SEATS.WEST]: [...other_player_cards],
+      const all_hands = {
+        [SEATS.NORTH]: [...other_hands],
+        [SEATS.EAST]: [...other_hands],
+        [SEATS.SOUTH]: [...other_hands],
+        [SEATS.WEST]: [...other_hands],
         [game_info.me]: game_info.cards,
       };
-      this.props.dispatch(setPlayerCards({cards: all_player_cards}));
+      this.props.dispatch(newGame(all_hands));
     });
     this.props.mySocket.on("start game", () => {
       this.setState({

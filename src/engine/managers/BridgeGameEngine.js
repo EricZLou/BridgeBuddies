@@ -1,6 +1,7 @@
 import BridgePlayingEngine from './BridgePlayingEngine'
 import BridgeBiddingEngine from './BridgeBiddingEngine'
 
+import {getPartner} from '../utils/GameScreenUtils'
 import {SEATS} from '../../constants/GameEngine'
 
 
@@ -8,23 +9,13 @@ class BridgeGameEngine {
   constructor() {
     this.bid_engine = new BridgeBiddingEngine();
     this.play_engine = new BridgePlayingEngine();
-    this.tricks_won_NS = 0;
-    this.tricks_won_EW = 0;
     this.dummy = null;
   }
 
   reset() {
     this.bid_engine.reset();
     this.play_engine.reset();
-    this.tricks_won_NS = 0;
-    this.tricks_won_EW = 0;
     this.dummy = null;
-  }
-  setTrumpSuit(suit) {
-    this.play_engine.setTrumpSuit(suit);
-  }
-  setDummy(seat) {
-    this.dummy = seat;
   }
 
   /* Bidding fns */
@@ -35,7 +26,19 @@ class BridgeGameEngine {
     this.bid_engine.addBid(bid, bidder);
   }
   isBiddingComplete() {
-    return this.bid_engine.isBiddingComplete();
+    const ret = this.bid_engine.isBiddingComplete();
+    if (ret) {
+      const contract = this.getContract();
+      this.setTrumpSuit(contract.suit);
+      this.setDummy(getPartner(contract.declarer));
+    }
+    return ret;
+  }
+  setTrumpSuit(suit) {
+    this.play_engine.setTrumpSuit(suit);
+  }
+  setDummy(seat) {
+    this.dummy = seat;
   }
   getContract() {
     return this.bid_engine.getContract();
@@ -68,16 +71,6 @@ class BridgeGameEngine {
   }
   clearTrick() {
     this.play_engine.clearTrick();
-  }
-  getScoreNS() {
-    return this.tricks_won_NS;
-  }
-  getScoreEW() {
-    return this.tricks_won_EW;
-  }
-  getMyScore(seat) {
-    if (seat === SEATS.NORTH || seat === SEATS.SOUTH) return this.getScoreNS();
-    return this.getScoreEW();
   }
 }
 

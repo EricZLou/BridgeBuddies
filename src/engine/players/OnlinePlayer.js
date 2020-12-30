@@ -2,7 +2,7 @@ import {connect} from 'react-redux'
 
 import {Player} from './Player'
 import {game_engine} from '../managers/BridgeGameEngine'
-import {setPlayerCards} from '../../redux/actions/Core'
+import {setHand} from '../../redux/actions/Core'
 
 import {PARTNERS} from '../../constants/GameEngine'
 
@@ -24,7 +24,7 @@ class OnlinePlayer extends Player {
     });
     this.props.mySocket.on("dummy hand", (cards) => {
       const dummy = PARTNERS[this.props.contract.declarer];
-      this.props.dispatch(setPlayerCards({seat: dummy, cards: cards}));
+      this.props.dispatch(setHand({seat: dummy, cards: cards}));
       console.log("received cards");
     });
     this.props.mySocket.on("card click", (card, seat) => {
@@ -47,7 +47,7 @@ class OnlinePlayer extends Player {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    cards: state.player_cards[ownProps.seat],
+    cards: state.hands[ownProps.seat],
     contract: state.contract,
     curr_player: state.curr_player,
     game_state: state.game_state,

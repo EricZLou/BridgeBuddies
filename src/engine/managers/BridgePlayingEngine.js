@@ -11,6 +11,7 @@ export default class BridgePlayingEngine {
     this.trump_suit = trump_suit;
   }
   clearTrick() {
+    console.log('clearing trick');
     this.cards_on_board = [];
   }
   firstCardOfTrickPlayed() {

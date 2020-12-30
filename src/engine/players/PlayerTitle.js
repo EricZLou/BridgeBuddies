@@ -1,14 +1,16 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
 import '../../css/PlayerTitle.css'
 
 import klubby from '../../media/store/characters/klubby.png'
 
 
-export default class PlayerTitle extends React.Component {
+class PlayerTitle extends React.Component {
   render() {
     return (
-      <div className={this.props.is_my_turn ? "player-title-on" : "player-title-off"}>
+      <div className={this.props.curr_player === this.props.seat ?
+        "player-title-on" : "player-title-off"}>
         <div className="player-title-pic">
           <img src={klubby} alt="Profile"/>
         </div>
@@ -22,3 +24,10 @@ export default class PlayerTitle extends React.Component {
     )
   }
 };
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    curr_player: state.curr_player,
+  }
+}
+export default connect(mapStateToProps)(PlayerTitle);

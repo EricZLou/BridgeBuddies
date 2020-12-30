@@ -10,7 +10,7 @@ export default class BridgeBiddingEngine {
     this.bidHistory = [];
     this.prevSuitBid = {bid: {type: '', suit: '', level: 0}, bidder: ''};
   }
-  isValidBid(bid, bidder) { // bid = {type: 'suit', suit: 'c','d','h','s','nt','pass', level= 1...7}
+  isValidBid(bid) { // bid = {type: 'suit', suit: 'c','d','h','s','nt','pass', level= 1...7}
     if (this.bidHistory.length === 0) {
       if (bid.type === BID_TYPES.PASS || bid.type === BID_TYPES.SUIT) return true;
       else if (bid.type === BID_TYPES.DBL || bid.type === BID_TYPES.RDBL) return false;
@@ -62,7 +62,7 @@ export default class BridgeBiddingEngine {
           this.bidHistory[historylen-2].bid.type === BID_TYPES.PASS &&
           this.bidHistory[historylen-3].bid.type === BID_TYPES.PASS) {
         if (this.prevSuitBid.bidder !== '') return true;
-        else if (historylen === 4 && this.bidHistory[historylen-4].bid.type === BID_TYPES.PASS) // all pass
+        else if (historylen === 4 && this.bidHistory[historylen-4].bid.type === BID_TYPES.PASS)
           return true;
       }
     }
@@ -95,9 +95,7 @@ export default class BridgeBiddingEngine {
     }
     throw new Error('should never get here');
   }
-  getBidHistory() {
-    return this.bidHistory;
-  }
+
   addBid(bid, bidder) { // bidder = 'N', 'E', 'S', 'W', call isValidBid before calling addBid
     this.bidHistory.push({
       bid: bid,
@@ -108,11 +106,6 @@ export default class BridgeBiddingEngine {
         bid: bid,
         bidder: bidder
       };
-    }
-  }
-  undoBid() {
-    if (this.bidHistory.length > 0) {
-      this.bidHistory.pop();
     }
   }
 }

@@ -5,18 +5,10 @@ import '../css/CurrentGameStats.css'
 
 
 class CurrentGameStats extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tricks_won_NS: this.props.tricks_won_NS,
-      tricks_won_EW: this.props.tricks_won_EW,
-    }
-  }
-
   render() {
     return (
       <div className="current-game-stats">
-        {`NS: ${this.props.tricks_won_NS}, EW: ${this.props.tricks_won_EW}, `}
+        {`NS: ${this.props.tricks_won.NS}, EW: ${this.props.tricks_won.EW}, `}
         {`Contract: ${this.props.contract.level}${this.props.contract.suit} by ${this.props.contract.declarer}`}
       </div>
     )
@@ -26,6 +18,7 @@ class CurrentGameStats extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     contract: state.contract,
+    tricks_won: state.tricks_won,
   }
 }
 export default connect(mapStateToProps)(CurrentGameStats);

@@ -1,18 +1,12 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
 import '../css/BidsOnBoard.css'
 
 import {BID_TYPES, BID_UNICODE_MAP, SEATS} from '../constants/GameEngine'
 
 
-export default class BidsOnBoard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      bids_on_board: this.props.bids,
-    }
-  }
-
+class BidsOnBoard extends React.Component {
   bidToString(bid) {
     if (bid.type === BID_TYPES.SUIT) return `${bid.level}${BID_UNICODE_MAP[bid.suit]}`;
     else return BID_UNICODE_MAP[bid.type];
@@ -57,3 +51,10 @@ export default class BidsOnBoard extends React.Component {
     )
   }
 };
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    bids: state.bid_history,
+  }
+}
+export default connect(mapStateToProps)(BidsOnBoard);

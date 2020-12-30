@@ -2,9 +2,16 @@ import {
   SET_FIREBASE_PATHS, setFirebasePaths
 } from './FirebasePathActions'
 import {
-  SET_CONTRACT, SET_CURR_PLAYER, SET_GAME_STATE, SET_PLAYER_CARDS, SET_READY_TO_PLAY,
-  setContract, setCurrPlayer, setGameState, setPlayerCards, setReadyToPlay,
-} from './GamePropActions'
+  FINISH_BIDDING, MAKE_BID, finishBidding, makeBid
+} from './GameBiddingActions'
+import {
+  INCREMENT_CURR_PLAYER, NEW_GAME, SET_HAND, SET_READY_TO_PLAY,
+  incrementCurrPlayer, newGame, setHand, setReadyToPlay,
+} from './GameGeneralActions'
+import {
+  CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, FINISH_TRICK, PLAY_CARD,
+  clearCardsOnBoard, finishPlaying, finishTrick, playCard,
+} from './GamePlayingActions'
 import {
   LOG_IN, LOG_OUT, HOME_SCREEN_READY, HOME_SCREEN_NOT_READY,
   logIn, logOut, homeScreenReady, homeScreenNotReady,
@@ -29,8 +36,15 @@ export {
   SET_FIREBASE_PATHS, setFirebasePaths
 }
 export {
-  SET_CONTRACT, SET_CURR_PLAYER, SET_GAME_STATE, SET_PLAYER_CARDS, SET_READY_TO_PLAY,
-  setContract, setCurrPlayer, setGameState, setPlayerCards, setReadyToPlay,
+  FINISH_BIDDING, MAKE_BID, finishBidding, makeBid
+}
+export {
+  INCREMENT_CURR_PLAYER, NEW_GAME, SET_HAND, SET_READY_TO_PLAY,
+  incrementCurrPlayer, newGame, setHand, setReadyToPlay,
+}
+export {
+  CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, FINISH_TRICK, PLAY_CARD,
+  clearCardsOnBoard, finishPlaying, finishTrick, playCard,
 }
 export {
   LOG_IN, LOG_OUT, HOME_SCREEN_READY, HOME_SCREEN_NOT_READY,

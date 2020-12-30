@@ -13,7 +13,7 @@ class OfflinePlayer extends Player {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    cards: state.player_cards[ownProps.seat],
+    cards: state.hands[ownProps.seat],
     curr_player: state.curr_player,
     game_state: state.game_state,
     ready_to_play: state.ready_to_play,
