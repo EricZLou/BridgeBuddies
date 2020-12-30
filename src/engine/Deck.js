@@ -41,6 +41,11 @@ function _sortSuitByValue(card_a, card_b) {
 }
 
 export function sortHand(hand, trump='C') {
+  if (trump === 'NT') return hand;
+
+  for (let card of hand)
+    if (Object.keys(card).length === 0) return hand;
+
   let clubs = [];
   let diamonds = [];
   let hearts = [];

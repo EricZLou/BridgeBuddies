@@ -57,12 +57,22 @@ class GameScreen extends React.Component {
               <div className="left"/>
               <div className="middle">
                 <div className="game-player">
-                  <this.props.OpponentType
-                    seat={partner}
-                    name={this.props.players[partner]}
-                    visible={partner === game_engine.dummy && this.props.first_card_played}
-                    clickable={partner === game_engine.dummy && this.props.first_card_played}
-                  />
+                  {partner === game_engine.dummy && this.props.first_card_played &&
+                    <this.props.PlayerType
+                      seat={partner}
+                      name={this.props.players[partner]}
+                      visible={partner === game_engine.dummy && this.props.first_card_played}
+                      clickable={partner === game_engine.dummy && this.props.first_card_played}
+                    />
+                  }
+                  {!(partner === game_engine.dummy && this.props.first_card_played) &&
+                    <this.props.OpponentType
+                      seat={partner}
+                      name={this.props.players[partner]}
+                      visible={partner === game_engine.dummy && this.props.first_card_played}
+                      clickable={partner === game_engine.dummy && this.props.first_card_played}
+                    />
+                  }
                 </div>
               </div>
               <div className="right"/>

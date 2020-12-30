@@ -29,7 +29,6 @@ export class Player extends React.Component {
     this.props.dispatch(makeBid({bid: bid, seat: seat}));
     game_engine.doBid(bid, seat);
     if (game_engine.isBiddingComplete()) {
-      console.log(game_engine.getContract());
       this.props.dispatch(finishBidding(game_engine.getContract()));
       this.props.dispatch(setReadyToPlay(true));
     } else {

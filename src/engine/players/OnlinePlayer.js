@@ -2,6 +2,7 @@ import {connect} from 'react-redux'
 
 import {Player} from './Player'
 import {game_engine} from '../managers/BridgeGameEngine'
+import {sortHand} from '../Deck'
 import {setHand} from '../../redux/actions/Core'
 
 import {PARTNERS} from '../../constants/GameEngine'
@@ -19,13 +20,14 @@ class OnlinePlayer extends Player {
     this.props.mySocket.on("bid click", (bid, seat) => {
       this.processBidPlayForSeat(bid, seat);
       const dummy = PARTNERS[this.props.contract.declarer];
-      if (game_engine.isBiddingComplete() && this.seat === dummy)
-        this.props.mySocket.emit("dummy hand", this.props.cards);
+      if (game_engine.isBiddingComplete() && this.seat === dummy) {
+        const sorted_hand = sortHand(this.props.cards, this.props.contract.suit);
+        this.props.mySocket.emit("dummy hand", sorted_hand);
+      }
     });
     this.props.mySocket.on("dummy hand", (cards) => {
       const dummy = PARTNERS[this.props.contract.declarer];
       this.props.dispatch(setHand({seat: dummy, cards: cards}));
-      console.log("received cards");
     });
     this.props.mySocket.on("card click", (card, seat) => {
       this.processCardPlayForSeat(card, seat);
