@@ -15,9 +15,9 @@ export const io = new Server(server, {
 
 const PORT = process.env.PORT || 8000;
 
-// const moduleURL = new URL(import.meta.url);
-// const __dirname = path.dirname(moduleURL.pathname);
-// app.use(express.static(path.join(__dirname, '/../../build')));
+const moduleURL = new URL(import.meta.url);
+const __dirname = path.dirname(moduleURL.pathname);
+app.use(express.static(path.join(__dirname, '/../../build')));
 io.on('connection', SocketManager);
 
 server.listen(PORT, () => {
