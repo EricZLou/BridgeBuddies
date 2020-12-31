@@ -138,14 +138,14 @@ export function hands(state={
   }
 }
 
-export function ready_to_play(state=false, action) {
+export function ready_to_play(state=true, action) {
   switch (action.type) {
     case CLEAR_CARDS_ON_BOARD:
       return true;
     case FINISH_TRICK:
       return false;
     case NEW_GAME:
-      return false;
+      return true;
     default:
       return state;
   }
