@@ -5,10 +5,7 @@ import {Player} from './Player'
 
 // REPRESENTS CURRENT USER PLAYING OFFLINE
 class OfflinePlayer extends Player {
-  constructor(props) {
-    super(props);
-    this.show_bidding_box = true;
-  }
+
 };
 
 const mapStateToProps = (state, ownProps) => {

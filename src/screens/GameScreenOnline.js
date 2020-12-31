@@ -5,7 +5,11 @@ import GameScreen from './GameScreen'
 import LoadingScreen from './LoadingScreen'
 import OnlineOpponent from '../engine/players/OnlineOpponent'
 import OnlinePlayer from '../engine/players/OnlinePlayer'
-import {newGame} from '../redux/actions/Core'
+import {
+  isBiddingComplete
+} from '../engine/managers/BridgeGameEngine'
+import {makeBid, newGame, playCard, setHand} from '../redux/actions/Core'
+import {sortHand} from '../engine/Deck'
 
 import '../css/Style.css'
 
@@ -52,6 +56,26 @@ class GameScreenOnline extends React.Component {
       this.setState({
         ready: true,
       });
+    });
+
+    // in-game play
+    this.props.mySocket.on("bid click", (bid, seat) => {
+      if (bid.level)
+        console.log(`[GAME PLAY] ${seat} bids ${bid.level}${bid.suit}`);
+      else
+        console.log(`[GAME PLAY] ${seat} bids ${bid.type}`);
+      this.props.dispatch(makeBid({bid: bid, seat: seat}));
+      if (isBiddingComplete(this.props.bid_history) && this.seat === this.props.dummy) {
+        const sorted_hand = sortHand(this.props.cards, this.props.contract.suit);
+        this.props.mySocket.emit("dummy hand", sorted_hand);
+      }
+    });
+    this.props.mySocket.on("dummy hand", (cards) => {
+      this.props.dispatch(setHand({seat: this.props.dummy, cards: cards}));
+    });
+    this.props.mySocket.on("card click", (card, seat) => {
+      console.log(`[GAME PLAY] ${seat} plays ${card.value}${card.suit}`);
+      this.props.dispatch(playCard({card: card, seat: seat}));
     });
 
     // request a game

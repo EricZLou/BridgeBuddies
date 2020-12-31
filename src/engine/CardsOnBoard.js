@@ -1,5 +1,4 @@
 import React from 'react'
-import {connect} from 'react-redux'
 
 import Card from './Card'
 import {getNextPlayer, getPartner} from '../engine/utils/GameScreenUtils'
@@ -7,7 +6,7 @@ import {getNextPlayer, getPartner} from '../engine/utils/GameScreenUtils'
 import '../css/CardsOnBoard.css'
 
 
-class CardsOnBoard extends React.Component {
+export default class CardsOnBoard extends React.Component {
   render() {
     const cards_list = this.props.cards_on_board.map((card_play, idx) => {
       let position;
@@ -34,10 +33,3 @@ class CardsOnBoard extends React.Component {
     )
   }
 };
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    cards_on_board: state.cards_on_board,
-  }
-}
-export default connect(mapStateToProps)(CardsOnBoard);

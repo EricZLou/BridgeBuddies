@@ -64,7 +64,7 @@ export function curr_player(state="", action) {
     case FINISH_BIDDING:
       return getNextPlayer(action.contract.declarer);
     case FINISH_TRICK:
-      return getRoundWinner(action.winner);
+      return action.winner;
     default:
       return state;
   }

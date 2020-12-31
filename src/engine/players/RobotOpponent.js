@@ -7,11 +7,6 @@ import {GAMESTATES} from '../../constants/GameEngine'
 
 // REPRESENTS A CPU OPPONENT
 class RobotOpponent extends Player {
-  constructor(props) {
-    super(props);
-    this.show_bidding_box = false;
-  }
-
   async sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
@@ -48,7 +43,7 @@ class RobotOpponent extends Player {
   componentDidMount() {
     if (this.props.curr_player !== this.seat)
       return;
-    this.making_bid = true;
+    this.setState({inside_turn: true});
     this.makeBid();
   }
 
@@ -56,11 +51,13 @@ class RobotOpponent extends Player {
     if (this.props.clickable || this.props.curr_player !== this.seat)
       return;
     if (this.props.game_state === GAMESTATES.BIDDING) {
-      this.making_bid = true;
-      this.makeBid();
+      if (!this.state.inside_turn) {
+        this.setState({inside_turn: true});
+        this.makeBid();
+      }
     } else if (this.props.game_state === GAMESTATES.PLAYING) {
-      if (!this.playing_card && this.props.ready_to_play) {
-        this.playing_card = true;
+      if (!this.state.inside_turn && this.props.ready_to_play) {
+        this.setState({inside_turn: true});
         this.playCard();
       }
     }

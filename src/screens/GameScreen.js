@@ -6,8 +6,15 @@ import CardsOnBoard from '../engine/CardsOnBoard'
 import CurrentGameStats from '../engine/CurrentGameStats'
 import HeaderGame from '../components/HeaderGame'
 import ScoreSubScreen from '../screens/ScoreSubScreen'
-import {getNextPlayer, getPrevPlayer, getPartner} from '../engine/utils/GameScreenUtils'
-import {clearCardsOnBoard, finishPlaying} from '../redux/actions/Core'
+import {
+  isBiddingComplete, getContract, getRoundWinner
+} from '../engine/managers/BridgeGameEngine'
+import {
+  getNextPlayer, getPrevPlayer, getPartner
+} from '../engine/utils/GameScreenUtils'
+import {
+  clearCardsOnBoard, finishBidding, finishTrick, finishPlaying, incrementCurrPlayer
+} from '../redux/actions/Core'
 
 import '../css/Style.css'
 import '../css/GameScreen.css'
@@ -23,11 +30,29 @@ class GameScreen extends React.Component {
     this.me = this.props.me;
   }
 
+  componentDidUpdate() {
+    if (this.props.game_state === GAMESTATES.BIDDING) {
+      if (isBiddingComplete(this.props.bid_history)) {
+        this.props.dispatch(finishBidding(getContract(this.props.bid_history)));
+      } else {
+        this.props.dispatch(incrementCurrPlayer());
+      }
+    } else if (this.props.game_state === GAMESTATES.PLAYING) {
+      if (this.props.cards_on_board.length === 4) {
+        const winner = getRoundWinner({cards_on_board: this.props.cards_on_board, contract: this.props.contract});
+        console.log(`winned ${winner}`);
+        this.props.dispatch(finishTrick(winner));
+      } else {
+        this.props.dispatch(incrementCurrPlayer());
+      }
+    }
+  }
+
   handleClearCardsEvent = (e) => {
     if (this.props.cards_on_board.length === 4) {
       this.props.dispatch(clearCardsOnBoard());
     }
-    if (this.props.tricks_played === 13) {
+    if (this.props.tricks_won.NS + this.props.tricks_won.EW === 13) {
       this.props.dispatch(finishPlaying());
     }
   }
@@ -55,6 +80,7 @@ class GameScreen extends React.Component {
                     name={this.props.players[partner]}
                     visible={partner === this.props.dummy && this.props.first_card_played}
                     clickable={partner === this.props.dummy && this.props.first_card_played}
+                    show_bidding_box={false}
                   />
                 </div>
               </div>
@@ -69,13 +95,16 @@ class GameScreen extends React.Component {
                     name={this.props.players[next_player]}
                     visible={next_player === this.props.dummy && this.props.first_card_played}
                     clickable={false}
+                    show_bidding_box={false}
                   />
                 </div>
               </div>
               <div className="middle">
-                {this.props.game_state === GAMESTATES.BIDDING && <BidsOnBoard/>}
+                {this.props.game_state === GAMESTATES.BIDDING &&
+                  <BidsOnBoard/>
+                }
                 {this.props.game_state === GAMESTATES.PLAYING &&
-                  <CardsOnBoard me={this.me}/>
+                  <CardsOnBoard me={this.me} cards_on_board={this.props.cards_on_board}/>
                 }
               </div>
               <div className="right">
@@ -85,6 +114,7 @@ class GameScreen extends React.Component {
                     name={this.props.players[prev_player]}
                     visible={prev_player === this.props.dummy && this.props.first_card_played}
                     clickable={false}
+                    show_bidding_box={false}
                   />
                 </div>
               </div>
@@ -99,13 +129,17 @@ class GameScreen extends React.Component {
                     name={this.props.players[this.me]}
                     visible={true}
                     clickable={this.me !== this.props.dummy}
+                    show_bidding_box={true}
                   />
                 </div>
               </div>
               <div className="right">
                 {(this.props.game_state === GAMESTATES.PLAYING) &&
                   <div className="current-game-stats-container">
-                    <CurrentGameStats/>
+                    <CurrentGameStats
+                      contract={this.props.contract}
+                      tricks_won={this.props.tricks_won}
+                    />
                   </div>
                 }
               </div>
@@ -113,7 +147,9 @@ class GameScreen extends React.Component {
           </div>
         }
         {(this.props.game_state === GAMESTATES.RESULTS) &&
-          <ScoreSubScreen/>
+          <ScoreSubScreen
+            tricks_won={this.props.tricks_won}
+          />
         }
       </div>
     );
@@ -123,10 +159,11 @@ class GameScreen extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     cards_on_board: state.cards_on_board,
+    contract: state.contract,
     dummy: state.dummy,
     first_card_played: state.first_card_played,
     game_state: state.game_state,
-    tricks_played: state.tricks_won.NS + state.tricks_won.EW,
+    tricks_won: state.tricks_won,
   }
 }
 export default connect(mapStateToProps)(GameScreen);

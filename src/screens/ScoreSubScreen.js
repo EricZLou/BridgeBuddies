@@ -1,12 +1,11 @@
 import React from 'react'
-import {connect} from 'react-redux'
 
 import '../css/ScoreSubScreen.css'
 
 import {SEATS} from '../constants/GameEngine'
 
 
-class ScoreSubScreen extends React.Component {
+export default class ScoreSubScreen extends React.Component {
   render() {
     const score = (this.me === SEATS.NORTH || this.me === SEATS.SOUTH) ? this.props.tricks_won.NS : this.props.tricks_won.EW;
     return (
@@ -21,10 +20,3 @@ class ScoreSubScreen extends React.Component {
     )
   }
 };
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    tricks_won: state.tricks_won,
-  }
-}
-export default connect(mapStateToProps)(ScoreSubScreen);
