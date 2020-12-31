@@ -7,7 +7,7 @@ import PlayerTitle from './PlayerTitle'
 import {
   isValidBid, isBiddingComplete, getContract, isValidCard, getRoundWinner
 } from '../managers/BridgeGameEngine'
-import {finishBidding, finishTrick, incrementCurrPlayer, makeBid, playCard, setReadyToPlay} from '../../redux/actions/Core'
+import {finishBidding, finishTrick, incrementCurrPlayer, makeBid, playCard} from '../../redux/actions/Core'
 
 import '../../css/Player.css'
 
@@ -31,7 +31,6 @@ export class Player extends React.Component {
     this.props.dispatch(makeBid({bid: bid, seat: seat}));
     if (isBiddingComplete(this.props.bid_history)) {
       this.props.dispatch(finishBidding(getContract(this.props.bid_history)));
-      this.props.dispatch(setReadyToPlay(true));
     } else {
       this.props.dispatch(incrementCurrPlayer());
     }
@@ -57,7 +56,6 @@ export class Player extends React.Component {
       const winner = getRoundWinner({history: this.props.cards_on_board, contract: this.props.contract});
       console.log(`winned ${winner}`);
       this.props.dispatch(finishTrick(winner));
-      this.props.dispatch(setReadyToPlay(false));
     } else {
       this.props.dispatch(incrementCurrPlayer());
     }

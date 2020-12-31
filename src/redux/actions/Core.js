@@ -5,8 +5,8 @@ import {
   FINISH_BIDDING, MAKE_BID, finishBidding, makeBid
 } from './GameBiddingActions'
 import {
-  INCREMENT_CURR_PLAYER, NEW_GAME, SET_HAND, SET_READY_TO_PLAY,
-  incrementCurrPlayer, newGame, setHand, setReadyToPlay,
+  INCREMENT_CURR_PLAYER, NEW_GAME, SET_HAND,
+  incrementCurrPlayer, newGame, setHand,
 } from './GameGeneralActions'
 import {
   CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, FINISH_TRICK, PLAY_CARD,
@@ -39,8 +39,8 @@ export {
   FINISH_BIDDING, MAKE_BID, finishBidding, makeBid
 }
 export {
-  INCREMENT_CURR_PLAYER, NEW_GAME, SET_HAND, SET_READY_TO_PLAY,
-  incrementCurrPlayer, newGame, setHand, setReadyToPlay,
+  INCREMENT_CURR_PLAYER, NEW_GAME, SET_HAND,
+  incrementCurrPlayer, newGame, setHand,
 }
 export {
   CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, FINISH_TRICK, PLAY_CARD,

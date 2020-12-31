@@ -1,7 +1,6 @@
 import {
   FINISH_BIDDING, MAKE_BID,
-  INCREMENT_CURR_PLAYER, NEW_GAME,
-  SET_HAND, SET_READY_TO_PLAY,
+  INCREMENT_CURR_PLAYER, NEW_GAME, SET_HAND,
   CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, FINISH_TRICK, PLAY_CARD,
 } from '../actions/Core'
 
@@ -141,8 +140,10 @@ export function hands(state={
 
 export function ready_to_play(state=false, action) {
   switch (action.type) {
-    case SET_READY_TO_PLAY:
-      return action.ready;
+    case CLEAR_CARDS_ON_BOARD:
+      return true;
+    case FINISH_TRICK:
+      return false;
     case NEW_GAME:
       return false;
     default:

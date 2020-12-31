@@ -7,7 +7,7 @@ import CurrentGameStats from '../engine/CurrentGameStats'
 import HeaderGame from '../components/HeaderGame'
 import ScoreSubScreen from '../screens/ScoreSubScreen'
 import {getNextPlayer, getPrevPlayer, getPartner} from '../engine/utils/GameScreenUtils'
-import {clearCardsOnBoard, finishPlaying, setReadyToPlay} from '../redux/actions/Core'
+import {clearCardsOnBoard, finishPlaying} from '../redux/actions/Core'
 
 import '../css/Style.css'
 import '../css/GameScreen.css'
@@ -26,7 +26,6 @@ class GameScreen extends React.Component {
   handleClearCardsEvent = (e) => {
     if (this.props.cards_on_board.length === 4) {
       this.props.dispatch(clearCardsOnBoard());
-      this.props.dispatch(setReadyToPlay(true));
     }
     if (this.props.tricks_played === 13) {
       this.props.dispatch(finishPlaying());
