@@ -11,8 +11,9 @@ export const finishPlaying = () => ({
   type: FINISH_PLAYING,
 });
 
-export const finishTrick = () => ({
+export const finishTrick = (winner) => ({
   type: FINISH_TRICK,
+  winner,
 });
 
 export const playCard = ({card, seat}) => ({

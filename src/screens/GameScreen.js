@@ -34,16 +34,14 @@ class GameScreen extends React.Component {
     if (this.props.game_state === GAMESTATES.BIDDING) {
       if (isBiddingComplete(this.props.bid_history)) {
         this.props.dispatch(finishBidding(getContract(this.props.bid_history)));
-      } else {
-        this.props.dispatch(incrementCurrPlayer());
       }
     } else if (this.props.game_state === GAMESTATES.PLAYING) {
       if (this.props.cards_on_board.length === 4) {
-        const winner = getRoundWinner({cards_on_board: this.props.cards_on_board, contract: this.props.contract});
-        console.log(`winned ${winner}`);
+        const winner = getRoundWinner({
+          cards_on_board: this.props.cards_on_board,
+          contract: this.props.contract,
+        });
         this.props.dispatch(finishTrick(winner));
-      } else {
-        this.props.dispatch(incrementCurrPlayer());
       }
     }
   }
@@ -61,6 +59,7 @@ class GameScreen extends React.Component {
     const partner = getPartner(this.me);
     const next_player = getNextPlayer(this.me);
     const prev_player = getPrevPlayer(this.me);
+    const PartnerType = (partner === this.props.dummy ? this.props.PlayerType : this.props.OpponentType);
 
     return (
       <div>
@@ -75,7 +74,7 @@ class GameScreen extends React.Component {
               <div className="left"/>
               <div className="middle">
                 <div className="game-player">
-                  <this.props.OpponentType
+                  <PartnerType
                     seat={partner}
                     name={this.props.players[partner]}
                     visible={partner === this.props.dummy && this.props.first_card_played}
@@ -158,6 +157,7 @@ class GameScreen extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    bid_history: state.bid_history,
     cards_on_board: state.cards_on_board,
     contract: state.contract,
     dummy: state.dummy,

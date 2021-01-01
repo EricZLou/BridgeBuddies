@@ -1,17 +1,36 @@
+import React from 'react'
 import {connect} from 'react-redux'
 
-import {Player} from './Player'
+import Player from './Player'
+import {makeBid, playCard} from '../../redux/actions/Core'
 
 import {GAMESTATES} from '../../constants/GameEngine'
 
 
 // REPRESENTS A CPU OPPONENT
-class RobotPlayer extends Player {
+class RobotPlayer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      inside_turn: false,
+    }
+  }
+
   async sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+  makeBid() {
+    this.setState({inside_turn: true});
+    this.sleep(1000).then(() => {
+      this.props.dispatch(makeBid({bid: {type: 'pass'}, seat: this.props.seat}));
+    }).then(() => {
+      this.setState({inside_turn: false});
+    });
+  }
+
   playCard() {
+    this.setState({inside_turn: true});
     this.sleep(1000).then(() => {
       let cardx = null;
       const cards = this.props.cards;
@@ -30,44 +49,45 @@ class RobotPlayer extends Player {
         }
         if (!found) cardx = cards[0];
       }
-      this.handleCardPlay(cardx);
-    });
-  }
-
-  makeBid() {
-    this.sleep(1000).then(() => {
-      this.handleBidPlay({type: 'pass'});
+      this.props.dispatch(playCard({card: cardx, seat: this.props.seat}));
+    }).then(() => {
+      this.setState({inside_turn: false});
     });
   }
 
   componentDidMount() {
-    if (this.props.curr_player !== this.seat)
-      return;
-    this.setState({inside_turn: true});
-    this.makeBid();
+    if (this.props.curr_player === this.props.seat) this.makeBid();
   }
 
   componentDidUpdate() {
-    if (this.props.curr_player !== this.seat) return;
+    if (this.props.curr_player !== this.props.seat) return;
     if (this.state.inside_turn) return;
     if (this.props.clickable) return;
     if (!this.props.ready_to_play) return;
-    if (this.props.game_state === GAMESTATES.BIDDING) {
-      this.setState({inside_turn: true});
-      this.makeBid();
-    } else if (this.props.game_state === GAMESTATES.PLAYING) {
-      this.setState({inside_turn: true});
-      this.playCard();
-    }
+    if (this.props.game_state === GAMESTATES.BIDDING) this.makeBid();
+    else if (this.props.game_state === GAMESTATES.PLAYING) this.playCard();
+  }
+
+  render() {
+    return (
+      <Player
+        seat={this.props.seat}
+        name={this.props.name}
+        cards={this.props.cards}
+        visible={this.props.visible}
+        clickable={this.props.clickable}
+        show_bidding_box={this.props.show_bidding_box}
+        handleBidPlay={() => {}}
+        handleCardPlay={() => {}}
+      />
+    )
   }
 };
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    bid_history: state.bid_history,
     cards: state.hands[ownProps.seat],
     cards_on_board: state.cards_on_board,
-    contract: state.contract,
     curr_player: state.curr_player,
     game_state: state.game_state,
     ready_to_play: state.ready_to_play,

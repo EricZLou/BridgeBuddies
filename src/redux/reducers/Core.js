@@ -17,10 +17,10 @@ import {
 } from '../actions/Core'
 
 
-const combinedReducer = combineReducers({
+const initialReducer = combineReducers({
   firebasePaths,
   bid_history, card_history, cards_on_board, contract, curr_player,
-  curr_player_with_finish_bidding, dummy, first_card_played,
+  dummy, first_card_played,
   game_state, hands, ready_to_play, tricks_won,
   userID, homeScreenReady,
   mySocket, numUsersLoggedIn,
@@ -45,10 +45,12 @@ function crossSliceReducer(state, action) {
 }
 
 export default function finalReducer(state, action) {
-  const intermediateState = combinedReducer(state, action);
+  const intermediateState = initialReducer(state, action);
   let finalState = crossSliceReducer(intermediateState, action);
   if (action.type === LOG_OUT) {
     state = undefined;
   }
+  console.log(action);
+  console.log(finalState);
   return finalState;
 }

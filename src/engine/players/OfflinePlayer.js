@@ -3,10 +3,11 @@ import {connect} from 'react-redux'
 
 import Player from './Player'
 import {isValidBid, isValidCard} from '../managers/BridgeGameEngine'
+import {makeBid, playCard} from '../../redux/actions/Core'
 
 
-// REPRESENTS ANY USER PLAYING ONLINE (4 users)
-class OnlinePlayer extends React.Component {
+// REPRESENTS THE USER PLAYING OFFLINE (1 user)
+class OfflinePlayer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +25,7 @@ class OnlinePlayer extends React.Component {
       bid: bid,
     })) {
       this.setState({inside_turn: true});
-      this.props.mySocket.emit("bid click", bid, this.props.seat);
+      this.props.dispatch(makeBid({bid: bid, seat: this.props.seat}));
       this.setState({inside_turn: false});
     }
   }
@@ -38,7 +39,7 @@ class OnlinePlayer extends React.Component {
       cards_in_hand: this.props.cards,
     })) {
       this.setState({inside_turn: true});
-      this.props.mySocket.emit("card click", card, this.props.seat);
+      this.props.dispatch(playCard({card: card, seat: this.props.seat}));
       this.setState({inside_turn: false});
     }
   }
@@ -64,11 +65,7 @@ const mapStateToProps = (state, ownProps) => {
     bid_history: state.bid_history,
     cards: state.hands[ownProps.seat],
     cards_on_board: state.cards_on_board,
-    contract: state.contract,
     curr_player: state.curr_player,
-    dummy: state.dummy,
-    ready_to_play: state.ready_to_play,
-    mySocket: state.mySocket,
   }
 }
-export default connect(mapStateToProps)(OnlinePlayer);
+export default connect(mapStateToProps)(OfflinePlayer);

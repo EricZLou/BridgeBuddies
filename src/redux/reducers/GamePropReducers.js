@@ -60,10 +60,12 @@ export function curr_player(state="", action) {
       return SEATS.SOUTH;
     case INCREMENT_CURR_PLAYER:
       return getNextPlayer(state);
-    case FINISH_BIDDING:
-      return getNextPlayer(action.contract.declarer);
     case FINISH_TRICK:
       return action.winner;
+    case MAKE_BID:
+      return getNextPlayer(state);
+    case PLAY_CARD:
+      return getNextPlayer(state);
     default:
       return state;
   }
