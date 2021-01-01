@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 
 import GameScreen from './GameScreen'
 import LoadingScreen from './LoadingScreen'
-import OnlineOpponent from '../engine/players/OnlineOpponent'
 import OnlinePlayer from '../engine/players/OnlinePlayer'
 import {
   isBiddingComplete
@@ -99,7 +98,7 @@ class GameScreenOnline extends React.Component {
           [SEATS.WEST]: this.state.game_info[SEATS.WEST],
         }}
         PlayerType = {OnlinePlayer}
-        OpponentType = {OnlineOpponent}
+        OpponentType = {OnlinePlayer}
       />
     );
   }

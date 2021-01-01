@@ -1,12 +1,11 @@
 import React from 'react'
-import {connect} from 'react-redux'
 
 import Firebase from '../Firebase'
 
 import '../css/Style.css'
 
 
-class SignUpForm extends React.Component {
+export default class SignUpForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -115,5 +114,3 @@ class SignUpForm extends React.Component {
     )
   }
 }
-
-export default connect()(SignUpForm);

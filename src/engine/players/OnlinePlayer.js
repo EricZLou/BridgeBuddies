@@ -7,19 +7,26 @@ import {isValidBid, isValidCard} from '../managers/BridgeGameEngine'
 // REPRESENTS ANY USER PLAYING ONLINE (4 users)
 class OnlinePlayer extends Player {
   handleBidPlay(bid) {
-    if (this.props.curr_player === this.seat && isValidBid({
-      history: this.props.bid_history, bid: bid
+    if (this.props.curr_player !== this.seat) return;
+    if (this.state.inside_turn) return;
+    if (isValidBid({
+      history: this.props.bid_history,
+      bid: bid
     })) {
-      // this.setState({inside_turn: true});
+      this.setState({inside_turn: true});
       this.props.mySocket.emit("bid click", bid, this.seat);
     }
   }
 
   handleCardPlay(card) {
-    if (this.props.curr_player === this.seat && isValidCard({
-      cards_on_board: this.props.cards_on_board, card: card, cards_in_hand: this.props.cards
+    if (this.props.curr_player !== this.seat) return;
+    if (this.state.inside_turn) return;
+    if (isValidCard({
+      cards_on_board: this.props.cards_on_board,
+      card: card,
+      cards_in_hand: this.props.cards,
     })) {
-      // this.setState({inside_turn: true});
+      this.setState({inside_turn: true});
       this.props.mySocket.emit("card click", card, this.seat);
     }
   }

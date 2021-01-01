@@ -6,7 +6,7 @@ import {GAMESTATES} from '../../constants/GameEngine'
 
 
 // REPRESENTS A CPU OPPONENT
-class RobotOpponent extends Player {
+class RobotPlayer extends Player {
   async sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
@@ -48,18 +48,16 @@ class RobotOpponent extends Player {
   }
 
   componentDidUpdate() {
-    if (this.props.clickable || this.props.curr_player !== this.seat)
-      return;
+    if (this.props.curr_player !== this.seat) return;
+    if (this.state.inside_turn) return;
+    if (this.props.clickable) return;
+    if (!this.props.ready_to_play) return;
     if (this.props.game_state === GAMESTATES.BIDDING) {
-      if (!this.state.inside_turn) {
-        this.setState({inside_turn: true});
-        this.makeBid();
-      }
+      this.setState({inside_turn: true});
+      this.makeBid();
     } else if (this.props.game_state === GAMESTATES.PLAYING) {
-      if (!this.state.inside_turn && this.props.ready_to_play) {
-        this.setState({inside_turn: true});
-        this.playCard();
-      }
+      this.setState({inside_turn: true});
+      this.playCard();
     }
   }
 };
@@ -75,4 +73,4 @@ const mapStateToProps = (state, ownProps) => {
     ready_to_play: state.ready_to_play,
   }
 }
-export default connect(mapStateToProps)(RobotOpponent);
+export default connect(mapStateToProps)(RobotPlayer);

@@ -2,8 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 import GameScreen from './GameScreen'
-import OfflinePlayer from '../engine/players/OfflinePlayer'
-import RobotOpponent from '../engine/players/RobotOpponent'
+import Player from '../engine/players/Player'
+import RobotPlayer from '../engine/players/RobotPlayer'
 import {Deck} from '../engine/Deck'
 import {newGame} from '../redux/actions/Core'
 
@@ -35,8 +35,8 @@ class GameScreenRobots extends React.Component {
           [SEATS.WEST]: "Robot",
           [this.me]: `${this.props.first_name}`,
         }}
-        PlayerType = {OfflinePlayer}
-        OpponentType = {RobotOpponent}
+        PlayerType = {Player}
+        OpponentType = {RobotPlayer}
       />
     );
   }

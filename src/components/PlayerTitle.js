@@ -1,12 +1,11 @@
 import React from 'react'
-import {connect} from 'react-redux'
 
-import '../../css/PlayerTitle.css'
+import '../css/PlayerTitle.css'
 
-import klubby from '../../media/store/characters/klubby.png'
+import klubby from '../media/store/characters/klubby.png'
 
 
-class PlayerTitle extends React.Component {
+export default class PlayerTitle extends React.Component {
   render() {
     return (
       <div className={this.props.curr_player === this.props.seat ?
@@ -24,10 +23,3 @@ class PlayerTitle extends React.Component {
     )
   }
 };
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    curr_player: state.curr_player,
-  }
-}
-export default connect(mapStateToProps)(PlayerTitle);

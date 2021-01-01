@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 import BiddingBox from '../BiddingBox'
 import Hand from '../Hand'
-import PlayerTitle from './PlayerTitle'
+import PlayerTitle from '../../components/PlayerTitle'
 import {
   isValidBid, isValidCard
 } from '../managers/BridgeGameEngine'
@@ -58,6 +58,7 @@ export class Player extends React.Component {
           <PlayerTitle
             seat={this.seat}
             name={this.props.name}
+            curr_player={this.props.curr_player}
           />
         </div>
         {this.props.game_state === GAMESTATES.BIDDING &&
