@@ -64,8 +64,8 @@ class GameScreenOnline extends React.Component {
       else
         console.log(`[GAME PLAY] ${seat} bids ${bid.type}`);
       this.props.dispatch(makeBid({bid: bid, seat: seat}));
-      if (isBiddingComplete(this.props.bid_history) && this.seat === this.props.dummy) {
-        const sorted_hand = sortHand(this.props.cards, this.props.contract.suit);
+      if (isBiddingComplete(this.props.bid_history) && this.state.game_info.me === this.props.dummy) {
+        const sorted_hand = sortHand(this.state.game_info.cards, this.props.contract.suit);
         this.props.mySocket.emit("dummy hand", sorted_hand);
       }
     });
@@ -106,6 +106,9 @@ class GameScreenOnline extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    bid_history: state.bid_history,
+    contract: state.contract,
+    dummy: state.dummy,
     first_name: state.userDetails.first_name,
     mySocket: state.mySocket,
   }

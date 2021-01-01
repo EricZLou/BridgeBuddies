@@ -5,12 +5,11 @@ import {
   FINISH_BIDDING, MAKE_BID, finishBidding, makeBid
 } from './GameBiddingActions'
 import {
-  INCREMENT_CURR_PLAYER, NEW_GAME, SET_HAND,
-  incrementCurrPlayer, newGame, setHand,
+  NEW_GAME, SET_HAND, newGame, setHand
 } from './GameGeneralActions'
 import {
-  CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, FINISH_TRICK, PLAY_CARD,
-  clearCardsOnBoard, finishPlaying, finishTrick, playCard,
+  CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, PLAY_CARD,
+  clearCardsOnBoard, finishPlaying, playCard,
 } from './GamePlayingActions'
 import {
   LOG_IN, LOG_OUT, HOME_SCREEN_READY, HOME_SCREEN_NOT_READY,
@@ -39,12 +38,11 @@ export {
   FINISH_BIDDING, MAKE_BID, finishBidding, makeBid
 }
 export {
-  INCREMENT_CURR_PLAYER, NEW_GAME, SET_HAND,
-  incrementCurrPlayer, newGame, setHand,
+  NEW_GAME, SET_HAND, newGame, setHand
 }
 export {
-  CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, FINISH_TRICK, PLAY_CARD,
-  clearCardsOnBoard, finishPlaying, finishTrick, playCard,
+  CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, PLAY_CARD,
+  clearCardsOnBoard, finishPlaying, playCard,
 }
 export {
   LOG_IN, LOG_OUT, HOME_SCREEN_READY, HOME_SCREEN_NOT_READY,

@@ -13,7 +13,7 @@ import {
   getNextPlayer, getPrevPlayer, getPartner
 } from '../engine/utils/GameScreenUtils'
 import {
-  clearCardsOnBoard, finishBidding, finishTrick, finishPlaying, incrementCurrPlayer
+  clearCardsOnBoard, finishBidding, finishPlaying, incrementCurrPlayer
 } from '../redux/actions/Core'
 
 import '../css/Style.css'
@@ -34,14 +34,6 @@ class GameScreen extends React.Component {
     if (this.props.game_state === GAMESTATES.BIDDING) {
       if (isBiddingComplete(this.props.bid_history)) {
         this.props.dispatch(finishBidding(getContract(this.props.bid_history)));
-      }
-    } else if (this.props.game_state === GAMESTATES.PLAYING) {
-      if (this.props.cards_on_board.length === 4) {
-        const winner = getRoundWinner({
-          cards_on_board: this.props.cards_on_board,
-          contract: this.props.contract,
-        });
-        this.props.dispatch(finishTrick(winner));
       }
     }
   }

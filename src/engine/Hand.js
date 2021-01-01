@@ -15,8 +15,8 @@ export default class Hand extends React.Component {
     const cards_list = this.props.cards.map((card, idx) => {
       return (
         <div className="hand" style={{left: parseInt(card_spacing)*idx}} key={idx}>
-          {card === {} && <Card visible={false}/>}
-          {card !== {} && <Card
+          {Object.keys(card).length === 0 && <Card visible={false}/>}
+          {Object.keys(card).length !== 0 && <Card
             value={card.value}
             suit={card.suit}
             handleCardPlay={this.props.handleCardPlay.bind(this)}

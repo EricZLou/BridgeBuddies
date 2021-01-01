@@ -1,9 +1,10 @@
 import {
   FINISH_BIDDING, MAKE_BID,
-  INCREMENT_CURR_PLAYER, NEW_GAME, SET_HAND,
-  CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, FINISH_TRICK, PLAY_CARD,
+  NEW_GAME, SET_HAND,
+  CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, PLAY_CARD,
 } from '../actions/Core'
 
+import {getRoundWinner} from '../../engine/managers/BridgeGameEngine'
 import {getNextPlayer, getPartner} from '../../engine/utils/GameScreenUtils'
 import {sortHand} from '../../engine/Deck'
 import {BID_SUITS, GAMESTATES, SEATS} from '../../constants/GameEngine'
@@ -58,22 +59,10 @@ export function curr_player(state="", action) {
   switch (action.type) {
     case NEW_GAME:
       return SEATS.SOUTH;
-    case INCREMENT_CURR_PLAYER:
-      return getNextPlayer(state);
-    case FINISH_TRICK:
-      return action.winner;
+    case FINISH_BIDDING:
+      return getNextPlayer(action.contract.declarer);
     case MAKE_BID:
       return getNextPlayer(state);
-    case PLAY_CARD:
-      return getNextPlayer(state);
-    default:
-      return state;
-  }
-}
-export function curr_player_with_finish_bidding(state="", action, contract) {
-  switch (action.type) {
-    case FINISH_BIDDING:
-      return getNextPlayer(contract.declarer);
     default:
       return state;
   }
@@ -151,8 +140,6 @@ export function ready_to_play(state=true, action) {
   switch (action.type) {
     case CLEAR_CARDS_ON_BOARD:
       return true;
-    case FINISH_TRICK:
-      return false;
     case NEW_GAME:
       return true;
     default:
@@ -164,10 +151,31 @@ export function tricks_won(state={NS: 0, EW: 0}, action) {
   switch (action.type) {
     case NEW_GAME:
       return {NS: 0, EW: 0};
-    case FINISH_TRICK:
-      if (action.winner === SEATS.NORTH || action.winner === SEATS.SOUTH)
-        return {...state, NS: state.NS + 1};
-      return {...state, EW: state.EW + 1};
+    default:
+      return state;
+  }
+}
+
+export function updates_with_play_card(state={curr_player, tricks_won, ready_to_play}, action, {cards_on_board, contract}) {
+  switch (action.type) {
+    case PLAY_CARD:
+      if (cards_on_board.length === 4) {
+        const winner = getRoundWinner({cards_on_board: cards_on_board, contract: contract});
+        const NS = [SEATS.NORTH, SEATS.SOUTH];
+
+        return {
+          curr_player: winner,
+          tricks_won: NS.includes(winner) ?
+            {NS: state.tricks_won.NS + 1, EW: state.tricks_won.EW} :
+            {NS: state.tricks_won.NS, EW: state.tricks_won.EW + 1},
+          ready_to_play: false,
+        };
+      }
+      else {
+        return {
+          curr_player: getNextPlayer(action.seat)
+        };
+      }
     default:
       return state;
   }

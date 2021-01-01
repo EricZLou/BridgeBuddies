@@ -3,8 +3,9 @@ import {combineReducers} from 'redux'
 import {firebasePaths} from './FirebasePathReducers'
 import {
   bid_history, card_history, cards_on_board, contract, curr_player,
-  curr_player_with_finish_bidding, dummy, first_card_played,
+  dummy, first_card_played,
   game_state, hands, ready_to_play, tricks_won,
+  updates_with_play_card
 } from './GamePropReducers'
 import {userID, homeScreenReady} from './LogInReducers'
 import {mySocket, numUsersLoggedIn} from './SocketReducers'
@@ -13,7 +14,7 @@ import {coins, exp, level_idx} from './UserStatsReducers'
 import {storeActive, storeOwned} from './UserStoreReducers'
 
 import {
-  FINISH_BIDDING, LOG_OUT
+  LOG_OUT, PLAY_CARD,
 } from '../actions/Core'
 
 
@@ -31,12 +32,19 @@ const initialReducer = combineReducers({
 
 function crossSliceReducer(state, action) {
   switch (action.type) {
-    case FINISH_BIDDING:
-      // pass contract into curr_player() after contract is set
+    case PLAY_CARD:
+      // pass cards_on_board into updates() after it is updated
       return {
         ...state,
-        curr_player: curr_player_with_finish_bidding(
-          state.curr_player, action, state.contract
+        ...updates_with_play_card(
+          {
+            curr_player: state.curr_player,
+            tricks_won: state.tricks_won,
+            ready_to_play: state.ready_to_play,
+          }, action, {
+            cards_on_board: state.cards_on_board,
+            contract: state.contract,
+          }
         ),
       };
     default:
