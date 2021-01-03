@@ -7,13 +7,13 @@ import CurrentGameStats from '../engine/CurrentGameStats'
 import HeaderGame from '../components/HeaderGame'
 import ScoreSubScreen from '../screens/ScoreSubScreen'
 import {
-  isBiddingComplete, getContract, getRoundWinner
+  isBiddingComplete, getContract
 } from '../engine/managers/BridgeGameEngine'
 import {
   getNextPlayer, getPrevPlayer, getPartner
 } from '../engine/utils/GameScreenUtils'
 import {
-  clearCardsOnBoard, finishBidding, finishPlaying, incrementCurrPlayer
+  clearCardsOnBoard, finishBidding, finishPlaying
 } from '../redux/actions/Core'
 
 import '../css/Style.css'
@@ -139,6 +139,8 @@ class GameScreen extends React.Component {
         }
         {(this.props.game_state === GAMESTATES.RESULTS) &&
           <ScoreSubScreen
+            me={this.me}
+            online={this.props.online}
             tricks_won={this.props.tricks_won}
           />
         }

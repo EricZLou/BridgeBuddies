@@ -35,7 +35,7 @@ class HomeScreen extends React.Component {
     if (this.dataLoaded()) this.setState({ready: true});
     else this.interval = setInterval(this.waitForDataToLoad, 500);
   }
-  initSocket = ()=>{
+  initSocket = () => {
     this.socket = io(socketURL);
     this.socket.on("num users logged in", (num) => {
       this.props.dispatch(setNumUsersLoggedIn(num));
@@ -87,7 +87,7 @@ class HomeScreen extends React.Component {
                   </div>
                 }
                 <Link to="/store" style={{pointerEvents: "none"}}><button>DAILY CHALLENGE</button></Link>
-                <Link to="/store" style={{pointerEvents: "none"}}><button>TOURNAMENTS</button></Link>
+                <Link to="/store" style={{pointerEvents: "none"}}><button>LEARN</button></Link>
                 <Link to="/store" style={{pointerEvents: "none"}}><button>LEADERBOARDS</button></Link>
               </div>
             </div>

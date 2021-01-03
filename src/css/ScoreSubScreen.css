@@ -14,14 +14,20 @@
 .score-text {
   flex: 4;
 }
-.play-again-button {
+.game-action {
   flex: 1;
   width: 30%;
   text-align: center;
   margin: auto;
   background-color: var(--theme-light-blue);
   border-radius: 20px;
+  font-weight: bold;
 }
-.play-again-button:hover {
+.offline-button {
+}
+.offline-button:hover {
   background-color: var(--theme-blue);
+}
+.online-timer {
+  pointer-events: none;
 }

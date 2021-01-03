@@ -4,6 +4,8 @@ import {connect} from 'react-redux'
 import Player from './Player'
 import {isValidBid, isValidCard} from '../managers/BridgeGameEngine'
 
+import {GAMESTATES} from '../../constants/GameEngine'
+
 
 // REPRESENTS ANY USER PLAYING ONLINE (4 users)
 class OnlinePlayer extends React.Component {
@@ -17,6 +19,7 @@ class OnlinePlayer extends React.Component {
   }
 
   handleBidPlay(bid) {
+    if (this.props.game_state !== GAMESTATES.BIDDING) return;
     if (this.props.curr_player !== this.props.seat) return;
     if (this.state.inside_turn) return;
     if (isValidBid({
@@ -30,6 +33,7 @@ class OnlinePlayer extends React.Component {
   }
 
   handleCardPlay(card) {
+    if (this.props.game_state !== GAMESTATES.PLAYING) return;
     if (this.props.curr_player !== this.props.seat) return;
     if (this.state.inside_turn) return;
     if (isValidCard({
@@ -64,10 +68,8 @@ const mapStateToProps = (state, ownProps) => {
     bid_history: state.bid_history,
     cards: state.hands[ownProps.seat],
     cards_on_board: state.cards_on_board,
-    contract: state.contract,
     curr_player: state.curr_player,
-    dummy: state.dummy,
-    ready_to_play: state.ready_to_play,
+    game_state: state.game_state,
     mySocket: state.mySocket,
   }
 }

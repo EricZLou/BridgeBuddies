@@ -7,12 +7,14 @@ import OnlinePlayer from '../engine/players/OnlinePlayer'
 import {
   isBiddingComplete
 } from '../engine/managers/BridgeGameEngine'
-import {makeBid, newGame, playCard, setHand} from '../redux/actions/Core'
+import {
+  finishPlaying, makeBid, newGame, playCard, setHand, startOnlineGameOverTimer
+} from '../redux/actions/Core'
 import {sortHand} from '../engine/Deck'
 
 import '../css/Style.css'
 
-import {SEATS} from '../constants/GameEngine'
+import {GAMESTATES, SEATS} from '../constants/GameEngine'
 
 
 class GameScreenOnline extends React.Component {
@@ -20,18 +22,43 @@ class GameScreenOnline extends React.Component {
     super(props);
     this.state = {
       game_info: null,
+      num_users: 0,
       ready: false,
+      room: "",
     };
     this.cleanup = this.cleanup.bind(this);
   }
 
   cleanup() {
+    // waiting for game to be dispatched
+    this.props.mySocket.off("room stat");
+
+    // initial game setup
+    this.props.mySocket.off("game data");
+    this.props.mySocket.off("start game");
+
+    // in-game play
+    this.props.mySocket.off("bid click");
+    this.props.mySocket.off("dummy hand");
+    this.props.mySocket.off("card click");
+
+    // game over
+    this.props.mySocket.off("game over");
+
     this.props.mySocket.emit("leave online game");
   }
 
   componentDidMount() {
     // clean up in case user reloads page
     window.addEventListener("beforeunload", this.cleanup);
+
+    // waiting for game to be dispatched
+    this.props.mySocket.on("room stat", (room, num_users) => {
+      this.setState({
+        room: room,
+        num_users: num_users,
+      });
+    });
 
     // initial game setup
     this.props.mySocket.on("game data", (game_info) => {
@@ -77,17 +104,31 @@ class GameScreenOnline extends React.Component {
       this.props.dispatch(playCard({card: card, seat: seat}));
     });
 
+    // game over
+    this.props.mySocket.on("game over", () => {
+      if (this.props.game_state !== GAMESTATES.RESULTS)
+        this.props.dispatch(finishPlaying());
+      this.props.dispatch(startOnlineGameOverTimer());
+    });
+
     // request a game
     this.props.mySocket.emit("online game request", this.props.first_name);
   }
 
   componentWillUnmount() {
-    this.props.mySocket.emit("leave online game");
+    this.cleanup();
     window.removeEventListener("beforeunload", this.cleanup);
   }
 
   render() {
-    if (!this.state.ready) return (<LoadingScreen text={"Waiting for 4 players..."}/>);
+    if (!this.state.ready) return (
+      <LoadingScreen
+        text={
+          `Waiting for 4 players... ` +
+          `There are ${this.state.num_users} players in ${this.state.room}.`
+        }
+      />
+    );
     return (
       <GameScreen
         me={this.state.game_info.me}
@@ -97,8 +138,9 @@ class GameScreenOnline extends React.Component {
           [SEATS.SOUTH]: this.state.game_info[SEATS.SOUTH],
           [SEATS.WEST]: this.state.game_info[SEATS.WEST],
         }}
-        PlayerType = {OnlinePlayer}
-        OpponentType = {OnlinePlayer}
+        PlayerType={OnlinePlayer}
+        OpponentType={OnlinePlayer}
+        online={true}
       />
     );
   }
@@ -110,6 +152,7 @@ const mapStateToProps = (state, ownProps) => {
     contract: state.contract,
     dummy: state.dummy,
     first_name: state.userDetails.first_name,
+    game_state: state.game_state,
     mySocket: state.mySocket,
   }
 }

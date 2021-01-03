@@ -1,6 +1,6 @@
 import {
   FINISH_BIDDING, MAKE_BID,
-  NEW_GAME, SET_HAND,
+  NEW_GAME, SET_HAND, START_ONLINE_GAME_OVER_TIMER,
   CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, PLAY_CARD,
 } from '../actions/Core'
 
@@ -50,6 +50,8 @@ export function contract(state="", action) {
   switch (action.type) {
     case FINISH_BIDDING:
       return action.contract;
+    case NEW_GAME:
+      return "";
     default:
       return state;
   }
@@ -72,6 +74,8 @@ export function dummy(state="", action) {
   switch (action.type) {
     case FINISH_BIDDING:
       return getPartner(action.contract.declarer);
+    case NEW_GAME:
+      return "";
     default:
       return state;
   }
@@ -136,6 +140,17 @@ export function hands(state={
   }
 }
 
+export function online_game_over_timer(state=false, action) {
+  switch (action.type) {
+    case START_ONLINE_GAME_OVER_TIMER:
+      return true;
+    case NEW_GAME:
+      return false;
+    default:
+      return state;
+  }
+}
+
 export function ready_to_play(state=true, action) {
   switch (action.type) {
     case CLEAR_CARDS_ON_BOARD:
@@ -156,7 +171,11 @@ export function tricks_won(state={NS: 0, EW: 0}, action) {
   }
 }
 
-export function updates_with_play_card(state={curr_player, tricks_won, ready_to_play}, action, {cards_on_board, contract}) {
+export function updates_with_play_card(
+  state={curr_player, tricks_won, ready_to_play},
+  action,
+  {cards_on_board, contract}
+) {
   switch (action.type) {
     case PLAY_CARD:
       if (cards_on_board.length === 4) {

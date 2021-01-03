@@ -4,35 +4,44 @@ import {ALL_SEATS, PARTNERS} from "../constants/GameEngine.js"
 
 
 let NUM_USERS_LOGGED_IN = 0;
-let GAME_IDX = 1;
+let MAX_GAME_IDX = 1;
 
-class DefaultDict {
-  constructor(defaultInit) {
-    return new Proxy({}, {
-      get: (target, name) => name in target ?
-        target[name] :
-        (target[name] = typeof defaultInit === 'function' ?
-          new defaultInit().valueOf() :
-          defaultInit)
-    })
-  }
-}
+
 /*
   ONLINE_GAME_ROOMS = {
     room1: {
-      num_people: 3,
+      num_users: 3,
+      cards_played: 0,
       users: {
         qrjCPRDdQ6vY8b9fAAAE: "eric",
         pTDpdDyNCaa1l-U1AAAH: "tim",
         ExGqzw5Z99uxxzTZAAAJ: "elizabeth",
-        1GsjcrvmvBIUmpImAAAE: "paul",
       },
     },
     ...
   }
 }
 */
-let ONLINE_GAME_ROOMS = new DefaultDict(Map);
+let ONLINE_GAME_ROOMS = new Map();
+
+
+function createNewRoom() {
+  const room = `Room ${MAX_GAME_IDX++}`;
+  console.log(`[SERVER] Creating ${room}`);
+  ONLINE_GAME_ROOMS.set(room, {
+    num_users: 0,
+    cards_played: 0,
+    users: new Map(),
+  });
+  return room;
+}
+function findRoom() {
+  for (let [room, data] of ONLINE_GAME_ROOMS.entries()) {
+    if (data.num_users < 4) return room;
+  }
+  return createNewRoom();
+}
+
 
 function prepareHands() {
   const deck = new Deck();
@@ -41,7 +50,7 @@ function prepareHands() {
 function prepareGameInfoForRoom(room) {
   let game_info = {};
   let idx = 0;
-  for (let [uid, name] of ONLINE_GAME_ROOMS[room]) {
+  for (let [uid, name] of ONLINE_GAME_ROOMS.get(room).users.entries()) {
     game_info[ALL_SEATS[idx++]] = name;
   }
   /* {NORTH: "foo", EAST: "eric", ...}*/
@@ -51,15 +60,22 @@ function dispatchGame(room) {
   const hands = prepareHands();
   const game_info = prepareGameInfoForRoom(room);
   let idx = 0;
-  for (let [uid, name] of ONLINE_GAME_ROOMS[room]) {
+  for (let [uid, name] of ONLINE_GAME_ROOMS.get(room).users.entries()) {
     io.to(uid).emit('game data', {
       ...game_info,
       me: ALL_SEATS[idx],
       cards: hands[ALL_SEATS[idx++]],
     });
   }
-  io.to(room).emit('start game');
+  ONLINE_GAME_ROOMS.get(room).cards_played = 0;
+  io.in(room).emit('start game');
 }
+
+function gameOverBehavior(room) {
+  setTimeout(() => {io.in(room).emit('game over')}, 1000);
+  setTimeout(() => {dispatchGame(room)}, 16000);
+}
+
 
 export default function SocketManager(socket) {
   /************************************************************
@@ -84,13 +100,15 @@ export default function SocketManager(socket) {
   // HANDLE ONLINE GAME REQUEST
   socket.on('online game request', (first_name) => {
     // join a room
-    const room = `room${GAME_IDX}`;
+    const room = findRoom();
     socket.join(room);
     socket.room = room;
-    ONLINE_GAME_ROOMS[room].set(socket.id, first_name);
+    ONLINE_GAME_ROOMS.get(room).users.set(socket.id, first_name);
+    ONLINE_GAME_ROOMS.get(room).num_users++;
+    io.in(room).emit('room stat', room, ONLINE_GAME_ROOMS.get(room).num_users);
     console.log(`[JOIN] ${room} - ${socket.id}`);
     // if room is full, send notice to entire room to start game
-    if (ONLINE_GAME_ROOMS[room].size === 4) {
+    if (ONLINE_GAME_ROOMS.get(room).num_users === 4) {
       dispatchGame(room);
       console.log(`[START GAME] ${room}`);
     }
@@ -100,7 +118,9 @@ export default function SocketManager(socket) {
   socket.on('leave online game', () => {
     console.log(`[LEAVE] ${socket.room} - ${socket.id}`);
     socket.leave(socket.room);
-    ONLINE_GAME_ROOMS[socket.room].delete(socket.id);
+    ONLINE_GAME_ROOMS.get(socket.room).users.delete(socket.id);
+    ONLINE_GAME_ROOMS.get(socket.room).num_users--;
+    io.in(socket.room).emit('room stat', socket.room, ONLINE_GAME_ROOMS.get(socket.room).num_users);
   });
 
 
@@ -110,7 +130,10 @@ export default function SocketManager(socket) {
 
   // HANDLE BID CLICK
   socket.on('bid click', (bid, seat) => {
-    console.log(`[BID] ${seat}: ${bid.level}${bid.suit}`);
+    if (bid.type !== "suit")
+      console.log(`[BID] ${seat}: ${bid.type}`);
+    else
+      console.log(`[BID] ${seat}: ${bid.level}${bid.suit}`);
     io.in(socket.room).emit('bid click', bid, seat);
   });
 
@@ -122,7 +145,11 @@ export default function SocketManager(socket) {
 
   // HANDLE CARD CLICK
   socket.on('card click', (card, seat) => {
-    console.log(`[CARD] ${seat}: ${card}`);
+    console.log(`[CARD] ${seat}: ${card.value} of ${card.suit}`);
     io.in(socket.room).emit('card click', card, seat);
+    ONLINE_GAME_ROOMS.get(socket.room).cards_played++;
+    if (ONLINE_GAME_ROOMS.get(socket.room).cards_played === 52) {
+      gameOverBehavior(socket.room);
+    }
   });
 }

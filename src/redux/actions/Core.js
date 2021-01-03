@@ -5,7 +5,8 @@ import {
   FINISH_BIDDING, MAKE_BID, finishBidding, makeBid
 } from './GameBiddingActions'
 import {
-  NEW_GAME, SET_HAND, newGame, setHand
+  NEW_GAME, SET_HAND, START_ONLINE_GAME_OVER_TIMER,
+  newGame, setHand, startOnlineGameOverTimer,
 } from './GameGeneralActions'
 import {
   CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, PLAY_CARD,
@@ -38,7 +39,8 @@ export {
   FINISH_BIDDING, MAKE_BID, finishBidding, makeBid
 }
 export {
-  NEW_GAME, SET_HAND, newGame, setHand
+  NEW_GAME, SET_HAND, START_ONLINE_GAME_OVER_TIMER,
+  newGame, setHand, startOnlineGameOverTimer,
 }
 export {
   CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, PLAY_CARD,

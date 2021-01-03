@@ -19,9 +19,8 @@ class GameScreenRobots extends React.Component {
   }
 
   componentDidMount() {
-    const deck = new Deck();
-    const all_hands = deck.generateHands();
-    this.props.dispatch(newGame(all_hands));
+    this.deck = new Deck();
+    this.props.dispatch(newGame(this.deck.generateHands()));
   }
 
   render() {
@@ -35,8 +34,9 @@ class GameScreenRobots extends React.Component {
           [SEATS.WEST]: "Robot",
           [this.me]: `${this.props.first_name}`,
         }}
-        PlayerType = {OfflinePlayer}
-        OpponentType = {RobotPlayer}
+        PlayerType={OfflinePlayer}
+        OpponentType={RobotPlayer}
+        online={false}
       />
     );
   }

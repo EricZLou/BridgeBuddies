@@ -5,6 +5,8 @@ import Player from './Player'
 import {isValidBid, isValidCard} from '../managers/BridgeGameEngine'
 import {makeBid, playCard} from '../../redux/actions/Core'
 
+import {GAMESTATES} from '../../constants/GameEngine'
+
 
 // REPRESENTS THE USER PLAYING OFFLINE (1 user)
 class OfflinePlayer extends React.Component {
@@ -18,6 +20,7 @@ class OfflinePlayer extends React.Component {
   }
 
   handleBidPlay(bid) {
+    if (this.props.game_state !== GAMESTATES.BIDDING) return;
     if (this.props.curr_player !== this.props.seat) return;
     if (this.state.inside_turn) return;
     if (isValidBid({
@@ -31,6 +34,7 @@ class OfflinePlayer extends React.Component {
   }
 
   handleCardPlay(card) {
+    if (this.props.game_state !== GAMESTATES.PLAYING) return;
     if (this.props.curr_player !== this.props.seat) return;
     if (this.state.inside_turn) return;
     if (isValidCard({
@@ -66,6 +70,7 @@ const mapStateToProps = (state, ownProps) => {
     cards: state.hands[ownProps.seat],
     cards_on_board: state.cards_on_board,
     curr_player: state.curr_player,
+    game_state: state.game_state,
   }
 }
 export default connect(mapStateToProps)(OfflinePlayer);
