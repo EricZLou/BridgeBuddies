@@ -1,0 +1,14 @@
+.login-container {
+  display: flex;
+}
+.login-container .child {
+  flex: 1;
+}
+.login-container .design-part {
+  background-color: var(--theme-light-cream);
+  color: black;
+}
+.login-container .form-part {
+  background-color: var(--theme-dark-cream);
+  color: white;
+}

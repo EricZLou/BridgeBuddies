@@ -4,7 +4,8 @@
   width: 100%;
   padding-top: 1vh;
   height: 14vh;
-  background-color: var(--theme-light-cream);
+  /* color: white; */
+  background-color: var(--theme-light-blue);
 }
 
 /* Components of Header */
@@ -17,7 +18,7 @@
   float: right;
 }
 .header-space .logo:hover {
-  opacity: 0.7;
+  /* opacity: 0.7; */
 }
 .header-title {
   flex: 12;
@@ -57,7 +58,7 @@
   border-top-right-radius: 50%;
 }
 .header-dropdown-square:hover .profile-pic-header {
-  background-color: var(--theme-blue);
+  background-color: var(--theme-cream);
 }
 
 .header-dropdown {
@@ -69,7 +70,7 @@
   border-radius: 50%;
 }
 .header-dropdown:hover .profile-pic-header {
-  background-color: var(--theme-blue);
+  background-color: var(--theme-cream);
 }
 .header-dropdown-content {
   display: block;

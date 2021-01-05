@@ -3,17 +3,17 @@
   display: flex;
   width: 100%;
   height: 5vh;
-  background-color: var(--theme-light-cream);
+  background-color: var(--theme-light-blue);
 }
 
 /* Components of Header */
 .header-logo-game {
   flex: 1;
   padding: 0.5vh;
-  background-color: var(--theme-light-blue);
+  background-color: var(--theme-light-cream);
 }
 .header-logo-game:hover {
-  background-color: var(--theme-blue);
+  background-color: var(--theme-cream);
   cursor: pointer;
 }
 .header-space-game {
@@ -56,9 +56,9 @@
 .header-dropdown-game {
   flex: 1;
   margin-left: 1vh;
-  background-color: var(--theme-light-blue);
+  background-color: var(--theme-light-cream);
 }
 .header-dropdown-game:hover {
-  background-color: var(--theme-blue);
+  background-color: var(--theme-cream);
   cursor: pointer;
 }

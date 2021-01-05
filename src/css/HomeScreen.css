@@ -10,7 +10,7 @@
 }
 .main-nav .container {
   padding: 0vh 3vh 3vh;
-  background-color: var(--theme-blue);
+  background-color: var(--theme-cream);
   border-radius: 3vh;
 }
 .main-nav .container button {
@@ -45,7 +45,7 @@
   margin-right: auto;
   top: 45vh;
   height: 30vh;
-  border-bottom: 10px dotted var(--theme-light-cream);
+  border-bottom: 10px dotted var(--theme-light-blue);
 }
 
 /* SIDE NAV */
@@ -57,7 +57,7 @@
 }
 .side-nav .container {
   padding: 2.5vh 2.5vh;
-  background-color: var(--theme-blue);
+  background-color: var(--theme-cream);
   border-radius: 3vh 3vh 0 0;
   height: 50vh;
 }

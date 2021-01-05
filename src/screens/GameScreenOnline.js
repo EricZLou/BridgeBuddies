@@ -112,7 +112,7 @@ class GameScreenOnline extends React.Component {
     });
 
     // request a game
-    this.props.mySocket.emit("online game request", this.props.first_name);
+    // this.props.mySocket.emit("online game request", this.props.first_name);
   }
 
   componentWillUnmount() {

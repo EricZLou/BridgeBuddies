@@ -23,6 +23,8 @@ let MAX_GAME_IDX = 1;
 }
 */
 let ONLINE_GAME_ROOMS = new Map();
+for (let i = 0; i < 10; i++)
+  createNewRoom();
 
 
 function createNewRoom() {
@@ -34,12 +36,6 @@ function createNewRoom() {
     users: new Map(),
   });
   return room;
-}
-function findRoom() {
-  for (let [room, data] of ONLINE_GAME_ROOMS.entries()) {
-    if (data.num_users < 4) return room;
-  }
-  return createNewRoom();
 }
 
 
@@ -97,10 +93,18 @@ export default function SocketManager(socket) {
     ONLINE GAME ROOM DISPATCH
   ************************************************************/
 
-  // HANDLE ONLINE GAME REQUEST
-  socket.on('online game request', (first_name) => {
+  // HANDLE TABLES INFO REQUEST
+  socket.on('request tables info', () => {
+    let info = {};
+    for (let [room, data] of ONLINE_GAME_ROOMS.entries()) {
+      info[room] = data.num_users;
+    }
+    io.to(socket.id).emit('tables info', info);
+  });
+
+  // HANDLE JOIN ROOM REQUEST
+  socket.on('join room request', (room, first_name) => {
     // join a room
-    const room = findRoom();
     socket.join(room);
     socket.room = room;
     ONLINE_GAME_ROOMS.get(room).users.set(socket.id, first_name);

@@ -7,7 +7,7 @@
   height: calc(100% - 6vh);
   border-radius: 3vh;
   padding: 3vh;
-  background-color: var(--theme-blue);
+  background-color: var(--theme-cream);
 }
 
 .store-container .store-left-container {

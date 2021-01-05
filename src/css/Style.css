@@ -1,12 +1,19 @@
 :root {
+  --theme-blue: #1da1f2;
   --theme-cream: #FFD9B3;
-  --theme-blue: #B8E8FF;
   --theme-green: #77DD77;
   --theme-grey: #6F7073;
+
+  --theme-light-blue: #74cafe;
   --theme-light-cream: #FFECD9;
-  --theme-light-blue: #DEF4FF;
   --theme-light-green: #B4ECB4;
   --theme-light-grey: #EBEDF2;
+
+  --theme-dark-blue: #15202b;
+  --theme-dark-cream: #361B00;
+
+  --theme-off-white: #d1dfe8;
+
   --card-width: 100px;
   --card-height: calc(1056/691 * var(--card-width));
   --card-spacing: 25px;
@@ -21,8 +28,8 @@
 .theme-blue-fg {
   color: var(--theme-blue);
 }
-.theme-blue-bg {
-  background-color: var(--theme-blue);
+.theme-cream-bg {
+  background-color: var(--theme-cream);
 }
 .theme-light-cream-fg {
   color: var(--theme-light-cream);
@@ -45,7 +52,7 @@
 body {
   margin: 0 auto;
   padding: 0;
-  background-color: var(--theme-cream);
+  background-color: var(--theme-dark-blue);
   overflow-wrap: break-word;
   height: 100vh;
   min-width: 800px;

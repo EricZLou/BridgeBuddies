@@ -7,7 +7,7 @@
   height: 40%;
   width: 40%;
   padding: 3%;
-  background-color: var(--theme-cream);
+  background-color: var(--theme-light-blue);
   border-radius: 20px;
   z-index: 4;
 }
@@ -19,14 +19,15 @@
   width: 30%;
   text-align: center;
   margin: auto;
-  background-color: var(--theme-light-blue);
+  background-color: var(--theme-blue);
+  color: white;
   border-radius: 20px;
   font-weight: bold;
 }
 .offline-button {
 }
 .offline-button:hover {
-  background-color: var(--theme-blue);
+  background-color: white;
 }
 .online-timer {
   pointer-events: none;

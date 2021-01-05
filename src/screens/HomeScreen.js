@@ -80,10 +80,7 @@ class HomeScreen extends React.Component {
                       pathname: "/game",
                       state: {type: GAMETYPES.ROBOT},
                     }} ><button>Robots</button></Link>
-                    <Link to={{
-                      pathname: "/game",
-                      state: {type: GAMETYPES.ONLINE},
-                    }} ><button>Online</button></Link>
+                    <Link to="/tables"><button>Online</button></Link>
                   </div>
                 }
                 <Link to="/store" style={{pointerEvents: "none"}}><button>DAILY CHALLENGE</button></Link>

@@ -22,8 +22,8 @@
 
 
 .App-container {
-  color: black;
-  background: linear-gradient(to top, var(--theme-light-cream), var(--theme-cream));
+  color: white;
+  background-color: var(--theme-dark-blue));
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -39,7 +39,7 @@
 
 .cs-loading-text {
   font-size: 1.0em;
-  background-color: var(--theme-blue);
+  background-color: var(--theme-light-blue);
   padding: 0.2em 0.8em;
   border-radius: 10px;
   text-transform: uppercase;
@@ -47,5 +47,5 @@
 .cs-characters {
   height: 20vh;
   margin-top: 5vh;
-  border-bottom: 10px dotted var(--theme-blue);
+  border-bottom: 10px dotted var(--theme-light-blue);
 }

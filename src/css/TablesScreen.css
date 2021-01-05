@@ -1,0 +1,15 @@
+.join-table-wrapper {
+  padding-top: 12px;
+}
+.join-table {
+  display: inline-block;
+  text-decoration: none;
+  background-color: var(--theme-blue);
+  width: 200px;
+  margin: 12px 16px;
+  padding: 12px 16px;
+  border-radius: 16px;
+}
+.join-table-text {
+  color: white;
+}

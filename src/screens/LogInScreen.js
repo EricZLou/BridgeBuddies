@@ -83,26 +83,31 @@ class LogInScreen extends React.Component {
 
   render() {
     return (
-      <div>
-        {/* LOG IN VIEW */}
-        {this.state.log_in_view &&
-          <div>
-            this is the log in view
-            <button onClick={this.logInAsTestUser}>Log in as test user</button>
-            <LogInForm onFormSuccess={this.handleFormSuccess}/>
-            Don't have an account?
-            <button onClick={() => this.setState({log_in_view: false})}>Sign up here</button>
-          </div>
-        }
+      <div className="login-container">
+        <div className="child design-part">
+          lol
+        </div>
+        <div className="child form-part">
+          {/* LOG IN VIEW */}
+          {this.state.log_in_view &&
+            <div>
+              this is the log in view
+              <button onClick={this.logInAsTestUser}>Log in as test user</button>
+              <LogInForm onFormSuccess={this.handleFormSuccess}/>
+              Don't have an account?
+              <button onClick={() => this.setState({log_in_view: false})}>Sign up here</button>
+            </div>
+          }
 
-        {/* SIGN UP VIEW */}
-        {!this.state.log_in_view &&
-          <div>
-            this is the sign up view
-            <SignUpForm onFormSuccess={this.handleFormSuccess}/>
-            <button onClick={() => this.setState({log_in_view: true})}>go to log in</button>
-          </div>
-        }
+          {/* SIGN UP VIEW */}
+          {!this.state.log_in_view &&
+            <div>
+              this is the sign up view
+              <SignUpForm onFormSuccess={this.handleFormSuccess}/>
+              <button onClick={() => this.setState({log_in_view: true})}>go to log in</button>
+            </div>
+          }
+        </div>
       </div>
     );
   }

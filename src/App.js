@@ -14,6 +14,7 @@ import LogInScreen from "./screens/LogInScreen"
 import ProfileScreen from "./screens/ProfileScreen"
 import SettingsScreen from "./screens/SettingsScreen"
 import StoreScreen from "./screens/StoreScreen"
+import TablesScreen from "./screens/TablesScreen"
 
 import {GAMETYPES} from "./constants/GameEngine"
 
@@ -33,6 +34,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/"> <HomeScreen/> </Route>
           <Route path="/store"> <StoreScreen/> </Route>
+          <Route path="/tables"> <TablesScreen/> </Route>
           <Route path="/game" render={(props) => {
             if (props.location.state.type === GAMETYPES.ONLINE) return <GameScreenOnline/>
             return <GameScreenRobot/>
