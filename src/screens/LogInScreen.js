@@ -124,13 +124,15 @@ class LogInScreen extends React.Component {
 
               {/* SIGN UP VIEW */}
               {this.state.view === VIEWSTATES.SIGNUP &&
-                <div>
+                <div className="login-view">
                   <div className="login-type">SIGN UP</div>
                   <div className="form-container">
                     <SignUpForm onFormSuccess={this.handleFormSuccess}/>
                   </div>
-                  <div className="switch-view-text">Already have an account?</div>
-                  <div className="switch-view-click" onClick={() => this.setState({view: VIEWSTATES.LOGIN})}>LOG IN</div>
+                  <div>
+                    <div className="switch-view-text">Already have an account?</div>
+                    <div className="switch-view-click" onClick={() => this.setState({view: VIEWSTATES.LOGIN})}>LOG IN</div>
+                  </div>
                 </div>
               }
             </div>

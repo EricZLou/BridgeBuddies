@@ -5,6 +5,7 @@ body {
   background-color: var(--dark-blue);
   display: flex;
   justify-content: center;
+  height: auto;
 }
 .login-container {
   max-width: 1000px;
@@ -19,9 +20,9 @@ body {
 }
 .login-container .content {
   display: flex;
+  position: relative;
   align-items: center;
-  height: calc(100vh - 80px);
-  transform: translate(0,-40px);
+  min-height: calc(100vh - 80px);
 }
 .content .design-part {
   color: black;
@@ -109,17 +110,20 @@ button.login {
 @media screen and (max-width: 1000px) {
   .content {
     flex-direction: column;
-    padding-top: 40px;
+    /* padding-top: 40px; */
   }
   .content .form-part {
     flex: 3;
     max-width: 560px;
+    justify-content: flex-start;
   }
   .content .design-part {
     flex: 1;
   }
   .content .design-part .characters {
-    max-height: 20vh;
+    height: 150px;
     object-fit: contain;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
 }
