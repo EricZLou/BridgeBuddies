@@ -30,7 +30,7 @@
 .store-container .store-right-container .store-right {
   min-height: calc(100% - 6vh);
   padding: 3vh;
-  border-left: 1vh solid var(--theme-light-cream);
+  border-left: 1vh solid var(--theme-light-blue);
 }
 
 .store-right .category-title {
@@ -44,7 +44,7 @@
   white-space: nowrap;
   margin-bottom: 3vh;
   height: 150px;
-  background-color: var(--theme-light-blue);
+  background-color: var(--theme-light-cream);
 }
 .store-right .category .item {
   height: 100%;

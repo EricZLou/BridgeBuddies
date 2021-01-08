@@ -51,7 +51,11 @@ class GameScreen extends React.Component {
     const partner = getPartner(this.me);
     const next_player = getNextPlayer(this.me);
     const prev_player = getPrevPlayer(this.me);
-    const PartnerType = (partner === this.props.dummy ? this.props.PlayerType : this.props.OpponentType);
+
+    const PartnerPlayerType = this.props.player_types[partner];
+    const NextPlayerType = this.props.player_types[next_player];
+    const PrevPlayerType = this.props.player_types[prev_player];
+    const MyPlayerType = this.props.player_types[this.me];
 
     return (
       <div>
@@ -66,12 +70,13 @@ class GameScreen extends React.Component {
               <div className="left"/>
               <div className="middle">
                 <div className="game-player">
-                  <PartnerType
+                  <PartnerPlayerType
                     seat={partner}
                     name={this.props.players[partner]}
                     visible={partner === this.props.dummy && this.props.first_card_played}
                     clickable={partner === this.props.dummy && this.props.first_card_played}
                     show_bidding_box={false}
+                    online={this.props.online}
                   />
                 </div>
               </div>
@@ -81,12 +86,13 @@ class GameScreen extends React.Component {
             <div className="middle">
               <div className="left">
                 <div className="game-player">
-                  <this.props.OpponentType
+                  <NextPlayerType
                     seat={next_player}
                     name={this.props.players[next_player]}
                     visible={next_player === this.props.dummy && this.props.first_card_played}
                     clickable={false}
                     show_bidding_box={false}
+                    online={this.props.online}
                   />
                 </div>
               </div>
@@ -100,12 +106,13 @@ class GameScreen extends React.Component {
               </div>
               <div className="right">
                 <div className="game-player">
-                  <this.props.OpponentType
+                  <PrevPlayerType
                     seat={prev_player}
                     name={this.props.players[prev_player]}
                     visible={prev_player === this.props.dummy && this.props.first_card_played}
                     clickable={false}
                     show_bidding_box={false}
+                    online={this.props.online}
                   />
                 </div>
               </div>
@@ -115,12 +122,13 @@ class GameScreen extends React.Component {
               <div className="left"/>
               <div className="middle">
                 <div className="game-player">
-                  <this.props.PlayerType
+                  <MyPlayerType
                     seat={this.me}
                     name={this.props.players[this.me]}
                     visible={true}
                     clickable={this.me !== this.props.dummy}
                     show_bidding_box={true}
+                    online={this.props.online}
                   />
                 </div>
               </div>
@@ -157,6 +165,7 @@ const mapStateToProps = (state, ownProps) => {
     dummy: state.dummy,
     first_card_played: state.first_card_played,
     game_state: state.game_state,
+    player_types: state.player_types,
     tricks_won: state.tricks_won,
   }
 }

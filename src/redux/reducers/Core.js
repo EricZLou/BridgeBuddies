@@ -4,7 +4,7 @@ import {firebasePaths} from './FirebasePathReducers'
 import {
   bid_history, card_history, cards_on_board, contract, curr_player,
   dummy, first_card_played, game_state, hands, online_game_over_timer,
-  ready_to_play, tricks_won,
+  player_types, ready_to_play, tricks_won,
 } from './GamePropReducers'
 import {
   updates_with_play_card
@@ -24,7 +24,7 @@ const initialReducer = combineReducers({
   firebasePaths,
   bid_history, card_history, cards_on_board, contract, curr_player,
   dummy, first_card_played, game_state, hands, online_game_over_timer,
-  ready_to_play, tricks_won,
+  player_types, ready_to_play, tricks_won,
   userID, homeScreenReady,
   mySocket, numUsersLoggedIn,
   userDetails,

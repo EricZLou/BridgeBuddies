@@ -7,7 +7,7 @@ import {makeBid, playCard} from '../../redux/actions/Core'
 import {GAMESTATES} from '../../constants/GameEngine'
 
 
-// REPRESENTS A CPU OPPONENT
+// REPRESENTS A CPU PLAYER (ONLINE + OFFLINE)
 class RobotPlayer extends React.Component {
   constructor(props) {
     super(props);
@@ -23,7 +23,11 @@ class RobotPlayer extends React.Component {
   makeBid() {
     this.setState({inside_turn: true});
     this.sleep(1000).then(() => {
-      this.props.dispatch(makeBid({bid: {type: 'pass'}, seat: this.props.seat}));
+      const bid = {type: 'pass'};
+      if (this.props.online)
+        this.props.mySocket.emit("bid click", bid, this.props.seat);
+      else
+        this.props.dispatch(makeBid({bid: bid, seat: this.props.seat}));
     }).then(() => {
       this.setState({inside_turn: false});
     });
@@ -49,14 +53,19 @@ class RobotPlayer extends React.Component {
         }
         if (!found) cardx = cards[0];
       }
-      this.props.dispatch(playCard({card: cardx, seat: this.props.seat}));
+      if (this.props.online)
+        this.props.mySocket.emit("card click", cardx, this.props.seat);
+      else
+        this.props.dispatch(playCard({card: cardx, seat: this.props.seat}));
     }).then(() => {
       this.setState({inside_turn: false});
     });
   }
 
   componentDidMount() {
-    if (this.props.curr_player === this.props.seat) this.makeBid();
+    if (this.props.curr_player !== this.props.seat) return;
+    if (this.props.game_state === GAMESTATES.BIDDING) this.makeBid();
+    else if (this.props.game_state === GAMESTATES.PLAYING) this.playCard();
   }
 
   componentDidUpdate() {
@@ -90,6 +99,7 @@ const mapStateToProps = (state, ownProps) => {
     cards_on_board: state.cards_on_board,
     curr_player: state.curr_player,
     game_state: state.game_state,
+    mySocket: state.mySocket,
     ready_to_play: state.ready_to_play,
   }
 }

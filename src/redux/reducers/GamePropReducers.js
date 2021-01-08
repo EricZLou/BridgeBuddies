@@ -1,12 +1,13 @@
 import {
   FINISH_BIDDING, MAKE_BID,
-  NEW_GAME, SET_HAND, START_ONLINE_GAME_OVER_TIMER,
+  NEW_GAME, SET_HAND, SET_PLAYER_TYPES, START_ONLINE_GAME_OVER_TIMER,
   CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, PLAY_CARD,
 } from '../actions/Core'
 
 import {getRoundWinner} from '../../engine/managers/BridgeGameEngine'
 import {getNextPlayer, getPartner} from '../../engine/utils/GameScreenUtils'
 import {sortHand} from '../../engine/Deck'
+import OnlinePlayer from '../../engine/players/OnlinePlayer'
 import {BID_SUITS, GAMESTATES, SEATS} from '../../constants/GameEngine'
 
 export function bid_history(state=[], action) {
@@ -146,6 +147,20 @@ export function online_game_over_timer(state=false, action) {
       return true;
     case NEW_GAME:
       return false;
+    default:
+      return state;
+  }
+}
+
+export function player_types(state={
+  [SEATS.NORTH]: OnlinePlayer,
+  [SEATS.EAST]: OnlinePlayer,
+  [SEATS.SOUTH]: OnlinePlayer,
+  [SEATS.WEST]: OnlinePlayer,
+}, action) {
+  switch (action.type) {
+    case SET_PLAYER_TYPES:
+      return {...state, ...action.dict};
     default:
       return state;
   }

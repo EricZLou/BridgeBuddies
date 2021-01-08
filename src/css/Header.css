@@ -17,9 +17,6 @@
   position: relative;
   float: right;
 }
-.header-space .logo:hover {
-  /* opacity: 0.7; */
-}
 .header-title {
   flex: 12;
   flex-shrink: 2;

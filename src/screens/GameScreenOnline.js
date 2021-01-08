@@ -4,11 +4,12 @@ import {connect} from 'react-redux'
 import GameScreen from './GameScreen'
 import LoadingScreen from './LoadingScreen'
 import OnlinePlayer from '../engine/players/OnlinePlayer'
+import RobotPlayer from '../engine/players/RobotPlayer'
 import {
   isBiddingComplete
 } from '../engine/managers/BridgeGameEngine'
 import {
-  finishPlaying, makeBid, newGame, playCard, setHand, startOnlineGameOverTimer
+  finishPlaying, makeBid, newGame, playCard, setHand, setPlayerTypes, startOnlineGameOverTimer
 } from '../redux/actions/Core'
 import {sortHand} from '../engine/Deck'
 
@@ -49,6 +50,14 @@ class GameScreenOnline extends React.Component {
   }
 
   componentDidMount() {
+    // set player types
+    this.props.dispatch(setPlayerTypes({
+      [SEATS.NORTH]: OnlinePlayer,
+      [SEATS.EAST]: OnlinePlayer,
+      [SEATS.SOUTH]: OnlinePlayer,
+      [SEATS.WEST]: OnlinePlayer,
+    }));
+
     // clean up in case user reloads page
     window.addEventListener("beforeunload", this.cleanup);
 
@@ -111,8 +120,14 @@ class GameScreenOnline extends React.Component {
       this.props.dispatch(startOnlineGameOverTimer());
     });
 
-    // request a game
-    // this.props.mySocket.emit("online game request", this.props.first_name);
+    // in case someone else leaves and I get a robot hand to play
+    this.props.mySocket.on("robot cards", (seat, cards) => {
+      console.log("ERICCCCCCCCCCCCCCCC");
+      console.log(seat);
+      console.log(cards);
+      this.props.dispatch(setHand({seat: seat, cards: cards}));
+      this.props.dispatch(setPlayerTypes({[seat]: RobotPlayer}));
+    });
   }
 
   componentWillUnmount() {

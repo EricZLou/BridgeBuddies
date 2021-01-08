@@ -26,13 +26,13 @@
 }
 
 .store-info-buy-yes {
-  background-color: var(--theme-light-green);
+  background-color: #B4ECB4;
 }
 .store-info-buy-yes:hover {
-  background-color: var(--theme-green);
+  background-color: #77DD77;
 }
 .store-info-buy-no {
-  background-color: var(--theme-light-grey);
+  background-color: #EBEDF2;
   pointer-events: none;
 }
 .store-info-use {

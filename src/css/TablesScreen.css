@@ -5,11 +5,18 @@
   display: inline-block;
   text-decoration: none;
   background-color: var(--theme-blue);
+  border: 2px solid black;
   width: 200px;
   margin: 12px 16px;
   padding: 12px 16px;
   border-radius: 16px;
 }
+.join-table:hover {
+  background-color: var(--theme-dark-blue);
+}
 .join-table-text {
+  color: black;
+}
+.join-table:hover .join-table-text {
   color: white;
 }
