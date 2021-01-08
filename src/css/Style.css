@@ -1,48 +1,42 @@
 :root {
-  --theme-cream: #FFD9B3;
-  --theme-blue: #B8E8FF;
-  --theme-light-cream: #FFECD9;
-  --theme-light-blue: #DEF4FF;
-  --theme-dark-cream: #E77E99;
-  --theme-dark-blue: #2D4E69;
+  /* CORE COLORS */
+  --theme-blue: rgb(43, 112, 201);
+  --theme-cream: rgb(255, 217, 179);
 
-  /* --theme-blue: #097EB5;
-  --theme-light-blue: #72d4f5;
-  --theme-dark-blue: #2D4E69;
+  /* FOR TEXT */
+  --color-black: rgb(0, 0, 0);
+  --color-grey: rgb(119, 119, 119);
+  --color-white: rgb(255, 255, 255);
 
-  --theme-cream: #ECC2D0;
-  --theme-light-cream: #FFECD9;
-  --theme-dark-cream: #E77E99; */
+  /* ACCENT COLORS*/
+  --accent-red: rgb(255, 75, 75);
+  --accent-yellow: rgb(255, 200, 0);
+  --accent-purple: rgb(206, 130, 255);
+  --accent-orange: rgb(255, 150, 0);
 
-  /* --theme-blue: #1DA1F2;
-  --theme-light-blue: #74CAFE;
-  --theme-dark-blue: #15202B;
+  /* TINTED TEXT COLOR ON COLOR*/
+  --tinted-grey: rgb(119, 119, 119, 0.8);
+  --tinted-red: rgb(255, 75, 75, 0.8);
+  --tinted-yellow: rgb(255, 200, 0, 0.8);
+  --tinted-purple: rgb(206, 130, 255, 0.8);
+  --tinted-orange: rgb(255, 150, 0, 0.8);
 
-  --theme-cream: #FFD9B3;
-  --theme-light-cream: #FFECD9;
-  --theme-dark-cream: #361B00; */
+  /* USE SPARINGLY WITH BUTTONS AND SUCH */
+  --dark-blue: rgb(35, 80, 145);
+  --dark-purple: rgb(135, 70, 175);
+  --dark-orange: rgb(120, 75, 5);
 
-  /* --theme-off-white: #d1dfe8; */
-  --theme-green: #77DD77;
-  --theme-grey: #6F7073;
-  --theme-light-green: #B4ECB4;
-  --theme-light-grey: #EBEDF2;
-
+  /* ADDITIONAL */
   --card-width: 100px;
   --card-height: calc(1056/691 * var(--card-width));
   --card-spacing: 25px;
   --hand-width: calc(12 * var(--card-spacing) + var(--card-width));
 }
 
-* {
-  font-family: "Comic Sans MS", sans-serif;
-  transition-duration: 0.2s;
-}
-
 body {
+  transition-duration: 0.2s;
   margin: 0 auto;
   padding: 0;
-  background-color: var(--theme-blue);
   overflow-wrap: break-word;
   height: 100vh;
   min-width: 800px;
@@ -62,6 +56,10 @@ button:hover {
 }
 
 hr.hr-black {
+  border-top: 4px solid black;
+  border-bottom: 0px;
+}
+hr.hr-white {
   border-top: 4px solid black;
   border-bottom: 0px;
 }

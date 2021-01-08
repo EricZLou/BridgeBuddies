@@ -1,14 +1,125 @@
-.login-container {
+body {
+  min-width: 0px;
+}
+.LogInScreen-entire {
+  background-color: var(--dark-blue);
   display: flex;
+  justify-content: center;
 }
-.login-container .child {
-  flex: 1;
+.login-container {
+  max-width: 1000px;
 }
-.login-container .design-part {
-  background-color: var(--theme-light-cream);
-  color: black;
-}
-.login-container .form-part {
-  background-color: var(--theme-dark-cream);
+.login-container .header {
+  height: 40px;
+  padding: 20px 0px 20px 40px;
   color: white;
+  font-size: 30px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.login-container .content {
+  display: flex;
+  align-items: center;
+  height: calc(100vh - 80px);
+  transform: translate(0,-40px);
+}
+.content .design-part {
+  color: black;
+  flex: 3;
+}
+.content .design-part .characters {
+  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+  border-bottom: 10px dotted var(--theme-cream);
+}
+
+.content .form-part {
+  color: white;
+  flex: 4;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.default-view .motto {
+  padding-bottom: 40px;
+  font-size: 30px;
+}
+.default-view button {
+  border-radius: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: white;
+  min-width: 280px;
+  padding: 12px 0;
+  margin: 8px 10px 8px 10px;
+}
+.default-view button:active {
+  box-shadow: 0 0 0 white;
+  margin: 10px 10px 6px 10px;
+}
+button.signup {
+  background-color: var(--accent-purple);
+  box-shadow: 0px 4px var(--dark-purple);
+  border: 0;
+}
+button.login {
+  background-color: rgba(0,0,0,0);
+  box-shadow: 0px 4px black;
+  border-color: var(--color-black);
+}
+
+.login-type {
+  font-size: 20px;
+  font-weight: bold;
+  padding-bottom: 20px;
+}
+.login-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.switch-view-text {
+  display: inline;
+  padding-right: 8px;
+}
+.switch-view-click {
+  display: inline;
+  font-weight: bold;
+  color: var(--accent-orange);
+}
+.switch-view-click:hover {
+  cursor: pointer;
+}
+.form-container {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0;
+}
+
+.tmp-button {
+  margin-top: 30px;
+}
+
+
+@media screen and (max-width: 1000px) {
+  .content {
+    flex-direction: column;
+    padding-top: 40px;
+  }
+  .content .form-part {
+    flex: 3;
+    max-width: 560px;
+  }
+  .content .design-part {
+    flex: 1;
+  }
+  .content .design-part .characters {
+    max-height: 20vh;
+    object-fit: contain;
+  }
 }

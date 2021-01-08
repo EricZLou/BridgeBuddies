@@ -1,3 +1,7 @@
+/* body {
+  background-color: var(--theme-cream);
+} */
+
 .body-container {
   display: flex;
   margin: 5vh 5vh 0vh;

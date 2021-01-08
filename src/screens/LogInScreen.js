@@ -13,12 +13,20 @@ import {logIn, homeScreenReady,
 import '../css/Style.css'
 import '../css/LogInScreen.css'
 
+import cover from '../media/cover.png'
+
+
+const VIEWSTATES = {
+  DEFAULT: "DEFAULT",
+  LOGIN: "LOGIN",
+  SIGNUP: "SIGNUP",
+}
 
 class LogInScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      log_in_view: true,
+      view: VIEWSTATES.DEFAULT,
     }
     this.handleFormSuccess = this.handleFormSuccess.bind(this);
     this.logInAsTestUser = this.logInAsTestUser.bind(this);
@@ -83,30 +91,50 @@ class LogInScreen extends React.Component {
 
   render() {
     return (
-      <div className="login-container">
-        <div className="child design-part">
-          lol
-        </div>
-        <div className="child form-part">
-          {/* LOG IN VIEW */}
-          {this.state.log_in_view &&
-            <div>
-              this is the log in view
-              <button onClick={this.logInAsTestUser}>Log in as test user</button>
-              <LogInForm onFormSuccess={this.handleFormSuccess}/>
-              Don't have an account?
-              <button onClick={() => this.setState({log_in_view: false})}>Sign up here</button>
+      <div className="LogInScreen-entire">
+        <div className="login-container">
+          <div className="header">Bridge Buddies</div>
+          <div className="content">
+            <div className="design-part">
+              <img src={cover} alt="Characters" className="characters"/>
             </div>
-          }
+            <div className="form-part">
+              {/* DEFAULT VIEW */}
+              {this.state.view === VIEWSTATES.DEFAULT &&
+                <div className="default-view">
+                  <div className="motto">This website is so much fun! So fun!</div>
+                  <button className="signup" onClick={(() => {this.setState({view: VIEWSTATES.SIGNUP})})}>Get started</button>
+                  <button className="login" onClick={(() => {this.setState({view: VIEWSTATES.LOGIN})})}>I already have an account</button>
+                </div>
+              }
+              {/* LOG IN VIEW */}
+              {this.state.view === VIEWSTATES.LOGIN &&
+                <div className="login-view">
+                  <div className="login-type">LOG IN</div>
+                  <div className="form-container">
+                    <LogInForm onFormSuccess={this.handleFormSuccess}/>
+                  </div>
+                  <div>
+                    <div className="switch-view-text">Don't have an account?</div>
+                    <div className="switch-view-click" onClick={() => this.setState({view: VIEWSTATES.SIGNUP})}>SIGN UP</div>
+                  </div>
+                  <button className="tmp-button" onClick={this.logInAsTestUser}>LOG IN AS TEST USER</button>
+                </div>
+              }
 
-          {/* SIGN UP VIEW */}
-          {!this.state.log_in_view &&
-            <div>
-              this is the sign up view
-              <SignUpForm onFormSuccess={this.handleFormSuccess}/>
-              <button onClick={() => this.setState({log_in_view: true})}>go to log in</button>
+              {/* SIGN UP VIEW */}
+              {this.state.view === VIEWSTATES.SIGNUP &&
+                <div>
+                  <div className="login-type">SIGN UP</div>
+                  <div className="form-container">
+                    <SignUpForm onFormSuccess={this.handleFormSuccess}/>
+                  </div>
+                  <div className="switch-view-text">Already have an account?</div>
+                  <div className="switch-view-click" onClick={() => this.setState({view: VIEWSTATES.LOGIN})}>LOG IN</div>
+                </div>
+              }
             </div>
-          }
+          </div>
         </div>
       </div>
     );

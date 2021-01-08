@@ -3,6 +3,7 @@ import React from 'react'
 import Firebase from '../Firebase'
 
 import '../css/Style.css'
+import '../css/Form.css'
 
 
 export default class SignUpForm extends React.Component {
@@ -63,51 +64,36 @@ export default class SignUpForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>
-          Email:
-          <input name="email" type="email" value={this.state.email || ""}
-                 onChange={this.handleFormChange}
-                 placeholder="Ex: ericlou101@gmail.com"
-                 required
-          />
-        </label>
-        <label>
-          <abbr title="Only use characters A-Z and digits 0-9.">User Name:</abbr>
-          <input name="username" type="text" value={this.state.username || ""}
-                 onChange={this.handleFormChange}
-                 placeholder="Ex: ericlou101"
-                 minLength="5"
-                 maxLength="18"
-                 pattern="[A-Za-z0-9]*"
-                 required
-          />
-        </label>
-        <label>
-          First Name:
-          <input name="first_name" type="text" value={this.state.first_name || ""}
-                 onChange={this.handleFormChange}
-                 placeholder="Ex: Eric"
-                 pattern="[A-Za-z]*"
-                 required
-          />
-        </label>
-        <label>
-          Last Name:
-          <input name="last_name" type="text" value={this.state.last_name || ""}
-                 onChange={this.handleFormChange}
-                 placeholder="Ex: Lou"
-                 pattern="[A-Za-z]*"
-                 required
-          />
-        </label>
-        <label>
-          Password:
-          <input name="password" type="password" value={this.state.password || ""}
-                 onChange={this.handleFormChange}
-                 minLength="8"
-                 required
-          />
-        </label>
+        <input name="email" type="email" value={this.state.email || ""}
+               onChange={this.handleFormChange}
+               placeholder="Email"
+               required
+        />
+        <input name="username" type="text" value={this.state.username || ""}
+               onChange={this.handleFormChange}
+               placeholder="Username: characters A-Z and digits 0-9"
+               minLength="5"
+               maxLength="18"
+               pattern="[A-Za-z0-9]*"
+               required
+        />
+        <input name="first_name" type="text" value={this.state.first_name || ""}
+               onChange={this.handleFormChange}
+               placeholder="First Name"
+               pattern="[A-Za-z]*"
+               required
+        />
+        <input name="last_name" type="text" value={this.state.last_name || ""}
+               onChange={this.handleFormChange}
+               placeholder="Last Name (optional)"
+               pattern="[A-Za-z]*"
+        />
+        <input name="password" type="password" value={this.state.password || ""}
+               onChange={this.handleFormChange}
+               placeholder="Password"
+               minLength="8"
+               required
+        />
 
         <input type="submit" value="Sign Up" />
       </form>

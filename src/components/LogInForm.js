@@ -3,6 +3,7 @@ import React from 'react'
 import Firebase from '../Firebase'
 
 import '../css/Style.css'
+import '../css/Form.css'
 
 
 export default class LogInForm extends React.Component {
@@ -31,23 +32,17 @@ export default class LogInForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>
-          Email:
-          <input name="email" type="email" value={this.state.email || ""}
-                 onChange={this.handleFormChange}
-                 placeholder="Ex: ericlou101@gmail.com"
-                 required
-          />
-        </label>
-        <label>
-          Password:
-          <input name="password" type="password" value={this.state.password || ""}
-                 onChange={this.handleFormChange}
-                 required
-          />
-        </label>
-
-        <input type="submit" value="Sign In" />
+        <input name="email" type="email" value={this.state.email || ""}
+               onChange={this.handleFormChange}
+               placeholder="Email"
+               required
+        />
+        <input name="password" type="password" value={this.state.password || ""}
+               onChange={this.handleFormChange}
+               placeholder="Password"
+               required
+        />
+        <input type="submit" value="LOG IN" />
       </form>
     )
   }
