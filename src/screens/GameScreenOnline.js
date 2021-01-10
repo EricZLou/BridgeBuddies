@@ -3,14 +3,12 @@ import {connect} from 'react-redux'
 
 import GameScreen from './GameScreen'
 import LoadingScreen from './LoadingScreen'
-import OnlinePlayer from '../engine/players/OnlinePlayer'
-import RobotPlayer from '../engine/players/RobotPlayer'
 import {
   isBiddingComplete
 } from '../engine/managers/BridgeGameEngine'
 import {
   finishPlaying, makeBid, newGame, playCard, setHand,
-  setGameTypeOrMe, startOnlineGameOverTimer, setPlayerTypes,
+  setGameTypeOrMe, setOnlineRobot, startOnlineGameOverTimer,
 } from '../redux/actions/Core'
 import {sortHand} from '../engine/Deck'
 
@@ -66,6 +64,7 @@ class GameScreenOnline extends React.Component {
 
     // initial game setup
     this.props.mySocket.on("game data", (game_info) => {
+      this.props.dispatch(setGameTypeOrMe({me: game_info.me}));
       this.setState({
         game_info: game_info,
       });
@@ -117,8 +116,7 @@ class GameScreenOnline extends React.Component {
 
     // in case someone else leaves and I get a robot hand to play
     this.props.mySocket.on("robot cards", (seat, cards) => {
-      this.props.dispatch(setHand({seat: seat, cards: cards}));
-      this.props.dispatch(setPlayerTypes({[seat]: RobotPlayer}));
+      this.props.dispatch(setOnlineRobot({seat: seat, cards: cards}));
     });
   }
 
@@ -146,9 +144,6 @@ class GameScreenOnline extends React.Component {
           [SEATS.SOUTH]: this.state.game_info[SEATS.SOUTH],
           [SEATS.WEST]: this.state.game_info[SEATS.WEST],
         }}
-        PlayerType={OnlinePlayer}
-        OpponentType={OnlinePlayer}
-        online={true}
       />
     );
   }

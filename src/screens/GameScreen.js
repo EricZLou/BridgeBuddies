@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import BidsOnBoard from '../engine/BidsOnBoard'
 import CardsOnBoard from '../engine/CardsOnBoard'
 import CurrentGameStats from '../engine/CurrentGameStats'
+import GenPlayer from '../engine/players/GenPlayer'
 import HeaderGame from '../components/HeaderGame'
 import ScoreSubScreen from '../screens/ScoreSubScreen'
 import {
@@ -21,7 +22,7 @@ import '../css/GameScreen.css'
 
 import table from '../media/store/tables/green2.jpg'
 
-import {GAMESTATES} from '../constants/GameEngine'
+import {GAMESTATES, GAMETYPES} from '../constants/GameEngine'
 
 
 class GameScreen extends React.Component {
@@ -56,10 +57,10 @@ class GameScreen extends React.Component {
     const next_player = getNextPlayer(this.me);
     const prev_player = getPrevPlayer(this.me);
 
-    const PartnerPlayerType = this.props.player_types[partner];
-    const NextPlayerType = this.props.player_types[next_player];
-    const PrevPlayerType = this.props.player_types[prev_player];
-    const MyPlayerType = this.props.player_types[this.me];
+    // const PartnerPlayerType = this.props.player_types[partner];
+    // const NextPlayerType = this.props.player_types[next_player];
+    // const PrevPlayerType = this.props.player_types[prev_player];
+    // const MyPlayerType = this.props.player_types[this.me];
 
     return (
       <div>
@@ -74,12 +75,11 @@ class GameScreen extends React.Component {
               <div className="left"/>
               <div className="middle">
                 <div className="game-player">
-                  <PartnerPlayerType
+                  <GenPlayer
                     seat={partner}
                     name={this.props.players[partner]}
                     visible={partner === this.props.dummy && this.props.first_card_played}
                     clickable={partner === this.props.dummy && this.props.first_card_played}
-                    show_bidding_box={false}
                   />
                 </div>
               </div>
@@ -89,12 +89,11 @@ class GameScreen extends React.Component {
             <div className="middle">
               <div className="left">
                 <div className="game-player">
-                  <NextPlayerType
+                  <GenPlayer
                     seat={next_player}
                     name={this.props.players[next_player]}
                     visible={next_player === this.props.dummy && this.props.first_card_played}
                     clickable={false}
-                    show_bidding_box={false}
                   />
                 </div>
               </div>
@@ -108,12 +107,11 @@ class GameScreen extends React.Component {
               </div>
               <div className="right">
                 <div className="game-player">
-                  <PrevPlayerType
+                  <GenPlayer
                     seat={prev_player}
                     name={this.props.players[prev_player]}
                     visible={prev_player === this.props.dummy && this.props.first_card_played}
                     clickable={false}
-                    show_bidding_box={false}
                   />
                 </div>
               </div>
@@ -123,12 +121,11 @@ class GameScreen extends React.Component {
               <div className="left"/>
               <div className="middle">
                 <div className="game-player">
-                  <MyPlayerType
+                  <GenPlayer
                     seat={this.me}
                     name={this.props.players[this.me]}
                     visible={true}
                     clickable={this.me !== this.props.dummy}
-                    show_bidding_box={true}
                   />
                 </div>
               </div>
@@ -164,6 +161,7 @@ const mapStateToProps = (state, ownProps) => {
     contract: state.contract,
     dummy: state.dummy,
     first_card_played: state.first_card_played,
+    online: (state.game_info.game_type === GAMETYPES.ONLINE ? true : false),
     game_state: state.game_state,
     player_types: state.player_types,
     tricks_won: state.tricks_won,

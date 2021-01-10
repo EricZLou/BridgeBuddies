@@ -1,16 +1,14 @@
 import {
   FINISH_BIDDING, MAKE_BID,
-  NEW_GAME, SET_GAME_TYPE_OR_ME, SET_HAND, SET_PLAYER_TYPES, START_ONLINE_GAME_OVER_TIMER,
+  NEW_GAME, SET_GAME_TYPE_OR_ME, SET_HAND, SET_ONLINE_ROBOT, START_ONLINE_GAME_OVER_TIMER,
   CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, PLAY_CARD,
 } from '../actions/Core'
 
 import {getRoundWinner} from '../../engine/managers/BridgeGameEngine'
 import {getNextPlayer, getPartner} from '../../engine/utils/GameScreenUtils'
 import {sortHand} from '../../engine/Deck'
-import OfflinePlayer from '../../engine/players/OfflinePlayer'
-import OnlinePlayer from '../../engine/players/OnlinePlayer'
-import RobotPlayer from '../../engine/players/RobotPlayer'
 import {BID_SUITS, GAMESTATES, GAMETYPES, SEATS} from '../../constants/GameEngine'
+
 
 export function bid_history(state=[], action) {
   switch (action.type) {
@@ -152,6 +150,8 @@ export function hands(state={
       };
     case SET_HAND:
       return {...state, [action.seat]: action.cards};
+    case SET_ONLINE_ROBOT:
+      return {...state, [action.seat]: action.cards};
     default:
       return state;
   }
@@ -169,24 +169,29 @@ export function online_game_over_timer(state=false, action) {
 }
 
 export function player_types(state={
-  [SEATS.NORTH]: OnlinePlayer,
-  [SEATS.EAST]: OnlinePlayer,
-  [SEATS.SOUTH]: OnlinePlayer,
-  [SEATS.WEST]: OnlinePlayer,
+  [SEATS.NORTH]: GAMETYPES.ONLINE,
+  [SEATS.EAST]: GAMETYPES.ONLINE,
+  [SEATS.SOUTH]: GAMETYPES.ONLINE,
+  [SEATS.WEST]: GAMETYPES.ONLINE,
 }, action) {
   switch (action.type) {
-    case SET_PLAYER_TYPES:
-      return {...state, ...action.dict};
+    case SET_ONLINE_ROBOT:
+      return {...state, [action.seat]: GAMETYPES.OFFLINE};
     case SET_GAME_TYPE_OR_ME:
+      if (!action.game_type) return state;
       if (action.game_type === GAMETYPES.ONLINE) {
-        return state;
+        return {
+          [SEATS.NORTH]: GAMETYPES.ONLINE,
+          [SEATS.EAST]: GAMETYPES.ONLINE,
+          [SEATS.SOUTH]: GAMETYPES.ONLINE,
+          [SEATS.WEST]: GAMETYPES.ONLINE,
+        };
       } else {
         return {
-            [SEATS.NORTH]: RobotPlayer,
-            [SEATS.EAST]: RobotPlayer,
-            [SEATS.SOUTH]: RobotPlayer,
-            [SEATS.WEST]: RobotPlayer,
-            [action.me]: OfflinePlayer,
+          [SEATS.NORTH]: GAMETYPES.OFFLINE,
+          [SEATS.EAST]: GAMETYPES.OFFLINE,
+          [SEATS.SOUTH]: GAMETYPES.OFFLINE,
+          [SEATS.WEST]: GAMETYPES.OFFLINE,
         }
       }
     default:
@@ -217,7 +222,7 @@ export function tricks_won(state={NS: 0, EW: 0}, action) {
 export function updates_with_play_card(
   state={curr_player, tricks_won, ready_to_play},
   action,
-  {cards_on_board, contract}
+  {cards_on_board, contract, game_type, player_types}
 ) {
   switch (action.type) {
     case PLAY_CARD:
@@ -230,7 +235,11 @@ export function updates_with_play_card(
           tricks_won: NS.includes(winner) ?
             {NS: state.tricks_won.NS + 1, EW: state.tricks_won.EW} :
             {NS: state.tricks_won.NS, EW: state.tricks_won.EW + 1},
-          ready_to_play: false,
+          ready_to_play: (
+            game_type === GAMETYPES.ONLINE &&
+            player_types[winner] === GAMETYPES.OFFLINE ?
+            true : false
+          ),
         };
       }
       else {
@@ -238,27 +247,6 @@ export function updates_with_play_card(
           curr_player: getNextPlayer(action.seat)
         };
       }
-    default:
-      return state;
-  }
-}
-
-export function updates_with_finish_bidding(
-  state={player_types},
-  action,
-  {contract, game_info}
-) {
-  switch (action.type) {
-    case FINISH_BIDDING:
-      if (game_info.game_type === GAMETYPES.OFFLINE &&
-          game_info.me === contract.declarer) {
-        return {
-          player_types: {...state.player_types,
-            [getPartner(game_info.me)]: OfflinePlayer,
-          },
-        };
-      }
-      return state;
     default:
       return state;
   }

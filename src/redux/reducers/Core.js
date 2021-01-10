@@ -7,7 +7,7 @@ import {
   player_types, ready_to_play, tricks_won,
 } from './GamePropReducers'
 import {
-  updates_with_play_card, updates_with_finish_bidding
+  updates_with_play_card
 } from './GamePropReducers'
 import {userID, homeScreenReady} from './LogInReducers'
 import {mySocket, numUsersLoggedIn} from './SocketReducers'
@@ -16,7 +16,7 @@ import {coins, exp, level_idx} from './UserStatsReducers'
 import {storeActive, storeOwned} from './UserStoreReducers'
 
 import {
-  FINISH_BIDDING, LOG_OUT, PLAY_CARD,
+  LOG_OUT, PLAY_CARD,
 } from '../actions/Core'
 
 
@@ -46,19 +46,8 @@ function crossSliceReducer(state, action) {
           }, action, {
             cards_on_board: state.cards_on_board,
             contract: state.contract,
-          }
-        ),
-      };
-    case FINISH_BIDDING:
-      // pass contract into updates() after it is updated
-      return {
-        ...state,
-        ...updates_with_finish_bidding(
-          {
+            game_type: state.game_info.game_type,
             player_types: state.player_types,
-          }, action, {
-            contract: state.contract,
-            game_info: state.game_info,
           }
         ),
       };
