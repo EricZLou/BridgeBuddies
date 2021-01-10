@@ -10,14 +10,14 @@ import bridge_clipart from '../media/bridge_clipart.png'
 import coin from '../media/coin.png'
 import gespade from '../media/store/characters/gespade.png'
 
-import {LEVELS, TOTAL_EXP} from '../constants/Levels'
+import {LEVELS} from '../constants/Levels'
 
 
 class HeaderGame extends React.Component {
   render() {
     return (
       <div className="header-container-game">
-        <Link to="/" className="header-logo-game">
+        <Link to="/" className="header-logo-game" title="Go home">
           <img src={bridge_clipart} alt="Logo" className="logo"/>
         </Link>
         <div className="header-space-game"/>
@@ -27,7 +27,7 @@ class HeaderGame extends React.Component {
         <div className="header-info-game">
           <div className="right">
             <div className="level">{this.props.level}</div>
-            <div className="exp">EXP: {this.props.exp} / {TOTAL_EXP}</div>
+            <div className="exp">EXP: {this.props.exp}</div>
             <img src={coin} alt="Coin" className="coin-img"/>
             <div className="coins">{this.props.coins}</div>
           </div>

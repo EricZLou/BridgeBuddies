@@ -36,13 +36,13 @@
   pointer-events: none;
 }
 .store-info-use {
-  background-color: var(--theme-light-cream);
+  background-color: var(--light-orange);
 }
 .store-info-use:hover {
-  background-color: var(--theme-cream);
+  background-color: var(--accent-orange);
 }
 .store-info-active {
-  background-color: white;
+  background-color: var(--color-white);
   pointer-events: none;
 }
 

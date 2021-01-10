@@ -20,10 +20,9 @@
   }
 }
 
-
 .App-container {
-  color: white;
-  background-color: var(--theme-dark-blue));
+  color: var(--color-white);
+  background-color: var(--dark-blue));
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -33,19 +32,42 @@
   font-size: calc(10px + 2vmin);
 }
 
-.cs-title {
+.loading-x-circle {
+  color: var(--color-white);
+  text-decoration: none;
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loading-x-circle:hover {
+  cursor: pointer;
+  background-color: var(--theme-sky);
+  color: var(--dark-blue);
+}
+.loading-x {
+  font-size: 1em;
+}
+
+.loading-title {
   font-size: 1.5em;
 }
 
-.cs-loading-text {
+.loading-text {
   font-size: 1.0em;
-  background-color: var(--theme-light-blue);
+  background-color: var(--theme-sky);
+  color: var(--color-black);
   padding: 0.2em 0.8em;
   border-radius: 10px;
   text-transform: uppercase;
 }
-.cs-characters {
+.loading-characters {
   height: 20vh;
   margin-top: 5vh;
-  border-bottom: 10px dotted var(--theme-light-blue);
+  border-bottom: 10px dotted var(--theme-sky);
 }

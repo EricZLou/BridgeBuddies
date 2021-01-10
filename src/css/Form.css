@@ -11,6 +11,9 @@ input {
   -moz-box-sizing:content-box;
   box-sizing:content-box;
   -webkit-box-sizing:content-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 input[type=email], input[type=text], input[type=password] {
@@ -22,7 +25,7 @@ input[type=submit] {
   box-shadow: 0px 4px var(--dark-orange);
   margin: 20px 0 8px 0;
   border: 0;
-  color: white;
+  color: var(--color-white);
   font-weight: bold;
 }
 input[type=submit]:hover {

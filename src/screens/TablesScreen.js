@@ -16,9 +16,12 @@ class TablesScreen extends React.Component {
     this.state = {
       info: {},
     }
+    this.requestTablesInfo = this.requestTablesInfo.bind(this);
   }
 
   componentDidMount() {
+    document.body.style.backgroundColor = getComputedStyle(document.documentElement)
+      .getPropertyValue('--theme-cream');
     // upon getting tables to join info
     this.props.mySocket.on("tables info", (info) => {
       this.setState({info: info});
@@ -47,8 +50,12 @@ class TablesScreen extends React.Component {
              onClick={this.joinRoom.bind(this, room)}
              key={room}
           >
-          <div className="join-table-text">
-            {`${room}: ${this.state.info[room]} users`}
+          <div className="table-name">{room}</div>
+          <div className="table-num-users">
+            {`Players: ${this.state.info[room].num_users}`}
+          </div>
+          <div className="table-activity">
+            {`Status: ${this.state.info[room].game_state}`}
           </div>
         </Link>
       );
@@ -57,9 +64,11 @@ class TablesScreen extends React.Component {
     return (
       <div>
         <Header/>
-        <div className="join-table-wrapper">
+        <div className="body-width-cap-container"><div className="body-width-cap">
+          <div className="title">Choose an Online Table</div>
+          <button className="refresh" onClick={this.requestTablesInfo}>Refresh &#x27F3;</button>
           {tables}
-        </div>
+        </div></div>
       </div>
     );
   }

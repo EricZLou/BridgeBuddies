@@ -112,7 +112,10 @@ export default function SocketManager(socket) {
   socket.on('request tables info', () => {
     let info = {};
     for (let [room, data] of ONLINE_GAME_ROOMS.entries()) {
-      info[room] = data.num_users;
+      info[room] = {
+        num_users: data.num_users,
+        game_state: data.game_state,
+      };
     }
     io.to(socket.id).emit('tables info', info);
   });
@@ -195,9 +198,9 @@ export default function SocketManager(socket) {
   socket.on('leave online game', () => {
     console.log(`[LEAVE] ${socket.room} - ${socket.id}`);
 
-    // no one left in the room
-    if (ONLINE_GAME_ROOMS.get(socket.room).users.size === 0) {
-      ONLINE_GAME_ROOMS.set(room, {
+    // last person to leave the room
+    if (ONLINE_GAME_ROOMS.get(socket.room).users.size === 1) {
+      ONLINE_GAME_ROOMS.set(socket.room, {
         cards_played: 0,
         game_state: GAMESTATES.WAITING,
         num_users: 0,
@@ -220,9 +223,6 @@ export default function SocketManager(socket) {
       const new_uid = ONLINE_GAME_ROOMS.get(socket.room).users.keys().next().value;
       const old_seat = ONLINE_GAME_ROOMS.get(socket.room).users.get(old_uid).seat;
       const cards = ONLINE_GAME_ROOMS.get(socket.room).hands[old_seat];
-      console.log(new_uid);
-      console.log(old_seat);
-      console.log(cards);
       io.to(new_uid).emit('robot cards', old_seat, cards);
     }
 

@@ -9,13 +9,14 @@ import {
   isBiddingComplete
 } from '../engine/managers/BridgeGameEngine'
 import {
-  finishPlaying, makeBid, newGame, playCard, setHand, setPlayerTypes, startOnlineGameOverTimer
+  finishPlaying, makeBid, newGame, playCard, setHand,
+  setGameTypeOrMe, startOnlineGameOverTimer, setPlayerTypes,
 } from '../redux/actions/Core'
 import {sortHand} from '../engine/Deck'
 
 import '../css/Style.css'
 
-import {GAMESTATES, SEATS} from '../constants/GameEngine'
+import {GAMESTATES, GAMETYPES, SEATS} from '../constants/GameEngine'
 
 
 class GameScreenOnline extends React.Component {
@@ -50,13 +51,7 @@ class GameScreenOnline extends React.Component {
   }
 
   componentDidMount() {
-    // set player types
-    this.props.dispatch(setPlayerTypes({
-      [SEATS.NORTH]: OnlinePlayer,
-      [SEATS.EAST]: OnlinePlayer,
-      [SEATS.SOUTH]: OnlinePlayer,
-      [SEATS.WEST]: OnlinePlayer,
-    }));
+    this.props.dispatch(setGameTypeOrMe({game_type: GAMETYPES.ONLINE}));
 
     // clean up in case user reloads page
     window.addEventListener("beforeunload", this.cleanup);
@@ -122,9 +117,6 @@ class GameScreenOnline extends React.Component {
 
     // in case someone else leaves and I get a robot hand to play
     this.props.mySocket.on("robot cards", (seat, cards) => {
-      console.log("ERICCCCCCCCCCCCCCCC");
-      console.log(seat);
-      console.log(cards);
       this.props.dispatch(setHand({seat: seat, cards: cards}));
       this.props.dispatch(setPlayerTypes({[seat]: RobotPlayer}));
     });
@@ -142,6 +134,7 @@ class GameScreenOnline extends React.Component {
           `Waiting for 4 players... ` +
           `There are ${this.state.num_users} players in ${this.state.room}.`
         }
+        return={"/tables"}
       />
     );
     return (

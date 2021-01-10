@@ -106,28 +106,30 @@ class StoreScreen extends React.Component {
     return (
       <div>
         <Header/>
-        <div className="store-body-container">
-          <div className="store-container">
-            <div className="store-left-container">
-              <div className="store-left">
-                <div className="store-title">Store</div>
-                <div className="store-info">
-                  {(this.state.shown_item !== null) && <StoreInfo
-                    item={this.state.shown_item}
-                    onPurchase={this.handleItemPurchase}
-                    onUse={this.handleItemUse}
-                  />}
+        <div className="body-width-cap-container"><div className="body-width-cap">
+          <div className="store-body-container">
+            <div className="store-container">
+              <div className="store-left-container">
+                <div className="store-left">
+                  <div className="store-title">STORE</div>
+                  <div className="store-info">
+                    {(this.state.shown_item !== null) && <StoreInfo
+                      item={this.state.shown_item}
+                      onPurchase={this.handleItemPurchase}
+                      onUse={this.handleItemUse}
+                    />}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="store-right-container">
-              <div className="store-right">
-                <div>{this.state.store}</div>
+              <div className="store-right-container">
+                <div className="store-right">
+                  <div>{this.state.store}</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div></div>
     );
   }
 };

@@ -33,6 +33,8 @@ class LogInScreen extends React.Component {
   }
 
   componentDidMount() {
+    document.body.style.backgroundColor = getComputedStyle(document.documentElement)
+      .getPropertyValue('--dark-blue');
     this.auth_listener = Firebase.auth().onAuthStateChanged(user => {
       if (user) this.handleFormSuccess(user.uid);
     });

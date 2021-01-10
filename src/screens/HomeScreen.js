@@ -18,18 +18,26 @@ const socketURL = 'http://localhost:8000'
 // const socketURL = '/'
 
 
+const HOMETYPES = {
+  PLAY: 'PLAY',
+  DAILY: 'DAILY',
+  LEARN: 'LEARN',
+  BOARD: 'BOARD',
+}
+
 class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       ready: false,
-      showPlayOptions: false,
+      home_type: null,
     }
-    this.togglePlayOptions = this.togglePlayOptions.bind(this);
     this.waitForDataToLoad = this.waitForDataToLoad.bind(this);
   }
 
   componentDidMount() {
+    document.body.style.backgroundColor = getComputedStyle(document.documentElement)
+      .getPropertyValue('--dark-blue');
     if (!this.props.mySocket)
       this.initSocket();
     if (this.dataLoaded()) this.setState({ready: true});
@@ -43,17 +51,17 @@ class HomeScreen extends React.Component {
     this.props.dispatch(setSocket(this.socket));
   }
 
-  togglePlayOptions() {
-    this.setState({showPlayOptions: !this.state.showPlayOptions});
-  }
-
   dataLoaded() {
     if (this.props.storeActive !== undefined &&
         this.props.first_name !== "" &&
         this.props.coins !== "" &&
         this.props.exp !== "" &&
         this.props.level !== ""
-    ) return true;
+    ) {
+      document.body.style.backgroundColor = getComputedStyle(document.documentElement)
+        .getPropertyValue('--theme-cream');
+      return true;
+    }
     return false;
   }
 
@@ -70,42 +78,72 @@ class HomeScreen extends React.Component {
       {this.state.ready &&
         <div>
           <Header/>
-          <div className="body-container">
-            <div className="main-nav">
-              <div className="container">
-                <button onClick={this.togglePlayOptions}>PLAY</button>
-                {this.state.showPlayOptions &&
-                  <div className="play-options">
-                    <Link to={{
-                      pathname: "/game",
-                      state: {type: GAMETYPES.ROBOT},
-                    }} ><button>Robots</button></Link>
-                    <Link to="/tables"><button>Online</button></Link>
+          <div className="body-width-cap-container"><div className="body-width-cap">
+            <div className="body-container">
+              <div className="main-nav">
+                <div className="container">
+                  <div className={`${this.state.home_type === HOMETYPES.PLAY ? 'button-outer button-active':'button-outer'}`}
+                       onClick={() => {this.setState({home_type: HOMETYPES.PLAY})}}>
+                    <div className="button-inner">{`> Play`}</div>
                   </div>
-                }
-                <Link to="/store" style={{pointerEvents: "none"}}><button>DAILY CHALLENGE</button></Link>
-                <Link to="/store" style={{pointerEvents: "none"}}><button>LEARN</button></Link>
-                <Link to="/store" style={{pointerEvents: "none"}}><button>LEADERBOARDS</button></Link>
+                  {this.state.home_type === HOMETYPES.PLAY &&
+                    <div className="play-options">
+                      <Link to={{
+                        pathname: "/game",
+                        state: {type: GAMETYPES.ROBOT},
+                      }} className="no-underline">
+                        <div className="button-outer">
+                          <div className="button-inner">{`> Robots`}</div>
+                        </div>
+                      </Link>
+                      <Link to="/tables" className="no-underline">
+                        <div className="button-outer">
+                          <div className="button-inner">{`> Online`}</div>
+                        </div>
+                      </Link>
+                    </div>
+                  }
+                  <Link to="/" className="no-underline">
+                    <div className={`${this.state.home_type === HOMETYPES.DAILY ? 'button-outer button-active':'button-outer'}`}
+                         onClick={() => {this.setState({home_type: HOMETYPES.DAILY})}}>
+                      <div className="button-inner">{`> Daily Challenge`}</div>
+                    </div>
+                  </Link>
+                  <Link to="/" className="no-underline">
+                    <div className={`${this.state.home_type === HOMETYPES.LEARN ? 'button-outer button-active':'button-outer'}`}
+                         onClick={() => {this.setState({home_type: HOMETYPES.LEARN})}}>
+                      <div className="button-inner">{`> Learn`}</div>
+                    </div>
+                  </Link>
+                  <Link to="/" className="no-underline">
+                    <div className={`${this.state.home_type === HOMETYPES.BOARD ? 'button-outer button-active':'button-outer'}`}
+                         onClick={() => {this.setState({home_type: HOMETYPES.BOARD})}}>
+                      <div className="button-inner">{`> Leaderboard`}</div>
+                    </div>
+                  </Link>
+                </div>
               </div>
-            </div>
-            <div className="mid-space">
-              <img src={cover} alt="Characters" className="characters"/>
-            </div>
-            <div className="side-nav">
-              <div className="container">
-                <div className="title">MY FRIENDS</div>
-                <hr className="hr-black"/>
-                <div className="friends">{
-                  `Hello ${this.props.userDetails.first_name}! ` +
-                  `There are ${this.props.numUsersLoggedIn} users online!`
-                }</div>
+
+              <div className="mid-space">
+                <img src={cover} alt="Characters" className="characters"/>
               </div>
-              <Link to="/store" className="store-link">
-                <img src={store_image} alt="Store" className="store"/>
-              </Link>
+
+              <div className="side-nav">
+                <div className="container">
+                  <div className="title">MY FRIENDS</div>
+                  <hr className="hr-clear"/>
+                  <div className="friends">{
+                    `Hello ${this.props.userDetails.first_name}! ` +
+                    `There are ${this.props.numUsersLoggedIn} users online!`
+                  }</div>
+                </div>
+                <Link to="/store" className="store-link" title="Go to store">
+                  <img src={store_image} alt="Store" className="store"/>
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
+        </div></div>
       }</div>
     );
   }

@@ -3,11 +3,11 @@ import {combineReducers} from 'redux'
 import {firebasePaths} from './FirebasePathReducers'
 import {
   bid_history, card_history, cards_on_board, contract, curr_player,
-  dummy, first_card_played, game_state, hands, online_game_over_timer,
+  dummy, first_card_played, game_info, game_state, hands, online_game_over_timer,
   player_types, ready_to_play, tricks_won,
 } from './GamePropReducers'
 import {
-  updates_with_play_card
+  updates_with_play_card, updates_with_finish_bidding
 } from './GamePropReducers'
 import {userID, homeScreenReady} from './LogInReducers'
 import {mySocket, numUsersLoggedIn} from './SocketReducers'
@@ -16,14 +16,14 @@ import {coins, exp, level_idx} from './UserStatsReducers'
 import {storeActive, storeOwned} from './UserStoreReducers'
 
 import {
-  LOG_OUT, PLAY_CARD,
+  FINISH_BIDDING, LOG_OUT, PLAY_CARD,
 } from '../actions/Core'
 
 
 const initialReducer = combineReducers({
   firebasePaths,
   bid_history, card_history, cards_on_board, contract, curr_player,
-  dummy, first_card_played, game_state, hands, online_game_over_timer,
+  dummy, first_card_played, game_info, game_state, hands, online_game_over_timer,
   player_types, ready_to_play, tricks_won,
   userID, homeScreenReady,
   mySocket, numUsersLoggedIn,
@@ -46,6 +46,19 @@ function crossSliceReducer(state, action) {
           }, action, {
             cards_on_board: state.cards_on_board,
             contract: state.contract,
+          }
+        ),
+      };
+    case FINISH_BIDDING:
+      // pass contract into updates() after it is updated
+      return {
+        ...state,
+        ...updates_with_finish_bidding(
+          {
+            player_types: state.player_types,
+          }, action, {
+            contract: state.contract,
+            game_info: state.game_info,
           }
         ),
       };

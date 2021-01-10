@@ -33,7 +33,11 @@ class GameScreen extends React.Component {
   componentDidUpdate() {
     if (this.props.game_state === GAMESTATES.BIDDING) {
       if (isBiddingComplete(this.props.bid_history)) {
-        this.props.dispatch(finishBidding(getContract(this.props.bid_history)));
+        const contract = getContract(this.props.bid_history);
+        if (contract.suit === 'pass')
+          this.props.dispatch(finishPlaying());
+        else
+          this.props.dispatch(finishBidding(getContract(this.props.bid_history)));
       }
     }
   }
@@ -76,7 +80,6 @@ class GameScreen extends React.Component {
                     visible={partner === this.props.dummy && this.props.first_card_played}
                     clickable={partner === this.props.dummy && this.props.first_card_played}
                     show_bidding_box={false}
-                    online={this.props.online}
                   />
                 </div>
               </div>
@@ -92,7 +95,6 @@ class GameScreen extends React.Component {
                     visible={next_player === this.props.dummy && this.props.first_card_played}
                     clickable={false}
                     show_bidding_box={false}
-                    online={this.props.online}
                   />
                 </div>
               </div>
@@ -112,7 +114,6 @@ class GameScreen extends React.Component {
                     visible={prev_player === this.props.dummy && this.props.first_card_played}
                     clickable={false}
                     show_bidding_box={false}
-                    online={this.props.online}
                   />
                 </div>
               </div>
@@ -128,7 +129,6 @@ class GameScreen extends React.Component {
                     visible={true}
                     clickable={this.me !== this.props.dummy}
                     show_bidding_box={true}
-                    online={this.props.online}
                   />
                 </div>
               </div>

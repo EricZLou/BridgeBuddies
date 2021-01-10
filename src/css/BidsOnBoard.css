@@ -6,7 +6,7 @@
   padding: 10px;
   max-height: 250px;
   overflow-y: auto;
-  background-color: var(--theme-light-blue);
+  background-color: var(--color-white);
 }
 .bids-on-board-container table {
   width: 100%;

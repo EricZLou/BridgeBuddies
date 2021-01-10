@@ -19,15 +19,15 @@
   width: 30%;
   text-align: center;
   margin: auto;
-  background-color: var(--theme-blue);
-  color: white;
+  background-color: var(--accent-red);
+  color: var(--color-white);
   border-radius: 20px;
   font-weight: bold;
 }
 .offline-button {
 }
 .offline-button:hover {
-  background-color: white;
+  background-color: var(--color-white);
 }
 .online-timer {
   pointer-events: none;

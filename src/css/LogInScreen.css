@@ -1,6 +1,3 @@
-body {
-  min-width: 0px;
-}
 .LogInScreen-entire {
   background-color: var(--dark-blue);
   display: flex;
@@ -13,7 +10,7 @@ body {
 .login-container .header {
   height: 40px;
   padding: 20px 0px 20px 40px;
-  color: white;
+  color: var(--color-white);
   font-size: 30px;
   font-weight: bold;
   text-transform: uppercase;
@@ -25,7 +22,7 @@ body {
   min-height: calc(100vh - 80px);
 }
 .content .design-part {
-  color: black;
+  color: var(--color-black);
   flex: 3;
 }
 .content .design-part .characters {
@@ -34,11 +31,11 @@ body {
   margin-left: auto;
   margin-right: auto;
   width: 80%;
-  border-bottom: 10px dotted var(--theme-cream);
+  border-bottom: 10px dotted var(--color-white);
 }
 
 .content .form-part {
-  color: white;
+  color: var(--color-white);
   flex: 4;
   display: flex;
   justify-content: center;
@@ -54,13 +51,13 @@ body {
   border-radius: 10px;
   text-transform: uppercase;
   font-weight: bold;
-  color: white;
+  color: var(--color-white);
   min-width: 280px;
   padding: 12px 0;
   margin: 8px 10px 8px 10px;
 }
 .default-view button:active {
-  box-shadow: 0 0 0 white;
+  box-shadow: 0 0 0 var(--color-white);
   margin: 10px 10px 6px 10px;
 }
 button.signup {
@@ -70,7 +67,7 @@ button.signup {
 }
 button.login {
   background-color: rgba(0,0,0,0);
-  box-shadow: 0px 4px black;
+  box-shadow: 0px 4px var(--color-black);
   border-color: var(--color-black);
 }
 
@@ -110,7 +107,6 @@ button.login {
 @media screen and (max-width: 1000px) {
   .content {
     flex-direction: column;
-    /* padding-top: 40px; */
   }
   .content .form-part {
     flex: 3;

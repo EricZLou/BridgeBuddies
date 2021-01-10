@@ -2,14 +2,12 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 import GameScreen from './GameScreen'
-import OfflinePlayer from '../engine/players/OfflinePlayer'
-import RobotPlayer from '../engine/players/RobotPlayer'
 import {Deck} from '../engine/Deck'
-import {newGame, setPlayerTypes} from '../redux/actions/Core'
+import {newGame, setGameTypeOrMe} from '../redux/actions/Core'
 
 import '../css/Style.css'
 
-import {ALL_SEATS, SEATS} from '../constants/GameEngine'
+import {ALL_SEATS, GAMETYPES, SEATS} from '../constants/GameEngine'
 
 
 class GameScreenRobots extends React.Component {
@@ -19,12 +17,9 @@ class GameScreenRobots extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(setPlayerTypes({
-      [SEATS.NORTH]: RobotPlayer,
-      [SEATS.EAST]: RobotPlayer,
-      [SEATS.SOUTH]: RobotPlayer,
-      [SEATS.WEST]: RobotPlayer,
-      [this.me]: OfflinePlayer,
+    this.props.dispatch(setGameTypeOrMe({
+      game_type: GAMETYPES.OFFLINE,
+      me: this.me,
     }));
     this.deck = new Deck();
     this.props.dispatch(newGame(this.deck.generateHands()));

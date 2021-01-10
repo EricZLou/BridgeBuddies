@@ -1,17 +1,16 @@
 .image-cropper-header {
   position: relative;
   overflow: hidden;
-  width: 10vh;
-  height: 10vh;
+  width: 66px;
+  height: 66px;
   border-radius: 50%;
-  border: 2px solid black;
+  border: 2px dotted black;
 }
 .profile-pic-header {
   display: inline;
   margin: 0 auto;
   height: 100%;
   width: auto;
-  background-color: var(--theme-light-cream);
 }
 
 .image-cropper-header-game {

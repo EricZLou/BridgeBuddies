@@ -1,14 +1,16 @@
 import {
   FINISH_BIDDING, MAKE_BID,
-  NEW_GAME, SET_HAND, SET_PLAYER_TYPES, START_ONLINE_GAME_OVER_TIMER,
+  NEW_GAME, SET_GAME_TYPE_OR_ME, SET_HAND, SET_PLAYER_TYPES, START_ONLINE_GAME_OVER_TIMER,
   CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, PLAY_CARD,
 } from '../actions/Core'
 
 import {getRoundWinner} from '../../engine/managers/BridgeGameEngine'
 import {getNextPlayer, getPartner} from '../../engine/utils/GameScreenUtils'
 import {sortHand} from '../../engine/Deck'
+import OfflinePlayer from '../../engine/players/OfflinePlayer'
 import OnlinePlayer from '../../engine/players/OnlinePlayer'
-import {BID_SUITS, GAMESTATES, SEATS} from '../../constants/GameEngine'
+import RobotPlayer from '../../engine/players/RobotPlayer'
+import {BID_SUITS, GAMESTATES, GAMETYPES, SEATS} from '../../constants/GameEngine'
 
 export function bid_history(state=[], action) {
   switch (action.type) {
@@ -93,6 +95,20 @@ export function first_card_played(state=false, action) {
   }
 }
 
+export function game_info(state={
+  game_type: "", me: "",
+}, action) {
+  switch (action.type) {
+    case SET_GAME_TYPE_OR_ME:
+      return {
+        game_type: action.game_type ? action.game_type : state.game_type,
+        me: action.me ? action.me : state.me,
+      };
+    default:
+      return state;
+  }
+}
+
 export function game_state(state=GAMESTATES.BIDDING, action) {
   switch (action.type) {
     case NEW_GAME:
@@ -161,6 +177,18 @@ export function player_types(state={
   switch (action.type) {
     case SET_PLAYER_TYPES:
       return {...state, ...action.dict};
+    case SET_GAME_TYPE_OR_ME:
+      if (action.game_type === GAMETYPES.ONLINE) {
+        return state;
+      } else {
+        return {
+            [SEATS.NORTH]: RobotPlayer,
+            [SEATS.EAST]: RobotPlayer,
+            [SEATS.SOUTH]: RobotPlayer,
+            [SEATS.WEST]: RobotPlayer,
+            [action.me]: OfflinePlayer,
+        }
+      }
     default:
       return state;
   }
@@ -210,6 +238,27 @@ export function updates_with_play_card(
           curr_player: getNextPlayer(action.seat)
         };
       }
+    default:
+      return state;
+  }
+}
+
+export function updates_with_finish_bidding(
+  state={player_types},
+  action,
+  {contract, game_info}
+) {
+  switch (action.type) {
+    case FINISH_BIDDING:
+      if (game_info.game_type === GAMETYPES.OFFLINE &&
+          game_info.me === contract.declarer) {
+        return {
+          player_types: {...state.player_types,
+            [getPartner(game_info.me)]: OfflinePlayer,
+          },
+        };
+      }
+      return state;
     default:
       return state;
   }

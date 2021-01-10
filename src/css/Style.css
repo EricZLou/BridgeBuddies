@@ -1,46 +1,69 @@
 :root {
   /* CORE COLORS */
-  --theme-blue: rgb(43, 112, 201);
-  --theme-cream: rgb(255, 217, 179);
+  --theme-cream: #FFD9B3;
+  --theme-sky: #B3D9FF;
 
   /* FOR TEXT */
-  --color-black: rgb(0, 0, 0);
-  --color-grey: rgb(119, 119, 119);
-  --color-white: rgb(255, 255, 255);
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+  --tinted-white: rgba(255, 255, 255, 0.6);
 
-  /* ACCENT COLORS*/
-  --accent-red: rgb(255, 75, 75);
-  --accent-yellow: rgb(255, 200, 0);
-  --accent-purple: rgb(206, 130, 255);
-  --accent-orange: rgb(255, 150, 0);
+  /* ACCENT COLORS */
+  --accent-red: #FF4B4B;
+  --accent-green: #17BF63;
+  --accent-blue: #1C9AE8;
+  --accent-orange: #FF9600;
+  --accent-purple: #CD82FF;
 
-  /* TINTED TEXT COLOR ON COLOR*/
-  --tinted-grey: rgb(119, 119, 119, 0.8);
-  --tinted-red: rgb(255, 75, 75, 0.8);
-  --tinted-yellow: rgb(255, 200, 0, 0.8);
-  --tinted-purple: rgb(206, 130, 255, 0.8);
-  --tinted-orange: rgb(255, 150, 0, 0.8);
+  /* DARK COLORS */
+  --dark-red: #8F2121;
+  --dark-green: #0C4D29;
+  --dark-blue: #235091;
+  --dark-orange: #784B00;
+  --dark-purple: #612487;
 
-  /* USE SPARINGLY WITH BUTTONS AND SUCH */
-  --dark-blue: rgb(35, 80, 145);
-  --dark-purple: rgb(135, 70, 175);
-  --dark-orange: rgb(120, 75, 5);
+  /* LIGHT COLORS */
+  --light-red: #FCE9EF;
+  --light-green: #E7F8EF;
+  --light-blue: #E8F5FE;
+  --light-orange: #FFF7E8;
+  --light-purple: #F1EDF9;
 
   /* ADDITIONAL */
   --card-width: 100px;
   --card-height: calc(1056/691 * var(--card-width));
   --card-spacing: 25px;
   --hand-width: calc(12 * var(--card-spacing) + var(--card-width));
+  --header-height: 82px;
+  --scrollbar-height: 20px;
+}
+
+* {
+  transition-duration: 0.1s;
 }
 
 body {
-  transition-duration: 0.2s;
   margin: 0 auto;
   padding: 0;
   overflow-wrap: break-word;
-  height: 100vh;
+}
+.body-width-cap-container {
+  display: flex;
+  justify-content: center;
   min-width: 800px;
-  /* max-width: 1200px; */
+  min-height: calc(100vh - var(--header-height));
+}
+@media screen and (max-width: 800px) {
+  .body-width-cap-container {
+    min-height: calc(100vh - var(--header-height) - var(--scrollbar-height));
+  }
+}
+
+.body-width-cap {
+  width: 100%;
+  max-width: 1500px;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
 }
 
 img {
@@ -60,6 +83,10 @@ hr.hr-black {
   border-bottom: 0px;
 }
 hr.hr-white {
-  border-top: 4px solid black;
+  border-top: 4px solid white;
+  border-bottom: 0px;
+}
+hr.hr-clear {
+  border-top: 4px solid var(--tinted-white);
   border-bottom: 0px;
 }

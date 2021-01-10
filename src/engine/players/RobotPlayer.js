@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import Player from './Player'
 import {makeBid, playCard} from '../../redux/actions/Core'
 
-import {GAMESTATES} from '../../constants/GameEngine'
+import {GAMESTATES, GAMETYPES} from '../../constants/GameEngine'
 
 
 // REPRESENTS A CPU PLAYER (ONLINE + OFFLINE)
@@ -21,6 +21,7 @@ class RobotPlayer extends React.Component {
   }
 
   makeBid() {
+    if (this.state.inside_turn) return;
     this.setState({inside_turn: true});
     this.sleep(1000).then(() => {
       const bid = {type: 'pass'};
@@ -34,6 +35,7 @@ class RobotPlayer extends React.Component {
   }
 
   playCard() {
+    if (this.state.inside_turn) return;
     this.setState({inside_turn: true});
     this.sleep(1000).then(() => {
       let cardx = null;
@@ -73,6 +75,7 @@ class RobotPlayer extends React.Component {
     if (this.state.inside_turn) return;
     if (this.props.clickable) return;
     if (!this.props.ready_to_play) return;
+    console.log('robot gonna play');
     if (this.props.game_state === GAMESTATES.BIDDING) this.makeBid();
     else if (this.props.game_state === GAMESTATES.PLAYING) this.playCard();
   }
@@ -100,6 +103,7 @@ const mapStateToProps = (state, ownProps) => {
     curr_player: state.curr_player,
     game_state: state.game_state,
     mySocket: state.mySocket,
+    online: (state.game_info.game_type === GAMETYPES.ONLINE ? true : false),
     ready_to_play: state.ready_to_play,
   }
 }
