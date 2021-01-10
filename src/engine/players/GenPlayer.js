@@ -108,6 +108,16 @@ class GenPlayer extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.seat === "south") {
+      console.log('should south update? at least 1 true to update');
+      console.log(nextProps.clickable !== this.props.clickable);
+      console.log(nextProps.curr_player !== this.props.curr_player);
+      console.log(nextProps.game_state !== this.props.game_state);
+      console.log(nextProps.player_type !== this.props.player_type);
+      console.log(nextProps.ready_to_play !== this.props.ready_to_play);
+      console.log(nextProps.visible !== this.props.visible);
+    }
+
     if (nextProps.clickable !== this.props.clickable) return true;
     if (nextProps.curr_player !== this.props.curr_player) return true;
     if (nextProps.game_state !== this.props.game_state) return true;
@@ -118,6 +128,14 @@ class GenPlayer extends React.Component {
   }
 
   tryToPlay() {
+    if (this.props.seat === "south") {
+      console.log('south trying to play: all false to play');
+      console.log(this.props.curr_player !== this.props.seat);
+      console.log(this.props.online && this.props.player_type === GAMETYPES.ONLINE);
+      console.log(this.state.inside_turn);
+      console.log(this.props.clickable);
+      console.log(!this.props.ready_to_play);
+    }
     if (this.props.curr_player !== this.props.seat) return;
     if (this.props.online && this.props.player_type === GAMETYPES.ONLINE) return;
     if (this.state.inside_turn) return;

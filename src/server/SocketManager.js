@@ -23,6 +23,9 @@ let MAX_GAME_IDX = 1;
         "pTDpdDyNCaa1l-U1AAAH": {seat: [SEATS.EAST], name: "tim"},
         "ExGqzw5Z99uxxzTZAAAJ": {seat: [SEATS.SOUTH], name: "elizabeth"},
       },
+      empty: [
+        SEATS.WEST, 
+      ],
       hands: {
         [SEATS.NORTH]: [],
         [SEATS.EAST]: [],
@@ -83,8 +86,8 @@ function dispatchGame(room) {
 function gameOverBehavior(room) {
   setTimeout(() => {io.in(room).emit('game over')}, 1000);
   setTimeout(() => {dispatchGame(room)}, 16000);
-  ONLINE_GAME_ROOMS.get(socket.room).cards_played = 0;
-  ONLINE_GAME_ROOMS.get(socket.room).game_state = GAMESTATES.WAITING;
+  ONLINE_GAME_ROOMS.get(room).cards_played = 0;
+  ONLINE_GAME_ROOMS.get(room).game_state = GAMESTATES.WAITING;
 }
 
 
@@ -223,7 +226,7 @@ export default function SocketManager(socket) {
       const new_uid = ONLINE_GAME_ROOMS.get(socket.room).users.keys().next().value;
       const old_seat = ONLINE_GAME_ROOMS.get(socket.room).users.get(old_uid).seat;
       const cards = ONLINE_GAME_ROOMS.get(socket.room).hands[old_seat];
-      io.to(new_uid).emit('robot cards', old_seat, cards);
+      io.to(new_uid).emit('robot cards', {[old_seat]: cards});
     }
 
     socket.leave(socket.room);

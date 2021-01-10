@@ -8,7 +8,7 @@ import {
 } from '../engine/managers/BridgeGameEngine'
 import {
   finishPlaying, makeBid, newGame, playCard, setHand,
-  setGameTypeOrMe, setOnlineRobot, startOnlineGameOverTimer,
+  setGameTypeOrMe, setOnlineRobots, startOnlineGameOverTimer,
 } from '../redux/actions/Core'
 import {sortHand} from '../engine/Deck'
 
@@ -115,8 +115,8 @@ class GameScreenOnline extends React.Component {
     });
 
     // in case someone else leaves and I get a robot hand to play
-    this.props.mySocket.on("robot cards", (seat, cards) => {
-      this.props.dispatch(setOnlineRobot({seat: seat, cards: cards}));
+    this.props.mySocket.on("robot cards", (robot_data) => {
+      this.props.dispatch(setOnlineRobots(robot_data));
     });
   }
 

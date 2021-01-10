@@ -1,6 +1,6 @@
 import {
   FINISH_BIDDING, MAKE_BID,
-  NEW_GAME, SET_GAME_TYPE_OR_ME, SET_HAND, SET_ONLINE_ROBOT, START_ONLINE_GAME_OVER_TIMER,
+  NEW_GAME, SET_GAME_TYPE_OR_ME, SET_HAND, SET_ONLINE_ROBOTS, START_ONLINE_GAME_OVER_TIMER,
   CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, PLAY_CARD,
 } from '../actions/Core'
 
@@ -150,8 +150,8 @@ export function hands(state={
       };
     case SET_HAND:
       return {...state, [action.seat]: action.cards};
-    case SET_ONLINE_ROBOT:
-      return {...state, [action.seat]: action.cards};
+    case SET_ONLINE_ROBOTS:
+      return {...state, ...action.robot_data};
     default:
       return state;
   }
@@ -175,8 +175,11 @@ export function player_types(state={
   [SEATS.WEST]: GAMETYPES.ONLINE,
 }, action) {
   switch (action.type) {
-    case SET_ONLINE_ROBOT:
-      return {...state, [action.seat]: GAMETYPES.OFFLINE};
+    case SET_ONLINE_ROBOTS:
+      let robot_types = {};
+      for (let seat of Object.keys(action.robot_data))
+        robot_types[seat] = GAMETYPES.OFFLINE;
+      return {...state, ...robot_types};
     case SET_GAME_TYPE_OR_ME:
       if (!action.game_type) return state;
       if (action.game_type === GAMETYPES.ONLINE) {
@@ -229,7 +232,6 @@ export function updates_with_play_card(
       if (cards_on_board.length === 4) {
         const winner = getRoundWinner({cards_on_board: cards_on_board, contract: contract});
         const NS = [SEATS.NORTH, SEATS.SOUTH];
-
         return {
           curr_player: winner,
           tricks_won: NS.includes(winner) ?
@@ -244,7 +246,8 @@ export function updates_with_play_card(
       }
       else {
         return {
-          curr_player: getNextPlayer(action.seat)
+          curr_player: getNextPlayer(action.seat),
+          ready_to_play: true,
         };
       }
     default:

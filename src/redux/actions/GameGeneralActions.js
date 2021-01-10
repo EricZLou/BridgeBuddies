@@ -1,7 +1,7 @@
 export const NEW_GAME = 'NEW_GAME';
 export const SET_GAME_TYPE_OR_ME = 'SET_GAME_TYPE_OR_ME';
 export const SET_HAND = 'SET_HAND';
-export const SET_ONLINE_ROBOT = 'SET_ONLINE_ROBOT';
+export const SET_ONLINE_ROBOTS = 'SET_ONLINE_ROBOTS';
 export const START_ONLINE_GAME_OVER_TIMER = 'START_ONLINE_GAME_OVER_TIMER';
 
 export const newGame = (hands) => ({
@@ -21,10 +21,9 @@ export const setHand = ({seat, cards}) => ({
   cards,
 });
 
-export const setOnlineRobot = ({seat, cards}) => ({
-  type: SET_ONLINE_ROBOT,
-  seat,
-  cards,
+export const setOnlineRobots = (robot_data) => ({
+  type: SET_ONLINE_ROBOTS,
+  robot_data,
 });
 
 export const startOnlineGameOverTimer = () => ({
