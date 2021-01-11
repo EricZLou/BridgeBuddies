@@ -15,7 +15,6 @@ import cover from '../media/cover.png'
 
 import {GAMETYPES} from '../constants/GameEngine'
 const socketURL = 'http://localhost:8000'
-// const socketURL = '/'
 
 
 const HOMETYPES = {
