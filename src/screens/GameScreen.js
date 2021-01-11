@@ -57,11 +57,6 @@ class GameScreen extends React.Component {
     const next_player = getNextPlayer(this.me);
     const prev_player = getPrevPlayer(this.me);
 
-    // const PartnerPlayerType = this.props.player_types[partner];
-    // const NextPlayerType = this.props.player_types[next_player];
-    // const PrevPlayerType = this.props.player_types[prev_player];
-    // const MyPlayerType = this.props.player_types[this.me];
-
     return (
       <div>
         <HeaderGame/>
@@ -161,7 +156,7 @@ const mapStateToProps = (state, ownProps) => {
     contract: state.contract,
     dummy: state.dummy,
     first_card_played: state.first_card_played,
-    online: (state.game_info.game_type === GAMETYPES.ONLINE ? true : false),
+    online: state.game_info.game_type === GAMETYPES.ONLINE,
     game_state: state.game_state,
     player_types: state.player_types,
     tricks_won: state.tricks_won,

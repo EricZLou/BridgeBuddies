@@ -1,3 +1,7 @@
+/***************************************
+DEPRECATED: USE GENPLAYER
+***************************************/
+
 import React from 'react'
 import {connect} from 'react-redux'
 

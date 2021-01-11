@@ -72,6 +72,11 @@ class HomeScreen extends React.Component {
     }
   }
 
+  toggleHomeType(home_type) {
+    if (this.state.home_type === home_type) this.setState({home_type: null});
+    else this.setState({home_type: home_type});
+  }
+
   render() {
     return (<div>
       {!this.state.ready && <LoadingScreen/>}
@@ -83,7 +88,7 @@ class HomeScreen extends React.Component {
               <div className="main-nav">
                 <div className="container">
                   <div className={`${this.state.home_type === HOMETYPES.PLAY ? 'button-outer button-active':'button-outer'}`}
-                       onClick={() => {this.setState({home_type: HOMETYPES.PLAY})}}>
+                       onClick={this.toggleHomeType.bind(this, HOMETYPES.PLAY)}>
                     <div className="button-inner">{`> Play`}</div>
                   </div>
                   {this.state.home_type === HOMETYPES.PLAY &&
@@ -105,19 +110,19 @@ class HomeScreen extends React.Component {
                   }
                   <Link to="/" className="no-underline">
                     <div className={`${this.state.home_type === HOMETYPES.DAILY ? 'button-outer button-active':'button-outer'}`}
-                         onClick={() => {this.setState({home_type: HOMETYPES.DAILY})}}>
+                         onClick={this.toggleHomeType.bind(this, HOMETYPES.DAILY)}>
                       <div className="button-inner">{`> Daily Challenge`}</div>
                     </div>
                   </Link>
                   <Link to="/" className="no-underline">
                     <div className={`${this.state.home_type === HOMETYPES.LEARN ? 'button-outer button-active':'button-outer'}`}
-                         onClick={() => {this.setState({home_type: HOMETYPES.LEARN})}}>
+                         onClick={this.toggleHomeType.bind(this, HOMETYPES.LEARN)}>
                       <div className="button-inner">{`> Learn`}</div>
                     </div>
                   </Link>
                   <Link to="/" className="no-underline">
                     <div className={`${this.state.home_type === HOMETYPES.BOARD ? 'button-outer button-active':'button-outer'}`}
-                         onClick={() => {this.setState({home_type: HOMETYPES.BOARD})}}>
+                         onClick={this.toggleHomeType.bind(this, HOMETYPES.BOARD)}>
                       <div className="button-inner">{`> Leaderboard`}</div>
                     </div>
                   </Link>

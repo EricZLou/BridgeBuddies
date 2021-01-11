@@ -3,8 +3,8 @@ An interactive platform made to encourage younger generations to play bridge, a 
 
 ### Quick Links  
 [`Bridge Buddies`](https://bridgebuddies.org/) is the official **production** website  
-[`Heroku`](https://bridge-buddies.herokuapp.com/) runs **master** branch on **server**  
-[`Vercel`](https://bridge-buddies.vercel.app/) runs **latest master** branch **without server**
+[`Heroku`](https://bridge-buddies.herokuapp.com/) runs **master** branch on **server**
+[`Vercel`](https://bridge-buddies.vercel.app/) runs **master** branch **without server**
 
 ### Motivation
 
