@@ -21,10 +21,9 @@
   color: var(--accent-blue);
 }
 
-.join-table {
+.table {
   display: inline-block;
   text-decoration: none;
-  background-color: var(--theme-sky);
   border: 2px solid var(--color-black);
   color: var(--color-black);
   width: calc((100% - 5 * 52px) / 5);
@@ -32,9 +31,15 @@
   padding: 12px;
   border-radius: 16px;
 }
+.join-table {
+  background-color: var(--theme-sky);
+}
 .join-table:hover {
   background-color: var(--accent-blue);
   color: var(--color-white);
+}
+.full-table {
+  background-color: var(--light-red);
 }
 
 .table-name {

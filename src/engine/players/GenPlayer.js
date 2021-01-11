@@ -21,16 +21,13 @@ async function sleep(ms) {
 class GenPlayer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      inside_turn: false,
-    }
+    this.inside_turn = false;
     this.userBidPlay = this.userBidPlay.bind(this);
     this.userCardPlay = this.userCardPlay.bind(this);
   }
 
   robotBidPlay() {
-    if (this.state.inside_turn) return;
-    this.setState({inside_turn: true});
+    this.inside_turn = true;
     sleep(1000).then(() => {
       const bid = {type: 'pass'};
       if (this.props.online)
@@ -38,13 +35,12 @@ class GenPlayer extends React.Component {
       else
         this.props.dispatch(makeBid({bid: bid, seat: this.props.seat}));
     }).then(() => {
-      this.setState({inside_turn: false});
+      this.inside_turn = false;
     });
   }
 
   robotCardPlay() {
-    if (this.state.inside_turn) return;
-    this.setState({inside_turn: true});
+    this.inside_turn = true;
     sleep(1000).then(() => {
       let cardx = null;
       const cards = this.props.cards;
@@ -68,77 +64,48 @@ class GenPlayer extends React.Component {
       else
         this.props.dispatch(playCard({card: cardx, seat: this.props.seat}));
     }).then(() => {
-      this.setState({inside_turn: false});
+      this.inside_turn = false;
     });
   }
 
   userBidPlay(bid) {
     if (this.props.game_state !== GAMESTATES.BIDDING) return;
     if (this.props.curr_player !== this.props.seat) return;
-    if (this.state.inside_turn) return;
+    if (this.inside_turn) return;
     if (isValidBid({
       history: this.props.bid_history,
       bid: bid,
     })) {
-      this.setState({inside_turn: true});
+      this.inside_turn = true;
       if (this.props.online)
         this.props.mySocket.emit("bid click", bid, this.props.seat);
       else
         this.props.dispatch(makeBid({bid: bid, seat: this.props.seat}));
-      this.setState({inside_turn: false});
+      this.inside_turn = false;
     }
   }
 
   userCardPlay(card) {
     if (this.props.game_state !== GAMESTATES.PLAYING) return;
     if (this.props.curr_player !== this.props.seat) return;
-    if (this.state.inside_turn) return;
+    if (this.inside_turn) return;
     if (isValidCard({
       cards_on_board: this.props.cards_on_board,
       card: card,
       cards_in_hand: this.props.cards,
     })) {
-      this.setState({inside_turn: true});
+      this.inside_turn = true;
       if (this.props.online)
         this.props.mySocket.emit("card click", card, this.props.seat);
       else
         this.props.dispatch(playCard({card: card, seat: this.props.seat}));
-      this.setState({inside_turn: false});
+      this.inside_turn = false;
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.props.seat === "south") {
-      console.log('should south update? at least 1 true to update');
-      console.log(nextProps.clickable !== this.props.clickable);
-      console.log(nextProps.curr_player !== this.props.curr_player);
-      console.log(nextProps.game_state !== this.props.game_state);
-      console.log(nextProps.player_type !== this.props.player_type);
-      console.log(nextProps.ready_to_play !== this.props.ready_to_play);
-      console.log(nextProps.visible !== this.props.visible);
-    }
-
-    if (nextProps.clickable !== this.props.clickable) return true;
-    if (nextProps.curr_player !== this.props.curr_player) return true;
-    if (nextProps.game_state !== this.props.game_state) return true;
-    if (nextProps.player_type !== this.props.player_type) return true;
-    if (nextProps.ready_to_play !== this.props.ready_to_play) return true;
-    if (nextProps.visible !== this.props.visible) return true;
-    return false;
-  }
-
-  tryToPlay() {
-    if (this.props.seat === "south") {
-      console.log('south trying to play: all false to play');
-      console.log(this.props.curr_player !== this.props.seat);
-      console.log(this.props.online && this.props.player_type === GAMETYPES.ONLINE);
-      console.log(this.state.inside_turn);
-      console.log(this.props.clickable);
-      console.log(!this.props.ready_to_play);
-    }
+  tryToRobotPlay() {
     if (this.props.curr_player !== this.props.seat) return;
-    if (this.props.online && this.props.player_type === GAMETYPES.ONLINE) return;
-    if (this.state.inside_turn) return;
+    if (this.inside_turn) return;
     if (this.props.clickable) return;
     if (!this.props.ready_to_play) return;
     if (this.props.game_state === GAMESTATES.BIDDING) this.robotBidPlay();
@@ -146,11 +113,13 @@ class GenPlayer extends React.Component {
   }
 
   componentDidMount() {
-    this.tryToPlay();
+    if (this.props.online && this.props.player_type === GAMETYPES.ONLINE) return;
+    this.tryToRobotPlay();
   }
 
   componentDidUpdate() {
-    this.tryToPlay();
+    if (this.props.online && this.props.player_type === GAMETYPES.ONLINE) return;
+    this.tryToRobotPlay();
   }
 
   render() {

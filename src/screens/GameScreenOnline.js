@@ -49,8 +49,6 @@ class GameScreenOnline extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(setGameTypeOrMe({game_type: GAMETYPES.ONLINE}));
-
     // clean up in case user reloads page
     window.addEventListener("beforeunload", this.cleanup);
 
@@ -64,7 +62,10 @@ class GameScreenOnline extends React.Component {
 
     // initial game setup
     this.props.mySocket.on("game data", (game_info) => {
-      this.props.dispatch(setGameTypeOrMe({me: game_info.me}));
+      this.props.dispatch(setGameTypeOrMe({
+        game_type: GAMETYPES.ONLINE,
+        me: game_info.me
+      }));
       this.setState({
         game_info: game_info,
       });

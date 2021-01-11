@@ -14,7 +14,7 @@ let MAX_GAME_IDX = 1;
 
 /*
   ONLINE_GAME_ROOMS = {
-    room1: {
+    "Room 1": {
       cards_played: 0,
       game_state: GAMESTATES.WAITING,
       num_users: 3,
@@ -23,8 +23,8 @@ let MAX_GAME_IDX = 1;
         "pTDpdDyNCaa1l-U1AAAH": {seat: [SEATS.EAST], name: "tim"},
         "ExGqzw5Z99uxxzTZAAAJ": {seat: [SEATS.SOUTH], name: "elizabeth"},
       },
-      empty: [
-        SEATS.WEST, 
+      empty_seats: [
+        SEATS.WEST,
       ],
       hands: {
         [SEATS.NORTH]: [],
@@ -50,6 +50,7 @@ function createNewRoom() {
     game_state: GAMESTATES.WAITING,
     num_users: 0,
     users: new Map(),
+    empty_seats: [...ALL_SEATS],
     hands: new Map(),
   });
   return room;
@@ -125,30 +126,26 @@ export default function SocketManager(socket) {
 
   // HANDLE JOIN ROOM REQUEST
   socket.on('join room request', (room, first_name) => {
+    if (ONLINE_GAME_ROOMS.get(room).num_users === 4) return;
+
     // join a room
     socket.join(room);
     socket.room = room;
-    let occupied_seats = [];
-    for (let seat_name of ONLINE_GAME_ROOMS.get(room).users.values()) {
-      occupied_seats.push(seat_name.seat);
-    }
-    let seat;
-    for (let seatx of ALL_SEATS) {
-      if (!occupied_seats.includes(seatx)) {
-        seat = seatx;
-        break;
-      }
-    }
+    const seat = ONLINE_GAME_ROOMS.get(room).empty_seats.shift();
+
     ONLINE_GAME_ROOMS.get(room).users.set(socket.id, {seat: seat, name: first_name});
     ONLINE_GAME_ROOMS.get(room).num_users++;
+
+    if (ONLINE_GAME_ROOMS.get(room).game_state === GAMESTATES.WAITING) {
+      // if room is full, send notice to entire room to start game
+      if (ONLINE_GAME_ROOMS.get(room).num_users === 4) {
+        ONLINE_GAME_ROOMS.get(room).game_state = GAMESTATES.PLAYING;
+        dispatchGame(room);
+        console.log(`[START GAME] ${room}`);
+      }
+    }
     io.in(room).emit('room stat', room, ONLINE_GAME_ROOMS.get(room).num_users);
     console.log(`[JOIN] ${room} - ${socket.id}`);
-    // if room is full, send notice to entire room to start game
-    if (ONLINE_GAME_ROOMS.get(room).num_users === 4) {
-      ONLINE_GAME_ROOMS.get(room).game_state = GAMESTATES.PLAYING;
-      dispatchGame(room);
-      console.log(`[START GAME] ${room}`);
-    }
   });
 
 
@@ -208,10 +205,20 @@ export default function SocketManager(socket) {
         game_state: GAMESTATES.WAITING,
         num_users: 0,
         users: new Map(),
+        empty_seats: [...ALL_SEATS],
         hands: new Map(),
       });
       return;
     }
+
+    // old = person who left
+    const old_uid = socket.id;
+    const old_seat = ONLINE_GAME_ROOMS.get(socket.room).users.get(old_uid).seat;
+
+    socket.leave(socket.room);
+    ONLINE_GAME_ROOMS.get(socket.room).users.delete(socket.id);
+    ONLINE_GAME_ROOMS.get(socket.room).empty_seats.push(old_seat);
+    ONLINE_GAME_ROOMS.get(socket.room).num_users--;
 
     if (ONLINE_GAME_ROOMS.get(socket.room).game_state === GAMESTATES.WAITING) {
       io.in(socket.room).emit(
@@ -220,17 +227,12 @@ export default function SocketManager(socket) {
         ONLINE_GAME_ROOMS.get(socket.room).num_users
       );
     } else {
-      // old = person who left
-      // new = person who is hosting old's robot
-      const old_uid = socket.id;
+      // new = person who is hosting old players' robots
       const new_uid = ONLINE_GAME_ROOMS.get(socket.room).users.keys().next().value;
-      const old_seat = ONLINE_GAME_ROOMS.get(socket.room).users.get(old_uid).seat;
-      const cards = ONLINE_GAME_ROOMS.get(socket.room).hands[old_seat];
-      io.to(new_uid).emit('robot cards', {[old_seat]: cards});
+      let cards = {};
+      for (let seat of ONLINE_GAME_ROOMS.get(socket.room).empty_seats)
+        cards[seat] = ONLINE_GAME_ROOMS.get(socket.room).hands[seat];
+      io.to(new_uid).emit('robot cards', cards);
     }
-
-    socket.leave(socket.room);
-    ONLINE_GAME_ROOMS.get(socket.room).users.delete(socket.id);
-    ONLINE_GAME_ROOMS.get(socket.room).num_users--;
   });
 }
