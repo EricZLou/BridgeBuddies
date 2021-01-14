@@ -16,12 +16,12 @@ export default class LoadingScreen extends React.Component {
   render() {
     return (
       <div className="App-container">
-        <p title="Go back">
+        <div title="Go back">
           <Link to={this.props.return ? this.props.return : '/'}
                 className="loading-x-circle">
             <div className="loading-x">&larr;</div>
           </Link>
-        </p>
+        </div>
         <div className="loading-title">BRIDGE BUDDIES</div>
         <img src={logo} className="App-logo" alt="logo" />
         <div className="loading-text">{this.props.text ? this.props.text : "Loading..."}</div>
