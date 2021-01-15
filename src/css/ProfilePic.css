@@ -14,12 +14,11 @@
 }
 
 .image-cropper-header-game {
-  position: relative;
   overflow: hidden;
-  width: 5vh;
-  height: auto;
+  width: 52px;
+  transform: translateY(-16px);
   float: right;
-  padding-right: 1vh;
+  padding-right: 2px;
 }
 .profile-pic-header-game {
   transform: rotate(-90deg);
