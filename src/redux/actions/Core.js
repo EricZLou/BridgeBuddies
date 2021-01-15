@@ -17,6 +17,9 @@ import {
   logIn, logOut, homeScreenReady, homeScreenNotReady,
 } from './LogInActions'
 import {
+  RESIZE_SCREEN, resizeScreen
+} from './ScreenActions'
+import {
   SET_SOCKET, SET_NUM_USERS_LOGGED_IN,
   setSocket, setNumUsersLoggedIn,
 } from './SocketActions'
@@ -49,6 +52,9 @@ export {
 export {
   LOG_IN, LOG_OUT, HOME_SCREEN_READY, HOME_SCREEN_NOT_READY,
   logIn, logOut, homeScreenReady, homeScreenNotReady,
+}
+export {
+  RESIZE_SCREEN, resizeScreen
 }
 export {
   SET_SOCKET, SET_NUM_USERS_LOGGED_IN,

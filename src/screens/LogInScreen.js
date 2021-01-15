@@ -8,6 +8,7 @@ import {logIn, homeScreenReady,
   setFirebasePaths, setUserDetails,
   setCoins, setExp, setLevel,
   setStoreActive, setStoreOwned,
+  resizeScreen,
 } from '../redux/actions/Core'
 
 import '../css/Style.css'
@@ -38,6 +39,10 @@ class LogInScreen extends React.Component {
     this.auth_listener = Firebase.auth().onAuthStateChanged(user => {
       if (user) this.handleFormSuccess(user.uid);
     });
+    this.props.dispatch(resizeScreen({height: window.innerHeight, width: window.innerWidth}));
+    window.addEventListener('resize', () => {
+      this.props.dispatch(resizeScreen({height: window.innerHeight, width: window.innerWidth}));
+    })
   }
 
   componentWillUnmount() {

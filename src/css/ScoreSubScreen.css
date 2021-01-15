@@ -4,16 +4,48 @@
   flex-direction: column;
   top: 25%;
   left: 25%;
-  height: 40%;
-  width: 40%;
+  min-height: 40%;
+  min-width: 40%;
   padding: 3%;
-  background-color: var(--theme-light-blue);
-  border-radius: 20px;
+  background-color: var(--theme-sky);
+  border-radius: 24px;
   z-index: 4;
 }
+
 .score-text {
   flex: 4;
 }
+.score-text .phrase {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+.score-text .info {
+
+}
+.score-text .info .key {
+  display: inline;
+  font-weight: bold;
+  padding-right: 12px;
+}
+.score-text .info .value {
+  display: inline;
+}
+.score-text .score {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+.score-text .earnings {
+  display: flex;
+  flex-direction: row;
+  font-weight: bold;
+}
+.score-text .earning {
+  flex: 1;
+  text-align: center;
+}
+
 .game-action {
   flex: 1;
   width: 30%;
@@ -27,7 +59,8 @@
 .offline-button {
 }
 .offline-button:hover {
-  background-color: var(--color-white);
+  background-color: var(--light-red);
+  color: var(--color-black);
 }
 .online-timer {
   pointer-events: none;

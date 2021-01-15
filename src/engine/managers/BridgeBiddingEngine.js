@@ -81,6 +81,8 @@ export function getContract(history) {
         suit: finalBid.bid.suit,
         level: finalBid.bid.level,
         declarer: bid.seat,
+        doubled: history[history.length-4].bid.type === BID_TYPES.DBL,
+        redoubled: history[history.length-4].bid.type === BID_TYPES.RDBL,
       };
     }
   }

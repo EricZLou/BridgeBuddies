@@ -1,3 +1,26 @@
 .current-game-stats {
-  background-color: var(--color-white);
+  background-color: var(--theme-cream);
+  position: absolute;
+  bottom: 0;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 12px 24px 12px;
+  border-radius: 16px 16px 0 0;
+  min-width: 120px;
+}
+.current-game-stats .item {
+  flex: 1;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+}
+.current-game-stats .split {
+  display: flex;
+  flex-direction: row;
+}
+.current-game-stats .split div {
+  flex: 1;
 }
