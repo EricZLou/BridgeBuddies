@@ -1,10 +1,38 @@
 .card, .card-hoverable {
-  width: var(--card-width);
+
 }
+.card.SMALL, .card-hoverable.SMALL {
+  width: var(--small-card-width);
+}
+.card.MEDIUM, .card-hoverable.MEDIUM {
+  width: var(--medium-card-width);
+}
+.card.LARGE, .card-hoverable.LARGE {
+  width: var(--large-card-width);
+}
+
 .card-hoverable:hover {
-  transform: translate(0,-10px);
   cursor: pointer;
 }
+.card-hoverable.SMALL:hover {
+  transform: translate(0,-5px);
+}
+.card-hoverable.MEDIUM:hover {
+  transform: translate(0,-10px);
+}
+.card-hoverable.LARGE:hover {
+  transform: translate(0,-20px);
+}
+
 .card-on-board {
-  width: calc(1.1 * var(--card-width));
+
+}
+.card-on-board.SMALL {
+  width: calc(1.1 * var(--small-card-width));
+}
+.card-on-board.MEDIUM {
+  width: calc(1.1 * var(--medium-card-width));
+}
+.card-on-board.LARGE {
+  width: calc(1.1 * var(--large-card-width));
 }

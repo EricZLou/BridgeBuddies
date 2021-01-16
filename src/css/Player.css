@@ -1,4 +1,4 @@
 .player-title {
   position: absolute;
-  bottom: calc(var(--card-height) / 3);
+  bottom: 33%;
 }

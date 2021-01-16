@@ -23,6 +23,7 @@ import '../css/GameScreen.css'
 import table from '../media/store/tables/green2.jpg'
 
 import {GAMESTATES, GAMETYPES} from '../constants/GameEngine'
+import {SCREENSIZES} from '../constants/Screen'
 
 
 class GameScreen extends React.Component {
@@ -57,6 +58,11 @@ class GameScreen extends React.Component {
     const next_player = getNextPlayer(this.me);
     const prev_player = getPrevPlayer(this.me);
 
+    let size;
+    if (this.props.screen_height < 600) size = SCREENSIZES.SMALL;
+    else if (this.props.screen_height < 900) size = SCREENSIZES.MEDIUM;
+    else size = SCREENSIZES.LARGE;
+
     return (
       <div>
         <HeaderGame/>
@@ -69,12 +75,13 @@ class GameScreen extends React.Component {
             <div className="top">
               <div className="left"/>
               <div className="middle">
-                <div className="game-player">
+                <div className={`game-player ${size}`}>
                   <GenPlayer
                     seat={partner}
                     name={this.props.players[partner]}
                     visible={partner === this.props.dummy && this.props.first_card_played}
                     clickable={partner === this.props.dummy && this.props.first_card_played}
+                    size={size}
                   />
                 </div>
               </div>
@@ -83,12 +90,13 @@ class GameScreen extends React.Component {
 
             <div className="middle">
               <div className="left">
-                <div className="game-player">
+                <div className={`game-player ${size}`}>
                   <GenPlayer
                     seat={next_player}
                     name={this.props.players[next_player]}
                     visible={next_player === this.props.dummy && this.props.first_card_played}
                     clickable={false}
+                    size={size}
                   />
                 </div>
               </div>
@@ -101,12 +109,13 @@ class GameScreen extends React.Component {
                 }
               </div>
               <div className="right">
-                <div className="game-player">
+                <div className={`game-player ${size}`}>
                   <GenPlayer
                     seat={prev_player}
                     name={this.props.players[prev_player]}
                     visible={prev_player === this.props.dummy && this.props.first_card_played}
                     clickable={false}
+                    size={size}
                   />
                 </div>
               </div>
@@ -115,12 +124,13 @@ class GameScreen extends React.Component {
             <div className="bottom">
               <div className="left"/>
               <div className="middle">
-                <div className="game-player">
+                <div className={`game-player ${size}`}>
                   <GenPlayer
                     seat={this.me}
                     name={this.props.players[this.me]}
                     visible={true}
                     clickable={this.me !== this.props.dummy}
+                    size={size}
                   />
                 </div>
               </div>
@@ -141,6 +151,7 @@ class GameScreen extends React.Component {
           <ScoreSubScreen
             me={this.me}
             online={this.props.online}
+            contract={this.props.contract}
             tricks_won={this.props.tricks_won}
           />
         }
@@ -159,6 +170,8 @@ const mapStateToProps = (state, ownProps) => {
     online: state.game_info.game_type === GAMETYPES.ONLINE,
     game_state: state.game_state,
     player_types: state.player_types,
+    screen_height: state.screenSize.height,
+    screen_width: state.screenSize.width,
     tricks_won: state.tricks_won,
   }
 }

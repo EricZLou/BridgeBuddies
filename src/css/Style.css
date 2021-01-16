@@ -30,10 +30,18 @@
   --light-purple: #F1EDF9;
 
   /* ADDITIONAL */
-  --card-width: 100px;
-  --card-height: calc(1056/691 * var(--card-width));
-  --card-spacing: 25px;
-  --hand-width: calc(12 * var(--card-spacing) + var(--card-width));
+  --small-card-width: 50px;
+  --small-card-height: calc(1056/691 * var(--small-card-width));
+  --small-card-spacing: 10px;
+  --small-hand-width: calc(12 * var(--small-card-spacing) + var(--small-card-width));
+  --medium-card-width: 110px;
+  --medium-card-height: calc(1056/691 * var(--medium-card-width));
+  --medium-card-spacing: 20px;
+  --medium-hand-width: calc(12 * var(--medium-card-spacing) + var(--medium-card-width));
+  --large-card-width: 150px;
+  --large-card-height: calc(1056/691 * var(--large-card-width));
+  --large-card-spacing: 30px;
+  --large-hand-width: calc(12 * var(--large-card-spacing) + var(--large-card-width));
   --header-height: 82px;
   --scrollbar-height: 20px;
 }

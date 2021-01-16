@@ -7,7 +7,7 @@
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   display: flex;
-  min-width: var(--hand-width);
+  min-width: var(--medium-hand-width);
   z-index: 5;
 }
 

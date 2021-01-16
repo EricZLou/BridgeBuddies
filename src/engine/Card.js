@@ -10,7 +10,7 @@ export default class Card extends React.Component {
   render() {
     if (!this.props.visible) {
       return (
-        <div className="card">
+        <div className={`card ${this.props.size}`}>
           <img src={card_back_red} alt="Card."/>
         </div>
       )
@@ -21,7 +21,9 @@ export default class Card extends React.Component {
     const card = {value: this.props.value, suit: this.props.suit};
     if (this.props.hoverable) {
       return (
-        <div className="card-hoverable" onClick={this.props.handleCardPlay.bind(this, card)}>
+        <div className={`card-hoverable ${this.props.size}`}
+             onClick={this.props.handleCardPlay.bind(this, card)
+        }>
           <img src={card_img} alt="Card."/>
         </div>
       );
@@ -29,14 +31,14 @@ export default class Card extends React.Component {
 
     if (this.props.onBoard) {
       return (
-        <div className="card-on-board">
+        <div className={`card-on-board ${this.props.size}`}>
           <img src={card_img} alt="Card."/>
         </div>
       );
     }
 
     return (
-      <div className={"card"}>
+      <div className={`card ${this.props.size}`}>
         <img src={card_img} alt="Card."/>
       </div>
     );
