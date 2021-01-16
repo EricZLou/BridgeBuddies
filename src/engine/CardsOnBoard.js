@@ -9,19 +9,38 @@ import '../css/CardsOnBoard.css'
 export default class CardsOnBoard extends React.Component {
   render() {
     const cards_list = this.props.cards_on_board.map((card_play, idx) => {
-      let position;
-      if (card_play.seat === this.props.me) position = "card-me";
-      else if (card_play.seat === getPartner(this.props.me)) position = "card-partner";
-      else if (card_play.seat === getNextPlayer(this.props.me)) position = "card-left";
-      else position = "card-right";
+      let style;
+      if (card_play.seat === this.props.me) style = {
+        position: 'absolute',
+        left: `calc(50% - ${this.props.variable_sizes.card_width}px / 2)`,
+        bottom: `calc(50% - 0.8 * ${this.props.variable_sizes.card_height}px)`,
+      };
+      else if (card_play.seat === getPartner(this.props.me)) style = {
+        position: 'absolute',
+        left: `calc(50% - ${this.props.variable_sizes.card_width}px / 2)`,
+        top: `calc(50% - 0.8 * ${this.props.variable_sizes.card_height}px)`,
+      };
+      else if (card_play.seat === getNextPlayer(this.props.me)) style = {
+        position: 'absolute',
+        left: `calc(50% - 0.8 * ${this.props.variable_sizes.card_width}px)`,
+        top: `calc(50% - ${this.props.variable_sizes.card_height}px / 2)`,
+      };
+      else style = {
+        position: 'absolute',
+        right: `calc(50% - 0.8 * ${this.props.variable_sizes.card_width}px)`,
+        top: `calc(50% - ${this.props.variable_sizes.card_height}px / 2 - ${this.props.variable_sizes.card_height}px / 10)`,
+      };
+
       return (
-        <div className={position} key={idx}>
+        <div style={style} key={idx}>
           <Card
             value={card_play.card.value}
             suit={card_play.card.suit}
             handleCardClick={()=>{}}
             visible={true}
             onBoard={true}
+            card_height={this.props.variable_sizes.card_height}
+            card_width={this.props.variable_sizes.card_width}
           />
         </div>
       );

@@ -9,6 +9,7 @@
 }
 .bids-on-board-container table {
   width: 100%;
+  min-width: 220px;
   table-layout: fixed;
   text-align: center;
   font-size: 1.1em;

@@ -16,35 +16,11 @@
 .player-title-off {
   background-color: var(--light-blue);
 }
-.player-title-on.SMALL, .player-title-off.SMALL {
-  height: calc(var(--small-card-height) / 3);
-  width: calc(var(--small-hand-width) - 8px);
-}
-.player-title-on.MEDIUM, .player-title-off.MEDIUM {
-  height: calc(var(--medium-card-height) / 3);
-  width: calc(var(--medium-hand-width) - 8px);
-}
-.player-title-on.LARGE, .player-title-off.LARGE {
-  height: calc(var(--large-card-height) / 3);
-  width: calc(var(--large-hand-width) - 8px);
-}
 
 .player-title-pic {
   flex: 1;
   position: relative;
   margin: 0 15px;
-}
-.player-title-pic.SMALL {
-  height: calc(0.8 * var(--small-card-height) / 3);
-  width: calc(0.8 * var(--small-card-height) / 3);
-}
-.player-title-pic.MEDIUM {
-  height: calc(0.8 * var(--medium-card-height) / 3);
-  width: calc(0.8 * var(--medium-card-height) / 3);
-}
-.player-title-pic.LARGE {
-  height: calc(0.8 * var(--large-card-height) / 3);
-  width: calc(0.8 * var(--large-card-height) / 3);
 }
 
 .player-title-name {

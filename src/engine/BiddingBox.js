@@ -37,8 +37,12 @@ export default class BiddingBox extends React.Component {
       )
     }
 
+    const bidding_box_style = {
+      width: `${this.props.width}px`,
+    };
+
     return (
-      <div className="bidding-box">
+      <div className="bidding-box" style={bidding_box_style}>
         <div className="suit-bids">{suit_bids}</div>
         <div className="other-bids">{other_bids}</div>
       </div>

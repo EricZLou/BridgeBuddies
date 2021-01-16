@@ -5,21 +5,13 @@
 }
 .cards-on-board-container .card-partner {
   position: absolute;
-  left: calc(50% - var(--medium-card-width) / 2);
-  top: calc(50% - 0.75 * var(--medium-card-height));
 }
 .cards-on-board-container .card-right {
   position: absolute;
-  right: calc(50% - 0.75 * var(--medium-card-width));
-  top: calc(50% - var(--medium-card-height) / 2);
 }
 .cards-on-board-container .card-me {
   position: absolute;
-  left: calc(50% - var(--medium-card-width) / 2);
-  bottom: calc(50% - 0.85 * var(--medium-card-height));
 }
 .cards-on-board-container .card-left {
   position: absolute;
-  left: calc(50% - 0.75 * var(--medium-card-width));
-  top: calc(50% - var(--medium-card-height) / 2 + var(--medium-card-height) / 20);
 }

@@ -10,7 +10,7 @@ import {
   updates_with_play_card
 } from './GamePropReducers'
 import {userID, homeScreenReady} from './LogInReducers'
-import {screenSize} from './ScreenReducers'
+import {variable_sizes} from './ScreenReducers'
 import {mySocket, numUsersLoggedIn} from './SocketReducers'
 import {userDetails} from './UserInfoReducers'
 import {coins, exp, level_idx} from './UserStatsReducers'
@@ -27,7 +27,7 @@ const initialReducer = combineReducers({
   dummy, first_card_played, game_info, game_state, hands, online_game_over_timer,
   player_types, ready_to_play, tricks_won,
   userID, homeScreenReady,
-  screenSize,
+  variable_sizes,
   mySocket, numUsersLoggedIn,
   userDetails,
   coins, exp, level_idx,

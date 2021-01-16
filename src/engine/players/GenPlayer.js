@@ -131,21 +131,24 @@ class GenPlayer extends React.Component {
           handleCardPlay={this.userCardPlay}
           visible={this.props.visible}
           clickable={this.props.clickable}
-          size={this.props.size}
+          variable_sizes={this.props.variable_sizes}
         />
         <div className="player-title">
           <PlayerTitle
             seat={this.props.seat}
             name={this.props.name}
             curr_player={this.props.curr_player}
-            size={this.props.size}
+            variable_sizes={this.props.variable_sizes}
           />
         </div>
         {this.props.game_state === GAMESTATES.BIDDING &&
           this.props.curr_player === this.props.seat &&
           this.props.me === this.props.seat &&
           <div className="bidding-box-container">
-            <BiddingBox handleBidPlay={this.userBidPlay}/>
+            <BiddingBox
+              handleBidPlay={this.userBidPlay}
+              width={this.props.variable_sizes.hand_width}
+            />
           </div>
         }
       </div>
