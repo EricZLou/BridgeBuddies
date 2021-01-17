@@ -2,8 +2,8 @@
   display: flex;
   justify-content: center;
   border-bottom: 2px solid var(--tinted-white);
-  padding: 5px;
-  min-width: 800px;
+  padding: 0.3rem 0;
+  background-color: var(--theme-cream);
 }
 .header-width-cap {
   height: 70px;
@@ -14,17 +14,16 @@
 /* LOGO */
 .header-width-cap .logo {
   float: left;
-  margin-right: 10px;
 }
 
 /* TITLE */
 .header-width-cap .header-title {
-  overflow: hidden;
   text-align: center;
-  font-size: 45px;
-  color: var(--accent-blue);
+  font-size: 3.0rem;
   height: inherit;
+  color: var(--accent-blue);
   font-weight: bold;
+  margin: 0 0.3rem;
 }
 
 /* INFO */
@@ -32,14 +31,13 @@
   float: right;
   height: inherit;
   display: flex;
-  align-items: center;
 }
 .header-info .info-part {
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 70px;
+  width: 4rem;
   align-items: center;
 }
 .info-part .info-round {
@@ -56,7 +54,6 @@
 }
 .info-round .info-logo {
   height: 24px;
-  max-width: 70px;
 }
 .info-round .info-text {
   font-weight: bold;
@@ -84,7 +81,7 @@
 }
 .header-dropdown-content .header-dropdown-item {
   color: var(--color-black);
-  padding: 12px 16px;
+  padding: 0.75rem 1.0rem;
   box-shadow: -4px 8px 0px 0px rgba(0,0,0,0.4);
   border-radius: 12px;
   background-color: var(--color-white);
@@ -98,5 +95,14 @@
 }
 
 @media screen and (max-width: 800px) {
-
+  .header-content-flex {
+    display: flex;
+    align-items: center;
+    height: 70px;
+  }
+  .header-content-flex .header-title {
+    font-size: 25px;
+    word-spacing: 800px;
+    height: auto;
+  }
 }

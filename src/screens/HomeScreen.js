@@ -134,7 +134,7 @@ class HomeScreen extends React.Component {
 
               <div className="side-nav">
                 <div className="container">
-                  <div className="title">MY FRIENDS</div>
+                  <div className="side-nav-title">MY FRIENDS</div>
                   <hr className="hr-clear"/>
                   <div className="friends">{
                     `Hello ${this.props.userDetails.first_name}! ` +

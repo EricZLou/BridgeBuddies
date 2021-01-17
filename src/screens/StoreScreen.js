@@ -63,6 +63,8 @@ class StoreScreen extends React.Component {
   }
 
   componentDidMount() {
+    document.body.style.backgroundColor = getComputedStyle(document.documentElement)
+      .getPropertyValue('--theme-sky');
     let store = [];
     for (let category in STORE) {
       store.push(this.createStoreCategory(category));

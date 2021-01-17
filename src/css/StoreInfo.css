@@ -1,10 +1,11 @@
 .store-info-name {
   padding: 2.5vh 0;
-  font-size: 1.3em;
+  font-size: calc(0.5rem + 3vmin);
+  font-weight: bold;
   text-transform: capitalize;
 }
 .store-info-image {
-  height: 30vh;
+  height: 40vh;
   text-align: center;
 }
 .store-info-image img {
@@ -12,15 +13,15 @@
   object-fit: contain;
 }
 .store-info-description {
-  margin-top: 5vh;
+  margin-top: calc(0.5rem + 3vmin);
 }
 .store-info-button {
-  width: 30%;
+  min-width: 30%;
   display: block;
   text-align: center;
   margin: auto;
-  border-radius: 20px;
-  margin-top: 5vh;
+  border-radius: 32px;
+  margin-top: calc(0.5rem + 3vmin);
   text-transform: uppercase;
   font-weight: bold;
 }

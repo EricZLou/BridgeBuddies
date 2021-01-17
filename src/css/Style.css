@@ -1,3 +1,5 @@
+/* 1.0rem = 16px */
+
 :root {
   /* CORE COLORS */
   --theme-cream: #FFD9B3;
@@ -30,7 +32,7 @@
   --light-purple: #F1EDF9;
 
   /* ADDITIONAL */
-  --header-height: 82px;
+  --header-height: calc(70px + 0.6rem + 2px);
   --scrollbar-height: 20px;
 }
 
@@ -46,7 +48,6 @@ body {
 .body-width-cap-container {
   display: flex;
   justify-content: center;
-  min-width: 800px;
   min-height: calc(100vh - var(--header-height));
 }
 @media screen and (max-width: 800px) {
@@ -58,8 +59,6 @@ body {
 .body-width-cap {
   width: 100%;
   max-width: 1500px;
-  border-left: 2px solid black;
-  border-right: 2px solid black;
 }
 
 img {

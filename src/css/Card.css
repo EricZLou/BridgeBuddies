@@ -1,3 +1,4 @@
 .card-hoverable:hover {
   cursor: pointer;
+  transform: translate(0px, -10px);
 }

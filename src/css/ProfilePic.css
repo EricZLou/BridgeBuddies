@@ -1,8 +1,8 @@
 .image-cropper-header {
   position: relative;
   overflow: hidden;
-  width: 66px;
   height: 66px;
+  width: 66px;
   border-radius: 50%;
   border: 2px dotted black;
 }

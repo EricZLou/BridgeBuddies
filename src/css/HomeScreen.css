@@ -1,17 +1,17 @@
 .body-container {
   display: flex;
   margin: 0px 10px;
-  height: 100%;
+  height: calc(100vh - var(--header-height));
 }
 
 /* MAIN NAV */
 .main-nav {
-  flex: 5 2 350px;
-  min-width: 350px;
-  max-width: 400px;
+  flex: 5 2 calc(10rem + 10vmax);
+  min-width: calc(10rem + 10vmax);
+  max-width: calc(15rem + 10vmax);
 }
 .main-nav .container {
-  padding: 16px;
+  padding: 1rem;
   background-color: var(--color-white);
   border: 2px solid var(--accent-blue);
   border-top: none;
@@ -20,15 +20,15 @@
 
 /* NORMAL BUTTONS */
 .main-nav .container .button-outer {
-  padding: 12px;
-  font-size: 32px;
+  padding: calc(0.25rem + 1vmin);
+  font-size: calc(1rem + 2vmin);
   color: var(--color-black);
 }
 .main-nav .container .button-outer:hover {
   cursor: pointer;
 }
 .main-nav .container .button-outer .button-inner {
-  padding: 12px;
+  padding: calc(0.25rem + 1vmin);
   border-radius: 64px;
   font-weight: bold;
 }
@@ -42,12 +42,12 @@
 
 /* PLAY BUTTONS */
 .main-nav .container .play-options .button-outer {
-  padding: 6px;
-  font-size: 18px;
-  margin-left: 24px;
+  padding: 0.1rem;
+  font-size: calc(0.5rem + 2vmin);
+  margin-left: calc(1.5rem + 2vmin);
 }
 .main-nav .container .play-options .button-outer .button-inner {
-  padding: 6px;
+  padding: 0.1rem;
 }
 .main-nav .container .play-options .button-outer:hover .button-inner {
   background-color: var(--light-orange);
@@ -61,14 +61,14 @@
 /* MID SPACE */
 .mid-space {
   flex: 12 0;
-  min-width: 250px;
   align-self: flex-end;
 }
 .mid-space .characters {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  height: 30vh;
+  max-width: 600px;
+  width: 80%;
   object-fit: contain;
   border-bottom: 10px dotted var(--accent-blue);
   margin-bottom: 10px;
@@ -76,37 +76,36 @@
 
 /* SIDE NAV */
 .side-nav {
-  flex: 4 0 200px;
-  min-width: 200px;
-  max-width: 300px;
+  flex: 4 0 calc(10rem + 8vmax);
+  min-width: calc(10rem + 8vmax);
+  max-width: calc(15rem + 8vmax);
   align-self: flex-end;
   position: relative;
   border-radius: 32px 32px 0 0;
 }
 .side-nav .container {
-  padding: 16px;
+  padding: 1rem;
   background-color: var(--accent-blue);
   color: var(--color-white);
   border-radius: 32px 32px 0 0;
-  height: 50vh;
-  min-height: 300px;
+  height: calc(100vh - var(--header-height) - (2rem + 10vmin) - 2rem - 5vmin);
 }
-.side-nav .container .title {
-  font-size: 24px;
+.side-nav .container .side-nav-title {
+  margin-top: 0;
+  font-size: 1.5rem;
   text-align: center;
 }
 .side-nav .store-link {
   position: relative;
   display: block;
-  height: 25vh;
-  min-height: 150px;
+  height: calc(2rem + 10vmin);
   background-color: var(--color-white);
 }
 .side-nav .store-link .store {
   position: relative;
   display: block;
-  top: 5vh;
-  max-height: 15vh;
+  top: calc(0.5rem + 2vmin);
+  height: calc(1rem + 6vmin);
   margin-left: auto;
   margin-right: auto;
 }

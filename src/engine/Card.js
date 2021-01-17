@@ -12,11 +12,6 @@ export default class Card extends React.Component {
       height: this.props.card_height,
       width: this.props.card_width,
     }
-    const card_hoverable_style = {
-      height: this.props.card_height,
-      width: this.props.card_width,
-      transform: 'translate(0px, -10px)',
-    }
     const card_on_board_style = {
       height: 1.1 * this.props.card_height,
       width: 1.1 * this.props.card_width,
@@ -36,7 +31,7 @@ export default class Card extends React.Component {
     if (this.props.hoverable) {
       return (
         <div className={"card-hoverable"}
-             style={card_hoverable_style}
+             style={card_style}
              onClick={this.props.handleCardPlay.bind(this, card)
         }>
           <img src={card_img} alt="Card."/>
