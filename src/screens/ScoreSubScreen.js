@@ -7,15 +7,44 @@ import {getScore} from '../engine/managers/BridgeGameEngine'
 
 import '../css/ScoreSubScreen.css'
 
+import {getCoinsFromScore, getExpFromScore} from '../constants/AfterGame'
 import {SEATS} from '../constants/GameEngine'
 
 
 class ScoreSubScreen extends React.Component {
   constructor(props) {
     super(props);
+    const tricks = (this.props.me === SEATS.NORTH || this.props.me === SEATS.SOUTH) ?
+      this.props.tricks_won.NS : this.props.tricks_won.EW;
+    const score_and_score_type = getScore({contract: this.props.contract, tricks: tricks});
+    const score = score_and_score_type.score;
+    const score_type = score_and_score_type.score_type;
+    const coins = getCoinsFromScore(score, score_type);
+    const exp = getExpFromScore(score, score_type);
+
+    const win_text = "Yay! Good play!";
+    const lose_text = "Keep practicing, you can do it!"
+    const pass_text = "Everyone passed."
+    let score_text;
+    if (score > 0) score_text = win_text;
+    else if (score < 0) score_text = lose_text;
+    else score_text = pass_text;
+
+    let dbl = '';
+    if (this.props.contract.doubled) dbl = 'X';
+    else if (this.props.contract.redoubled) dbl = 'XX';
+
+    const contract_text = (score === 0) ? "None" :
+      `${this.props.contract.level}${this.props.contract.suit}${dbl} by ${this.props.contract.declarer}`;
+
     this.state = {
       time_left: "",
-    }
+      score: score,
+      coins: coins,
+      exp: exp,
+      score_text: score_text,
+      contract_text: contract_text,
+    };
     this.countDown = this.countDown.bind(this);
     this.offlinePlayAgain = this.offlinePlayAgain.bind(this);
   }
@@ -50,31 +79,15 @@ class ScoreSubScreen extends React.Component {
   }
 
   render() {
-    const tricks = (this.props.me === SEATS.NORTH || this.props.me === SEATS.SOUTH) ?
-      this.props.tricks_won.NS : this.props.tricks_won.EW;
-    const score = getScore({contract: this.props.contract, tricks: tricks});
-
-    const win_text = "Yay! Good play!";
-    const lose_text = "Keep practicing, you can do it!"
-    const pass_text = "Everyone passed."
-    let score_text;
-    if (score > 0) score_text = win_text;
-    else if (score < 0) score_text = lose_text;
-    else score_text = pass_text;
-
-    let dbl = '';
-    if (this.props.contract.doubled) dbl = 'X';
-    else if (this.props.contract.redoubled) dbl = 'XX';
-
     return (
       <div className="score-container">
         <div className="score-text">
           <div className="phrase">
-            {score_text}
+            {this.state.score_text}
           </div>
           <div className="info">
             <div className="key">Contract:</div>
-            <div className="value">{`${this.props.contract.level}${this.props.contract.suit}${dbl} by ${this.props.contract.declarer}`}</div>
+            <div className="value">{this.state.contract_text}</div>
           </div>
           <div className="info">
             <div className="key">NS-tricks:</div>
@@ -85,14 +98,14 @@ class ScoreSubScreen extends React.Component {
             <div className="value">{this.props.tricks_won.EW}</div>
           </div>
           <div className="score">
-            {`Your score: ${score}`}
+            {`Your score: ${this.state.score}`}
           </div>
           <div className="earnings">
             <div className="earning">
-              Coins earned: 30
+              {`Coins earned: ${this.state.coins}`}
             </div>
             <div className="earning">
-              Exp earned: 132
+              {`Exp earned: ${this.state.exp}`}
             </div>
           </div>
         </div>

@@ -7,6 +7,9 @@ import PlayerTitle from '../../components/PlayerTitle'
 
 import {isValidBid, isValidCard} from '../managers/BridgeGameEngine'
 import {makeBid, playCard} from '../../redux/actions/Core'
+import {
+  getNextPlayer, getPrevPlayer
+} from '../utils/GameScreenUtils'
 
 import '../../css/Player.css'
 
@@ -123,23 +126,35 @@ class GenPlayer extends React.Component {
   }
 
   render() {
+    const left_player_rotate_style = {transform: 'rotate(-90deg)'};
+    const right_player_rotate_style = {transform: 'rotate(90deg)'};
+    let if_rotate_style = {};
+    if (this.props.variable_sizes.hand_should_rotate) {
+      if (this.props.seat === getPrevPlayer(this.props.me))
+        if_rotate_style = right_player_rotate_style;
+      else if (this.props.seat === getNextPlayer(this.props.me))
+        if_rotate_style = left_player_rotate_style;
+    }
+
     return (
       <div>
-        <Hand
-          cards={this.props.cards}
-          seat={this.props.seat}
-          handleCardPlay={this.userCardPlay}
-          visible={this.props.visible}
-          clickable={this.props.clickable}
-          variable_sizes={this.props.variable_sizes}
-        />
-        <div className="player-title">
-          <PlayerTitle
+        <div className="player-hand-and-title" style={if_rotate_style}>
+          <Hand
+            cards={this.props.cards}
             seat={this.props.seat}
-            name={this.props.name}
-            curr_player={this.props.curr_player}
+            handleCardPlay={this.userCardPlay}
+            visible={this.props.visible}
+            clickable={this.props.clickable}
             variable_sizes={this.props.variable_sizes}
           />
+          <div className="player-title">
+            <PlayerTitle
+              seat={this.props.seat}
+              name={this.props.name}
+              curr_player={this.props.curr_player}
+              variable_sizes={this.props.variable_sizes}
+            />
+          </div>
         </div>
         {this.props.game_state === GAMESTATES.BIDDING &&
           this.props.curr_player === this.props.seat &&

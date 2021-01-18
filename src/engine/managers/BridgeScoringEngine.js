@@ -1,3 +1,5 @@
+import {SCORE_TYPES} from '../../constants/AfterGame'
+
 const doubledNotVulnerable = [
      0,      -100,   -300,   -500,
      -800,  -1100,  -1400,  -1700,
@@ -56,14 +58,22 @@ function contractMade(contract, vulnerable, made) {
     score *= 4;
 
   // Level Bonus
-  if (score < 100) // Part score?
+  let score_type;
+  if (score < 100) {                  // PART SCORE
     score += 50;
+    score_type = SCORE_TYPES.PARTSCORE;
+  }
   else {
-    score += vulnerable ? 500 : 300; // game bonus
-    if (contract.level === 7) // Grand slam?
+    score += vulnerable ? 500 : 300;  // GAME BONUS
+    score_type = SCORE_TYPES.GAME;
+    if (contract.level === 7) {       // GRAND SLAM
       score += vulnerable ? 1500 : 1000;
-    else if (contract.level === 6) // small slam?
+      score_type = SCORE_TYPES.GRANDSLAM;
+    }
+    else if (contract.level === 6) {  // SMALL SLAM
       score += vulnerable ? 750 : 500;
+      score_type = SCORE_TYPES.SMALLSLAM;
+    }
   }
 
   // Insult bonus
@@ -95,7 +105,7 @@ function contractMade(contract, vulnerable, made) {
     }
   }
 
-  return score;
+  return {score: score, score_type: score_type};
 }
 
 /*
@@ -110,7 +120,7 @@ function contractMade(contract, vulnerable, made) {
   tricks = absolute number of tricks earned by declarer
 */
 export function getScore({contract, tricks}) {
-  if (contract.suit === 'pass') return 0;
+  if (contract.suit === 'pass') return {score: 0};
 
   const need = contract.level + 6;
   const made = tricks < need ? tricks - need : tricks - 6;

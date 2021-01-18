@@ -51,6 +51,9 @@ export function contract(state="", action) {
   switch (action.type) {
     case FINISH_BIDDING:
       return action.contract;
+    case FINISH_PLAYING:
+      if (state === "") return {suit: 'pass'};
+      return state;
     case NEW_GAME:
       return "";
     default:

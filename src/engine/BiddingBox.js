@@ -38,7 +38,7 @@ export default class BiddingBox extends React.Component {
     }
 
     const bidding_box_style = {
-      width: `${this.props.width}px`,
+      minWidth: `${this.props.width}px`,
     };
 
     return (

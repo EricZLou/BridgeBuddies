@@ -38,7 +38,7 @@ class GameScreen extends React.Component {
         if (contract.suit === 'pass')
           this.props.dispatch(finishPlaying());
         else
-          this.props.dispatch(finishBidding(getContract(this.props.bid_history)));
+          this.props.dispatch(finishBidding(contract));
       }
     }
   }
@@ -57,13 +57,29 @@ class GameScreen extends React.Component {
     const next_player = getNextPlayer(this.me);
     const prev_player = getPrevPlayer(this.me);
 
-    const player_style = {
+    const us_player_style = {
       position: 'relative',
       height: this.props.variable_sizes.card_height,
       width: this.props.variable_sizes.hand_width,
       left: `calc((100% - ${this.props.variable_sizes.hand_width}px) / 2)`,
       top: `calc((100% - ${this.props.variable_sizes.card_height}px) / 2)`,
     }
+    const non_rotated_opponent_player_style = {
+      position: 'relative',
+      height: this.props.variable_sizes.card_height,
+      width: this.props.variable_sizes.hand_width,
+      left: `calc((100% - ${this.props.variable_sizes.hand_width}px) / 2)`,
+      top: `calc((100% - ${this.props.variable_sizes.card_height}px) / 2)`,
+    }
+    const rotated_opponent_player_style = {
+      position: 'relative',
+      height: this.props.variable_sizes.hand_width,
+      width: this.props.variable_sizes.card_height,
+      left: 0,
+      top: `-${this.props.variable_sizes.card_width}px`,
+    }
+    const opponent_player_style = this.props.variable_sizes.hand_should_rotate ?
+      rotated_opponent_player_style : non_rotated_opponent_player_style;
 
     return (
       <div>
@@ -77,7 +93,7 @@ class GameScreen extends React.Component {
             <div className="top">
               <div className="left"/>
               <div className="middle">
-                <div style={player_style}>
+                <div style={us_player_style}>
                   <GenPlayer
                     seat={partner}
                     name={this.props.players[partner]}
@@ -92,7 +108,7 @@ class GameScreen extends React.Component {
 
             <div className="middle">
               <div className="left">
-                <div style={player_style}>
+                <div style={opponent_player_style}>
                   <GenPlayer
                     seat={next_player}
                     name={this.props.players[next_player]}
@@ -115,7 +131,7 @@ class GameScreen extends React.Component {
                 }
               </div>
               <div className="right">
-                <div style={player_style}>
+                <div style={opponent_player_style}>
                   <GenPlayer
                     seat={prev_player}
                     name={this.props.players[prev_player]}
@@ -130,7 +146,7 @@ class GameScreen extends React.Component {
             <div className="bottom">
               <div className="left"/>
               <div className="middle">
-                <div style={player_style}>
+                <div style={us_player_style}>
                   <GenPlayer
                     seat={this.me}
                     name={this.props.players[this.me]}

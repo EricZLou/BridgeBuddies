@@ -33,7 +33,7 @@ export default class Hand extends React.Component {
       );
     });
     return (
-      <div style={{position: 'absolute'}}>
+      <div>
         {cards_list}
       </div>
     )

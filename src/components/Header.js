@@ -12,7 +12,7 @@ import '../css/ProfilePic.css'
 import bridge_clipart from '../media/bridge_clipart.png'
 import coin from '../media/coin.png'
 
-import {LEVELS} from '../constants/Levels'
+import {LEVELS} from '../constants/AfterGame'
 
 
 class Header extends React.Component {

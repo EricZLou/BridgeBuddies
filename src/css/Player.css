@@ -1,4 +1,9 @@
+.player-hand-and-title {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
 .player-title {
   position: absolute;
-  bottom: 33%;
+  bottom: calc(33% + 4px);
 }
