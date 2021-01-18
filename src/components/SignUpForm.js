@@ -22,28 +22,45 @@ export default class SignUpForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    Firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password
-    ).then((userCredentials) => {
 
+    // check if username exists
+    Firebase.database().ref(`/usernames/${this.state.username}`).once('value')
+
+    .then((snapshot) => {
+      if (snapshot.val()) {
+        throw new Error(
+          `${this.state.username} is already being used. Please choose another username!`
+        );
+      }
+    })
+
+    .then(() => {
+      return Firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password);
+    })
+
+    .then((userCredentials) => {
+      console.log(userCredentials);
       const userData = userCredentials.user;
+      Firebase.database().ref("/usernames/").update({
+        [this.state.username]: userData.uid,
+      });
       userData.updateProfile({
         displayName: `${this.state.first_name} ${this.state.last_name}`,
         email: this.state.email,
       });
-
       const userDetailsPath = '/users/' + userData.uid + '/details';
       Firebase.database().ref(userDetailsPath).set({
         first_name: this.state.first_name,
         last_name: this.state.last_name,
+        username: this.state.username,
       });
-
       const userStatsPath = '/users/' + userData.uid + '/stats';
       Firebase.database().ref(userStatsPath).set({
         coins: 0,
         exp: 0,
         level_idx: 0,
+        games_played: 0,
       });
-
       const userStoreDataPath = '/users/' + userData.uid + '/store';
       Firebase.database().ref(`${userStoreDataPath}/active`).set({
         cardbacks: "red card",
@@ -55,10 +72,13 @@ export default class SignUpForm extends React.Component {
         characters: ["Gespade", "Hartley"],
         tables: ["classic table"],
       });
-      return userData.uid
-    }).then((uid) => {
-      this.props.onFormSuccess(uid);
-    }).catch((error) => {alert(error)});
+
+      return userData.uid;
+    })
+
+    .then((uid) => {this.props.onFormSuccess(uid);})
+
+    .catch((error) => {alert(error)});
   }
 
   render() {

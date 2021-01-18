@@ -12,8 +12,8 @@ import {
 import {userID, homeScreenReady} from './LogInReducers'
 import {variable_sizes} from './ScreenReducers'
 import {mySocket, numUsersLoggedIn} from './SocketReducers'
-import {userDetails} from './UserInfoReducers'
-import {coins, exp, level_idx} from './UserStatsReducers'
+import {userDetails} from './UserDetailsReducers'
+import {coins, exp, level_idx, games_played} from './UserStatsReducers'
 import {storeActive, storeOwned} from './UserStoreReducers'
 
 import {
@@ -30,7 +30,7 @@ const initialReducer = combineReducers({
   variable_sizes,
   mySocket, numUsersLoggedIn,
   userDetails,
-  coins, exp, level_idx,
+  coins, exp, level_idx, games_played,
   storeActive, storeOwned,
 })
 

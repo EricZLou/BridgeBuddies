@@ -27,8 +27,7 @@ import {
   SET_USER_DETAILS, setUserDetails
 } from './UserDetailsActions'
 import {
-  SET_COINS, SET_EXP, SET_LEVEL,
-  setCoins, setExp, setLevel,
+  SET_USER_STATS, setUserStats
 } from './UserStatsActions'
 import {
   SET_STORE_ACTIVE, SET_STORE_OWNED,
@@ -64,8 +63,7 @@ export {
   SET_USER_DETAILS, setUserDetails
 }
 export {
-  SET_COINS, SET_EXP, SET_LEVEL,
-  setCoins, setExp, setLevel,
+  SET_USER_STATS, setUserStats
 }
 export {
   SET_STORE_ACTIVE, SET_STORE_OWNED,

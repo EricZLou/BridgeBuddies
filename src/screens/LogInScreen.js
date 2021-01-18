@@ -4,10 +4,9 @@ import {connect} from 'react-redux'
 import Firebase from '../Firebase'
 import LogInForm from '../components/LogInForm'
 import SignUpForm from '../components/SignUpForm'
-import {logIn, homeScreenReady,
-  setFirebasePaths, setUserDetails,
-  setCoins, setExp, setLevel,
-  setStoreActive, setStoreOwned,
+import {
+  logIn, homeScreenReady, setFirebasePaths,
+  setUserDetails, setUserStats, setStoreActive, setStoreOwned,
   resizeScreen,
 } from '../redux/actions/Core'
 
@@ -50,24 +49,29 @@ class LogInScreen extends React.Component {
     this.listener1 = null;
     this.listener2 = null;
     this.listener3 = null;
+    this.listener4 = null;
   }
 
   async userDetailsListener() {
     this.listener1 = Firebase.database().ref(this.props.detailsPath).on('value', (snapshot) => {
-      this.props.dispatch(setUserDetails(snapshot.val().first_name, snapshot.val().last_name));
+      console.log(snapshot.val());
+      this.props.dispatch(setUserDetails(snapshot.val()));
     });
   }
   async userStatsListener() {
     this.listener2 = Firebase.database().ref(this.props.statsPath).on('value', (snapshot) => {
-      this.props.dispatch(setCoins(snapshot.val().coins));
-      this.props.dispatch(setExp(snapshot.val().exp));
-      this.props.dispatch(setLevel(snapshot.val().level_idx));
+      this.props.dispatch(setUserStats(snapshot.val()));
     });
   }
   async userStoreListener() {
     this.listener3 = Firebase.database().ref(this.props.storePath).on('value', (snapshot) => {
       this.props.dispatch(setStoreActive(snapshot.val().active));
       this.props.dispatch(setStoreOwned(snapshot.val().owned));
+    });
+  }
+  async userFriendsListener() {
+    this.listener4 = Firebase.database().ref(this.props.friendsPath).on('value', (snapshot) => {
+      ;
     });
   }
   async setUpFirebaseListeners() {
