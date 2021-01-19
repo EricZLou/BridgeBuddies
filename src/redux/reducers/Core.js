@@ -9,11 +9,11 @@ import {
 import {
   updates_with_play_card
 } from './GamePropReducers'
-import {userID, homeScreenReady} from './LogInReducers'
+import {userID} from './LogInReducers'
 import {variable_sizes} from './ScreenReducers'
 import {mySocket, numUsersLoggedIn} from './SocketReducers'
 import {userDetails} from './UserDetailsReducers'
-import {coins, exp, level_idx, games_played} from './UserStatsReducers'
+import {coins, exp, games_played, level_idx, total_exp} from './UserStatsReducers'
 import {storeActive, storeOwned} from './UserStoreReducers'
 
 import {
@@ -26,11 +26,11 @@ const initialReducer = combineReducers({
   bid_history, card_history, cards_on_board, contract, curr_player,
   dummy, first_card_played, game_info, game_state, hands, online_game_over_timer,
   player_types, ready_to_play, tricks_won,
-  userID, homeScreenReady,
+  userID,
   variable_sizes,
   mySocket, numUsersLoggedIn,
   userDetails,
-  coins, exp, level_idx, games_played,
+  coins, exp, games_played, level_idx, total_exp,
   storeActive, storeOwned,
 })
 
@@ -62,7 +62,7 @@ export default function finalReducer(state, action) {
   const intermediateState = initialReducer(state, action);
   let finalState = crossSliceReducer(intermediateState, action);
   if (action.type === LOG_OUT) {
-    state = undefined;
+    finalState = {userID: ""};
   }
   console.log(action);
   console.log(finalState);

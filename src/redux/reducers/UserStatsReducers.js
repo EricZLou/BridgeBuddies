@@ -18,6 +18,14 @@ export function exp(state="", action) {
       return state;
   }
 }
+export function games_played(state="", action) {
+  switch (action.type) {
+    case SET_USER_STATS:
+      return action.dict.games_played;
+    default:
+      return state;
+  }
+}
 export function level_idx(state="", action) {
   switch (action.type) {
     case SET_USER_STATS:
@@ -26,10 +34,10 @@ export function level_idx(state="", action) {
       return state;
   }
 }
-export function games_played(state="", action) {
+export function total_exp(state="", action) {
   switch (action.type) {
     case SET_USER_STATS:
-      return action.dict.games_played;
+      return action.dict.total_exp;
     default:
       return state;
   }

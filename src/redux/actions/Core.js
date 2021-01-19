@@ -13,8 +13,7 @@ import {
   clearCardsOnBoard, finishPlaying, playCard,
 } from './GamePlayingActions'
 import {
-  LOG_IN, LOG_OUT, HOME_SCREEN_READY, HOME_SCREEN_NOT_READY,
-  logIn, logOut, homeScreenReady, homeScreenNotReady,
+  LOG_IN, LOG_OUT, logIn, logOut
 } from './LogInActions'
 import {
   RESIZE_SCREEN, resizeScreen
@@ -49,8 +48,7 @@ export {
   clearCardsOnBoard, finishPlaying, playCard,
 }
 export {
-  LOG_IN, LOG_OUT, HOME_SCREEN_READY, HOME_SCREEN_NOT_READY,
-  logIn, logOut, homeScreenReady, homeScreenNotReady,
+  LOG_IN, LOG_OUT, logIn, logOut
 }
 export {
   RESIZE_SCREEN, resizeScreen

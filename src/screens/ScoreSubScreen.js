@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import Firebase from '../Firebase'
 
 import {Deck} from '../engine/Deck'
 import {newGame} from '../redux/actions/Core'
@@ -7,7 +8,9 @@ import {getScore} from '../engine/managers/BridgeGameEngine'
 
 import '../css/ScoreSubScreen.css'
 
-import {getCoinsFromScore, getExpFromScore} from '../constants/AfterGame'
+import {
+  EXP_BY_LEVEL, LEVELS, getCoinsFromScore, getExpFromScore,
+} from '../constants/AfterGame'
 import {SEATS} from '../constants/GameEngine'
 
 
@@ -21,6 +24,24 @@ class ScoreSubScreen extends React.Component {
     const score_type = score_and_score_type.score_type;
     const coins = getCoinsFromScore(score, score_type);
     const exp = getExpFromScore(score, score_type);
+
+    const exp_needed_to_prestige = EXP_BY_LEVEL[LEVELS[this.props.level_idx]];
+    if (this.props.exp + exp >= exp_needed_to_prestige) {
+      Firebase.database().ref(this.props.userStatsPath).update({
+        coins: this.props.coins + coins,
+        exp: 0,
+        games_played: this.props.games_played + 1,
+        level_idx: this.props.level_idx + 1,
+        total_exp: this.props.total_exp + exp,
+      });
+    } else {
+      Firebase.database().ref(this.props.userStatsPath).update({
+        coins: this.props.coins + coins,
+        exp: this.props.exp + exp,
+        games_played: this.props.games_played + 1,
+        total_exp: this.props.total_exp + exp,
+      });
+    }
 
     const win_text = "Yay! Good play!";
     const lose_text = "Keep practicing, you can do it!"
@@ -128,7 +149,13 @@ class ScoreSubScreen extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    coins: state.coins,
+    exp: state.exp,
+    games_played: state.games_played,
+    level_idx: state.level_idx,
+    total_exp: state.total_exp,
     timer: state.online_game_over_timer,
+    userStatsPath: state.firebasePaths.stats,
   }
 }
 export default connect(mapStateToProps)(ScoreSubScreen);

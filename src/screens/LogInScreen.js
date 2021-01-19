@@ -5,7 +5,7 @@ import Firebase from '../Firebase'
 import LogInForm from '../components/LogInForm'
 import SignUpForm from '../components/SignUpForm'
 import {
-  logIn, homeScreenReady, setFirebasePaths,
+  logIn, setFirebasePaths,
   setUserDetails, setUserStats, setStoreActive, setStoreOwned,
   resizeScreen,
 } from '../redux/actions/Core'
@@ -52,19 +52,19 @@ class LogInScreen extends React.Component {
     this.listener4 = null;
   }
 
-  async userDetailsListener() {
-    this.listener1 = Firebase.database().ref(this.props.detailsPath).on('value', (snapshot) => {
+  async userDetailsListener(detailsPath) {
+    this.listener1 = Firebase.database().ref(detailsPath).on('value', (snapshot) => {
       console.log(snapshot.val());
       this.props.dispatch(setUserDetails(snapshot.val()));
     });
   }
-  async userStatsListener() {
-    this.listener2 = Firebase.database().ref(this.props.statsPath).on('value', (snapshot) => {
+  async userStatsListener(statsPath) {
+    this.listener2 = Firebase.database().ref(statsPath).on('value', (snapshot) => {
       this.props.dispatch(setUserStats(snapshot.val()));
     });
   }
-  async userStoreListener() {
-    this.listener3 = Firebase.database().ref(this.props.storePath).on('value', (snapshot) => {
+  async userStoreListener(storePath) {
+    this.listener3 = Firebase.database().ref(storePath).on('value', (snapshot) => {
       this.props.dispatch(setStoreActive(snapshot.val().active));
       this.props.dispatch(setStoreOwned(snapshot.val().owned));
     });
@@ -74,22 +74,22 @@ class LogInScreen extends React.Component {
       ;
     });
   }
-  async setUpFirebaseListeners() {
-    await this.userDetailsListener();
-    await this.userStatsListener();
-    await this.userStoreListener();
+  async setUpFirebaseListeners(detailsPath, statsPath, storePath) {
+    await this.userDetailsListener(detailsPath);
+    await this.userStatsListener(statsPath);
+    await this.userStoreListener(storePath);
   }
 
   async handleFormSuccess(uid) {
     const detailsPath = '/users/' + uid + '/details';
     const statsPath = '/users/' + uid + '/stats';
     const storePath = '/users/' + uid + '/store';
-    await this.props.dispatch(setFirebasePaths(
+
+    this.props.dispatch(setFirebasePaths(
       detailsPath, statsPath, storePath
     ));
-    await this.setUpFirebaseListeners();
+    await this.setUpFirebaseListeners(detailsPath, statsPath, storePath);
     await this.props.dispatch(logIn(uid));
-    await this.props.dispatch(homeScreenReady(true));
   }
 
   logInAsTestUser() {
@@ -144,6 +144,7 @@ class LogInScreen extends React.Component {
                     <div className="switch-view-text">Already have an account?</div>
                     <div className="switch-view-click" onClick={() => this.setState({view: VIEWSTATES.LOGIN})}>LOG IN</div>
                   </div>
+                  <button className="tmp-button" onClick={this.logInAsTestUser}>LOG IN AS TEST USER</button>
                 </div>
               }
             </div>
@@ -154,11 +155,4 @@ class LogInScreen extends React.Component {
   }
 };
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    detailsPath: state.firebasePaths.details,
-    statsPath: state.firebasePaths.stats,
-    storePath: state.firebasePaths.store,
-  }
-}
-export default connect(mapStateToProps)(LogInScreen);
+export default connect()(LogInScreen);

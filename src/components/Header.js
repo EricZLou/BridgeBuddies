@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import Firebase from '../Firebase'
 
-import {logOut, homeScreenNotReady} from '../redux/actions/Core'
+import {logOut} from '../redux/actions/Core'
 
 import '../css/Style.css'
 import '../css/Header.css'
@@ -25,7 +25,6 @@ class Header extends React.Component {
     Firebase.auth().signOut().then(()=>{
       this.props.mySocket.close();
       this.props.dispatch(logOut());
-      this.props.dispatch(homeScreenNotReady());
     }).catch((error)=>{alert(error);});
   }
 
@@ -72,9 +71,9 @@ class Header extends React.Component {
                 <img src={coin} alt="Coin" className="coin-img"/>
               </div>
               <div className="info-text" onClick={() => {
-                  Firebase.database().ref(this.props.userStatsPath).update(
-                    {coins: this.props.coins + 10}
-                  );
+                  Firebase.database().ref(this.props.userStatsPath).update({
+                    coins: this.props.coins + 10,
+                  });
                 }}>{this.props.coins}
               </div>
             </div>
@@ -85,8 +84,11 @@ class Header extends React.Component {
               <div className="info-logo">
                 EXP
               </div>
-              <div className="info-text">
-                {this.props.exp}
+              <div className="info-text" onClick={() => {
+                  Firebase.database().ref(this.props.userStatsPath).update({
+                    exp: this.props.exp + 50,
+                  });
+                }}>{this.props.exp}
               </div>
             </div>
           </div>

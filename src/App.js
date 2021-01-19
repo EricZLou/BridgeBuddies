@@ -21,7 +21,7 @@ import {GAMETYPES} from "./constants/GameEngine"
 
 class App extends React.Component {
   render() {
-    if (!this.props.homeScreenReady) return (
+    if (!this.props.userID) return (
       <BrowserRouter>
         <Switch>
           <Route exact path="/login"> <LogInScreen/> </Route>
@@ -50,7 +50,7 @@ class App extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    homeScreenReady: state.homeScreenReady,
+    userID: state.userID,
   }
 }
 export default connect(mapStateToProps)(App);

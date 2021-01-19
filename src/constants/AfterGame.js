@@ -1,6 +1,55 @@
+const LEVEL = {
+  NOVICE: "Novice",
+  AMATEUR: "Amateur",
+  DABBLER: "Dabbler",
+  APPRENTICE: "Apprentice",
+  JOURNEYMAN: "Journeyman",
+  FELLOW: "Fellow",
+  SCHOLAR: "Scholar",
+  MASTER: "Master",
+  GRANDMASTER: "Grand Master",
+  LEGEND: "Legend",
+}
 export const LEVELS = [
-  "Noobie", "Novice", "Intermediate", "Advanced", "Expert"
-];
+  LEVEL.NOVICE,
+  LEVEL.AMATEUR,
+  LEVEL.DABBLER,
+  LEVEL.APPRENTICE,
+  LEVEL.JOURNEYMAN,
+  LEVEL.FELLOW,
+  LEVEL.SCHOLAR,
+  LEVEL.MASTER,
+  LEVEL.GRANDMASTER,
+  LEVEL.LEGEND,
+]
+
+// exp needed to prestige
+export const EXP_BY_LEVEL = {
+  [LEVEL.NOVICE]: 100,
+  [LEVEL.AMATEUR]: 400,
+  [LEVEL.DABBLER]: 800,
+  [LEVEL.APPRENTICE]: 1300,
+  [LEVEL.JOURNEYMAN]: 1900,
+  [LEVEL.FELLOW]: 2600,
+  [LEVEL.SCHOLAR]: 4000,
+  [LEVEL.MASTER]: 6000,
+  [LEVEL.GRANDMASTER]: 10000,
+  [LEVEL.LEGEND]: 0,
+}
+
+// rewards for prestiging
+export const REWARDS_BY_LEVEL = {
+  [LEVEL.NOVICE]: 100,
+  [LEVEL.AMATEUR]: 400,
+  [LEVEL.DABBLER]: 800,
+  [LEVEL.APPRENTICE]: 1300,
+  [LEVEL.JOURNEYMAN]: 1900,
+  [LEVEL.FELLOW]: 2600,
+  [LEVEL.SCHOLAR]: 4000,
+  [LEVEL.MASTER]: 6000,
+  [LEVEL.GRANDMASTER]: 10000,
+  [LEVEL.LEGEND]: 0,
+}
 
 // min, max inclusive
 function randomNoise(min, max) {

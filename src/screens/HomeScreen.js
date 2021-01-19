@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import { io } from 'socket.io-client'
 
 import Header from '../components/Header'
+import LeaderboardScreen from './LeaderboardScreen'
 import LoadingScreen from './LoadingScreen'
 import {setSocket, setNumUsersLoggedIn} from "../redux/actions/Core"
 
@@ -37,8 +38,9 @@ class HomeScreen extends React.Component {
   componentDidMount() {
     document.body.style.backgroundColor = getComputedStyle(document.documentElement)
       .getPropertyValue('--dark-blue');
-    if (!this.props.mySocket)
+    if (!this.props.mySocket) {
       this.initSocket();
+    }
     if (this.dataLoaded()) this.setState({ready: true});
     else this.interval = setInterval(this.waitForDataToLoad, 500);
   }
@@ -128,7 +130,12 @@ class HomeScreen extends React.Component {
                 </div>
               </div>
 
-              <div className="mid-space">
+              <div className={`mid-space${this.state.home_type === HOMETYPES.BOARD ? "":" empty"}`}>
+                {this.state.home_type === HOMETYPES.BOARD &&
+                  <div className="mid-space-item">
+                    <LeaderboardScreen/>
+                  </div>
+                }
                 <img src={cover} alt="Characters" className="characters"/>
               </div>
 

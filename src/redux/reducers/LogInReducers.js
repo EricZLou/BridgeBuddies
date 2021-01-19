@@ -1,5 +1,5 @@
 import {
-  LOG_IN, LOG_OUT, HOME_SCREEN_READY, HOME_SCREEN_NOT_READY
+  LOG_IN, LOG_OUT
 } from '../actions/Core'
 
 export function userID(state='', action) {
@@ -8,17 +8,6 @@ export function userID(state='', action) {
       return action.userID;
     case LOG_OUT:
       return ''
-    default:
-      return state;
-  }
-}
-
-export function homeScreenReady(state=false, action) {
-  switch (action.type) {
-    case HOME_SCREEN_READY:
-      return true;
-    case HOME_SCREEN_NOT_READY:
-      return false;
     default:
       return state;
   }
