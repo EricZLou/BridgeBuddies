@@ -33,7 +33,6 @@ class Header extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log("HEADER UPDATING");
     // update leaderboard if needed
     const games_played_path = '/leaderboards/games_played/';
     const total_exp_path = '/leaderboards/total_exp/';

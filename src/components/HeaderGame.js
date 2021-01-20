@@ -34,7 +34,6 @@ class HeaderGame extends React.Component {
   }
 
   maybeUpdateLeaderboard(path, score) {
-    console.log("HEADER GAME UPDATING");
     let ref = Firebase.database().ref(path).orderByChild('score');
     ref.once('value', (snapshot) => {
       let should_change = false;
