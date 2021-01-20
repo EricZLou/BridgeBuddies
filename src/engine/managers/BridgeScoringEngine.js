@@ -27,11 +27,11 @@ function contractMade(contract, vulnerable, made) {
   // Undertricks?
   if (made < 0) {
     if (contract.risk === '')
-      return made * (vulnerable ? 100 : 50);
+    return {score: made * (vulnerable ? 100 : 50), score_type: SCORE_TYPES.UNDER};
     let penalty = vulnerable ? doubledVulnerable[-made] : doubledNotVulnerable[-made];
     if (redoubled)
       penalty *= 2;
-    return penalty;
+    return {score: penalty, score_type: SCORE_TYPES.UNDER};
   }
 
   let score = 0;

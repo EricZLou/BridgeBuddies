@@ -1,4 +1,5 @@
 const LEVEL = {
+  RECRUIT: "Recruit",
   NOVICE: "Novice",
   AMATEUR: "Amateur",
   DABBLER: "Dabbler",
@@ -11,6 +12,7 @@ const LEVEL = {
   LEGEND: "Legend",
 }
 export const LEVELS = [
+  LEVEL.RECRUIT,
   LEVEL.NOVICE,
   LEVEL.AMATEUR,
   LEVEL.DABBLER,
@@ -25,6 +27,7 @@ export const LEVELS = [
 
 // exp needed to prestige
 export const EXP_BY_LEVEL = {
+  [LEVEL.RECRUIT]: 20,
   [LEVEL.NOVICE]: 100,
   [LEVEL.AMATEUR]: 400,
   [LEVEL.DABBLER]: 800,
@@ -39,6 +42,7 @@ export const EXP_BY_LEVEL = {
 
 // rewards for prestiging
 export const REWARDS_BY_LEVEL = {
+  [LEVEL.RECRUIT]: 20,
   [LEVEL.NOVICE]: 100,
   [LEVEL.AMATEUR]: 400,
   [LEVEL.DABBLER]: 800,
@@ -57,6 +61,7 @@ function randomNoise(min, max) {
 }
 
 export const SCORE_TYPES = {
+  UNDER: 'UNDER',
   PARTSCORE: 'PARTSCORE',
   GAME: 'GAME',
   SMALLSLAM: 'SMALLSLAM',

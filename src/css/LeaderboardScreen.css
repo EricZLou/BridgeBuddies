@@ -1,3 +1,93 @@
-.leaderboards-container {
+.leaderboard-container {
+  width: 100%;
+  max-width: 350px;
+}
+.leaderboard-loading {
+  font-size: calc(1rem + 2vmin);
+}
 
+.leaderboard-buttons {
+  padding: 10px;
+}
+
+.leaderboard-row {
+  display: block;
+  padding: 10px;
+  font-size: calc(0.75rem + 0.5vmin);
+}
+
+.leaderboard-rank {
+  float: left;
+  font-weight: bold;
+}
+.leaderboard-image {
+  float: left;
+  margin: 0 10px;
+}
+.leaderboard-username {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.leaderboard-score {
+  float: right;
+  font-weight: bold;
+  margin: 0 4px 0 10px;
+}
+.leaderboard-units {
+  float: right;
+}
+
+.leaderboard-radio {
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+  font-size: calc(0.75rem + 0.5vmin);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.leaderboard-radio.first {
+  margin-right: 35px;
+}
+/* Hide the browser's default radio button */
+.leaderboard-radio input {
+  display: none;
+}
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: calc(20px + 0.5vmin);
+  width: calc(20px + 0.5vmin);
+  background-color: #eee;
+  border-radius: 50%;
+}
+/* On mouse-over, add a grey background color */
+.leaderboard-radio:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+.leaderboard-radio input:checked ~ .checkmark {
+  background-color: var(--accent-blue);
+}
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+/* Show the indicator (dot/circle) when checked */
+.leaderboard-radio input:checked ~ .checkmark:after {
+  display: block;
+}
+/* Style the indicator (dot/circle) */
+.leaderboard-radio .checkmark:after {
+  top: 6px;
+	left: 6px;
+  height: calc(8px + 0.5vmin);
+  width: calc(8px + 0.5vmin);
+	border-radius: 50%;
+	background: white;
 }

@@ -58,8 +58,9 @@ export default class SignUpForm extends React.Component {
       Firebase.database().ref(userStatsPath).set({
         coins: 0,
         exp: 0,
-        level_idx: 0,
         games_played: 0,
+        level_idx: 0,
+        total_exp: 0,
       });
       const userStoreDataPath = '/users/' + userData.uid + '/store';
       Firebase.database().ref(`${userStoreDataPath}/active`).set({

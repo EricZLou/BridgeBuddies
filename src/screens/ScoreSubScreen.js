@@ -9,7 +9,7 @@ import {getScore} from '../engine/managers/BridgeGameEngine'
 import '../css/ScoreSubScreen.css'
 
 import {
-  EXP_BY_LEVEL, LEVELS, getCoinsFromScore, getExpFromScore,
+  getCoinsFromScore, getExpFromScore,
 } from '../constants/AfterGame'
 import {SEATS} from '../constants/GameEngine'
 
@@ -25,23 +25,12 @@ class ScoreSubScreen extends React.Component {
     const coins = getCoinsFromScore(score, score_type);
     const exp = getExpFromScore(score, score_type);
 
-    const exp_needed_to_prestige = EXP_BY_LEVEL[LEVELS[this.props.level_idx]];
-    if (this.props.exp + exp >= exp_needed_to_prestige) {
-      Firebase.database().ref(this.props.userStatsPath).update({
-        coins: this.props.coins + coins,
-        exp: 0,
-        games_played: this.props.games_played + 1,
-        level_idx: this.props.level_idx + 1,
-        total_exp: this.props.total_exp + exp,
-      });
-    } else {
-      Firebase.database().ref(this.props.userStatsPath).update({
-        coins: this.props.coins + coins,
-        exp: this.props.exp + exp,
-        games_played: this.props.games_played + 1,
-        total_exp: this.props.total_exp + exp,
-      });
-    }
+    Firebase.database().ref(this.props.userStatsPath).update({
+      coins: this.props.coins + coins,
+      exp: this.props.exp + exp,
+      games_played: this.props.games_played + 1,
+      total_exp: this.props.total_exp + exp,
+    });
 
     const win_text = "Yay! Good play!";
     const lose_text = "Keep practicing, you can do it!"

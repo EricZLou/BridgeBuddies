@@ -31,6 +31,8 @@ class HomeScreen extends React.Component {
     this.state = {
       ready: false,
       home_type: null,
+      show_mid_nav: false,
+      show_side_nav: true,
     }
     this.waitForDataToLoad = this.waitForDataToLoad.bind(this);
   }
@@ -74,8 +76,16 @@ class HomeScreen extends React.Component {
   }
 
   toggleHomeType(home_type) {
-    if (this.state.home_type === home_type) this.setState({home_type: null});
-    else this.setState({home_type: home_type});
+    if (this.state.home_type === home_type) this.setState({
+      home_type: null,
+      show_mid_nav: false,
+      show_side_nav: true,
+    });
+    else this.setState({
+      home_type: home_type,
+      show_mid_nav: home_type !== HOMETYPES.PLAY ? true : false,
+      show_side_nav: home_type === HOMETYPES.PLAY || this.props.screen_width >= 1000,
+    });
   }
 
   render() {
@@ -130,28 +140,32 @@ class HomeScreen extends React.Component {
                 </div>
               </div>
 
-              <div className={`mid-space${this.state.home_type === HOMETYPES.BOARD ? "":" empty"}`}>
-                {this.state.home_type === HOMETYPES.BOARD &&
-                  <div className="mid-space-item">
-                    <LeaderboardScreen/>
+              <div className={`mid-nav${this.state.show_mid_nav ? "":" empty"}`}>
+                {this.state.show_mid_nav &&
+                  <div className="mid-nav-item">
+                    {this.state.home_type === HOMETYPES.DAILY && <div>daily challenge!!!</div>}
+                    {this.state.home_type === HOMETYPES.LEARN && <div>learn!!!</div>}
+                    {this.state.home_type === HOMETYPES.BOARD && <LeaderboardScreen/>}
                   </div>
                 }
                 <img src={cover} alt="Characters" className="characters"/>
               </div>
 
-              <div className="side-nav">
-                <div className="container">
-                  <div className="side-nav-title">MY FRIENDS</div>
-                  <hr className="hr-clear"/>
-                  <div className="friends">{
-                    `Hello ${this.props.userDetails.first_name}! ` +
-                    `There are ${this.props.numUsersLoggedIn} users online!`
-                  }</div>
+              {this.state.show_side_nav &&
+                <div className="side-nav">
+                  <div className="container">
+                    <div className="side-nav-title">MY FRIENDS</div>
+                    <hr className="hr-clear"/>
+                    <div className="friends">{
+                      `Hello ${this.props.userDetails.first_name}! ` +
+                      `There are ${this.props.numUsersLoggedIn} users online!`
+                    }</div>
+                  </div>
+                  <Link to="/store" className="store-link" title="Go to store">
+                    <img src={store_image} alt="Store" className="store"/>
+                  </Link>
                 </div>
-                <Link to="/store" className="store-link" title="Go to store">
-                  <img src={store_image} alt="Store" className="store"/>
-                </Link>
-              </div>
+              }
             </div>
           </div>
         </div></div>
@@ -162,14 +176,15 @@ class HomeScreen extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    userDetails: state.userDetails,
-    storeActive: state.storeActive,
-    first_name: state.userDetails.first_name,
     coins: state.coins,
     exp: state.exp,
+    first_name: state.userDetails.first_name,
     level: state.level_idx,
     mySocket: state.mySocket,
     numUsersLoggedIn: state.numUsersLoggedIn,
+    storeActive: state.storeActive,
+    userDetails: state.userDetails,
+    screen_width: state.variable_sizes.screen_width,
   }
 }
 export default connect(mapStateToProps)(HomeScreen);

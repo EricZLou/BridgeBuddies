@@ -12,12 +12,16 @@ import '../css/ProfilePic.css'
 import bridge_clipart from '../media/bridge_clipart.png'
 import coin from '../media/coin.png'
 
-import {LEVELS} from '../constants/AfterGame'
+import {EXP_BY_LEVEL, LEVELS} from '../constants/AfterGame'
 
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      show_level_up: false,
+      level_idx: this.props.level_idx,
+    };
     this.onLogOutClick = this.onLogOutClick.bind(this);
   }
 
@@ -26,6 +30,63 @@ class Header extends React.Component {
       this.props.mySocket.close();
       this.props.dispatch(logOut());
     }).catch((error)=>{alert(error);});
+  }
+
+  componentDidUpdate() {
+    console.log("HEADER UPDATING");
+    // update leaderboard if needed
+    const games_played_path = '/leaderboards/games_played/';
+    const total_exp_path = '/leaderboards/total_exp/';
+    this.maybeUpdateLeaderboard(games_played_path, this.props.games_played);
+    this.maybeUpdateLeaderboard(total_exp_path, this.props.total_exp);
+    // prestige if needed
+    this.maybePrestige();
+  }
+
+  maybeUpdateLeaderboard(path, score) {
+    let ref = Firebase.database().ref(path).orderByChild('score');
+    ref.once('value', (snapshot) => {
+      let should_change = false;
+      snapshot.forEach((data) => {
+        if (should_change) return;
+        const key = data.key;
+        data = data.val();
+        if (this.props.userID === data.user) {
+          Firebase.database().ref(`${path}${key}`).remove();
+          should_change = true;
+        }
+      });
+      snapshot.forEach((data) => {
+        if (should_change) return;
+        const key = data.key;
+        data = data.val();
+        if (score > data.score) {
+          Firebase.database().ref(`${path}${key}`).remove();
+          should_change = true;
+        }
+      });
+      if (should_change) {
+        Firebase.database().ref(path).push().set({
+          user: this.props.userID, score: score
+        });
+      }
+    });
+  }
+
+  maybePrestige() {
+    const exp_needed_to_prestige = EXP_BY_LEVEL[LEVELS[this.props.level_idx]];
+    if (this.props.exp >= exp_needed_to_prestige) {
+      const new_leveL_idx = this.props.level_idx + 1;
+      Firebase.database().ref(this.props.userStatsPath).update({
+        exp: 0,
+        level_idx: new_leveL_idx,
+      });
+      this.setState({
+        show_level_up: true,
+        level_idx: new_leveL_idx,
+      });
+      setTimeout(() => {this.setState({show_level_up: false})}, 7000);
+    }
   }
 
   render() {
@@ -59,9 +120,10 @@ class Header extends React.Component {
               <div className="info-logo">
                 LVL
               </div>
-              <div className="info-text">
-                {this.props.level}
-              </div>
+              <div className="info-text" onClick={() => {
+                this.setState({show_level_up: true});
+                setTimeout(() => {this.setState({show_level_up: false})}, 7000);
+              }}>{LEVELS[this.state.level_idx]}</div>
             </div>
           </div>
 
@@ -87,12 +149,29 @@ class Header extends React.Component {
               <div className="info-text" onClick={() => {
                   Firebase.database().ref(this.props.userStatsPath).update({
                     exp: this.props.exp + 50,
+                    total_exp: this.props.total_exp + 50,
                   });
                 }}>{this.props.exp}
               </div>
             </div>
           </div>
 
+          {this.state.show_level_up &&
+            <div className="prestige">
+              <div className="prestige-text">
+                Woohoo! You leveled up!
+              </div>
+              <div className="prestige-name old">
+                {LEVELS[this.state.level_idx-1]}
+              </div>
+              <div className="prestige-arrow">
+                &dArr;
+              </div>
+              <div className="prestige-name new">
+                {LEVELS[this.state.level_idx]}
+              </div>
+            </div>
+          }
         </div>
 
         <div className="header-content-flex">
@@ -108,12 +187,15 @@ class Header extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    activeCharacter: state.storeActive.characters,
     coins: state.coins,
     exp: state.exp,
-    level: LEVELS[state.level_idx],
-    userStatsPath: state.firebasePaths.stats,
-    activeCharacter: state.storeActive.characters,
+    games_played: state.games_played,
+    level_idx: state.level_idx,
     mySocket: state.mySocket,
+    total_exp: state.total_exp,
+    userID: state.userID,
+    userStatsPath: state.firebasePaths.stats,
   }
 }
 export default connect(mapStateToProps)(Header);
