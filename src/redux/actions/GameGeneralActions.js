@@ -1,5 +1,6 @@
 export const NEW_GAME = 'NEW_GAME';
-export const SET_GAME_TYPE_OR_ME = 'SET_GAME_TYPE_OR_ME';
+export const RESET_GAME_REDUX = 'RESET_GAME_REDUX';
+export const SET_GAME_INFO = 'SET_GAME_INFO';
 export const SET_HAND = 'SET_HAND';
 export const SET_ONLINE_ROBOTS = 'SET_ONLINE_ROBOTS';
 export const START_ONLINE_GAME_OVER_TIMER = 'START_ONLINE_GAME_OVER_TIMER';
@@ -9,10 +10,15 @@ export const newGame = (hands) => ({
   hands,
 })
 
-export const setGameTypeOrMe = ({game_type, me}) => ({
-  type: SET_GAME_TYPE_OR_ME,
+export const resetGameRedux = () => ({
+  type: RESET_GAME_REDUX,
+})
+
+export const setGameInfo = ({game_type, me, player_names}) => ({
+  type: SET_GAME_INFO,
   game_type,
   me,
+  player_names,
 })
 
 export const setHand = ({seat, cards}) => ({

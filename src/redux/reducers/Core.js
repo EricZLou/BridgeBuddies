@@ -3,7 +3,7 @@ import {combineReducers} from 'redux'
 import {firebasePaths} from './FirebasePathReducers'
 import {
   bid_history, card_history, cards_on_board, contract, curr_player,
-  dummy, first_card_played, game_info, game_state, hands, online_game_over_timer,
+  dummy, first_card_played, game_info, game_results, game_state, hands, online_game_over_timer,
   player_types, ready_to_play, tricks_won,
 } from './GamePropReducers'
 import {
@@ -24,7 +24,7 @@ import {
 const initialReducer = combineReducers({
   firebasePaths,
   bid_history, card_history, cards_on_board, contract, curr_player,
-  dummy, first_card_played, game_info, game_state, hands, online_game_over_timer,
+  dummy, first_card_played, game_info, game_results, game_state, hands, online_game_over_timer,
   player_types, ready_to_play, tricks_won,
   userID,
   variable_sizes,

@@ -6,8 +6,10 @@ export const clearCardsOnBoard = () => ({
   type: CLEAR_CARDS_ON_BOARD,
 });
 
-export const finishPlaying = () => ({
+export const finishPlaying = ({contract, tricks_won}) => ({
   type: FINISH_PLAYING,
+  contract,
+  tricks_won,
 });
 
 export const playCard = ({card, seat}) => ({

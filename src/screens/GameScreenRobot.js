@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 import GameScreen from './GameScreen'
 import {Deck} from '../engine/Deck'
-import {newGame, setGameTypeOrMe} from '../redux/actions/Core'
+import {newGame, setGameInfo} from '../redux/actions/Core'
 
 import '../css/Style.css'
 
@@ -11,15 +11,22 @@ import {ALL_SEATS, GAMETYPES, SEATS} from '../constants/GameEngine'
 
 
 class GameScreenRobots extends React.Component {
-  constructor(props) {
-    super(props);
-    this.me = ALL_SEATS[Math.floor(Math.random() * 4)];
+  componentDidMount() {
+    this.offlinePlayAgain();
   }
 
-  componentDidMount() {
-    this.props.dispatch(setGameTypeOrMe({
+  offlinePlayAgain() {
+    const me = ALL_SEATS[Math.floor(Math.random() * 4)];
+    this.props.dispatch(setGameInfo({
       game_type: GAMETYPES.OFFLINE,
-      me: this.me,
+      me: me,
+      player_names: {
+        [SEATS.NORTH]: "Robot",
+        [SEATS.EAST]: "Robot",
+        [SEATS.SOUTH]: "Robot",
+        [SEATS.WEST]: "Robot",
+        [me]: `${this.props.first_name}`,
+      },
     }));
     this.deck = new Deck();
     this.props.dispatch(newGame(this.deck.generateHands()));
@@ -28,14 +35,7 @@ class GameScreenRobots extends React.Component {
   render() {
     return (
       <GameScreen
-        me={this.me}
-        players={{
-          [SEATS.NORTH]: "Robot",
-          [SEATS.EAST]: "Robot",
-          [SEATS.SOUTH]: "Robot",
-          [SEATS.WEST]: "Robot",
-          [this.me]: `${this.props.first_name}`,
-        }}
+        offlinePlayAgain={this.offlinePlayAgain.bind(this)}
       />
     );
   }

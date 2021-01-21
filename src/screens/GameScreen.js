@@ -14,7 +14,7 @@ import {
   getNextPlayer, getPrevPlayer, getPartner
 } from '../engine/utils/GameScreenUtils'
 import {
-  clearCardsOnBoard, finishBidding, finishPlaying
+  clearCardsOnBoard, finishBidding, finishPlaying, resetGameRedux
 } from '../redux/actions/Core'
 
 import '../css/Style.css'
@@ -26,36 +26,43 @@ import {GAMESTATES, GAMETYPES} from '../constants/GameEngine'
 
 
 class GameScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.me = this.props.me;
-  }
-
   componentDidUpdate() {
     if (this.props.game_state === GAMESTATES.BIDDING) {
       if (isBiddingComplete(this.props.bid_history)) {
         const contract = getContract(this.props.bid_history);
-        if (contract.suit === 'pass')
-          this.props.dispatch(finishPlaying());
-        else
+        if (contract.suit === 'pass') {
+          this.props.dispatch(finishPlaying({
+            contract: contract,
+            tricks_won: {NS: 0, EW: 0},
+          }));
+        }
+        else {
           this.props.dispatch(finishBidding(contract));
+        }
       }
     }
   }
 
+  componentWillUnmount() {
+    this.props.dispatch(resetGameRedux());
+  }
+
   handleClearCardsEvent = (e) => {
-    if (this.props.cards_on_board.length === 4) {
-      this.props.dispatch(clearCardsOnBoard());
-    }
     if (this.props.tricks_won.NS + this.props.tricks_won.EW === 13) {
-      this.props.dispatch(finishPlaying());
+      this.props.dispatch(finishPlaying({
+        contract: {...this.props.contract},
+        tricks_won: {...this.props.tricks_won},
+      }));
+    }
+    else if (this.props.cards_on_board.length === 4) {
+      this.props.dispatch(clearCardsOnBoard());
     }
   }
 
   render() {
-    const partner = getPartner(this.me);
-    const next_player = getNextPlayer(this.me);
-    const prev_player = getPrevPlayer(this.me);
+    const partner = getPartner(this.props.me);
+    const next_player = getNextPlayer(this.props.me);
+    const prev_player = getPrevPlayer(this.props.me);
 
     const us_player_style = {
       position: 'relative',
@@ -124,7 +131,7 @@ class GameScreen extends React.Component {
                 }
                 {this.props.game_state === GAMESTATES.PLAYING &&
                   <CardsOnBoard
-                    me={this.me}
+                    me={this.props.me}
                     cards_on_board={this.props.cards_on_board}
                     variable_sizes={this.props.variable_sizes}
                   />
@@ -148,10 +155,10 @@ class GameScreen extends React.Component {
               <div className="middle">
                 <div style={us_player_style}>
                   <GenPlayer
-                    seat={this.me}
-                    name={this.props.players[this.me]}
+                    seat={this.props.me}
+                    name={this.props.players[this.props.me]}
                     visible={true}
-                    clickable={this.me !== this.props.dummy}
+                    clickable={this.props.me !== this.props.dummy}
                     variable_sizes={this.props.variable_sizes}
                   />
                 </div>
@@ -171,10 +178,8 @@ class GameScreen extends React.Component {
         }
         {(this.props.game_state === GAMESTATES.RESULTS) &&
           <ScoreSubScreen
-            me={this.me}
-            online={this.props.online}
-            contract={this.props.contract}
-            tricks_won={this.props.tricks_won}
+            me={this.props.me}
+            offlinePlayAgain={!this.props.online ? this.props.offlinePlayAgain.bind(this) : null}
           />
         }
       </div>
@@ -190,6 +195,8 @@ const mapStateToProps = (state, ownProps) => {
     dummy: state.dummy,
     first_card_played: state.first_card_played,
     online: state.game_info.game_type === GAMETYPES.ONLINE,
+    me: state.game_info.me,
+    players: state.game_info.player_names,
     game_state: state.game_state,
     player_types: state.player_types,
     tricks_won: state.tricks_won,

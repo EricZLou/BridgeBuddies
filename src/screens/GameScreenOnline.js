@@ -8,7 +8,7 @@ import {
 } from '../engine/managers/BridgeGameEngine'
 import {
   finishPlaying, makeBid, newGame, playCard, setHand,
-  setGameTypeOrMe, setOnlineRobots, startOnlineGameOverTimer,
+  setGameInfo, setOnlineRobots, startOnlineGameOverTimer,
 } from '../redux/actions/Core'
 import {sortHand} from '../engine/Deck'
 
@@ -21,11 +21,11 @@ class GameScreenOnline extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      game_info: null,
       num_users: 0,
       ready: false,
       room: "",
     };
+    this.game_info = null;
     this.cleanup = this.cleanup.bind(this);
   }
 
@@ -62,13 +62,17 @@ class GameScreenOnline extends React.Component {
 
     // initial game setup
     this.props.mySocket.on("game data", (game_info) => {
-      this.props.dispatch(setGameTypeOrMe({
+      this.game_info = game_info;
+      this.props.dispatch(setGameInfo({
         game_type: GAMETYPES.ONLINE,
-        me: game_info.me
+        me: game_info.me,
+        player_names: {
+          [SEATS.NORTH]: game_info[SEATS.NORTH],
+          [SEATS.EAST]: game_info[SEATS.EAST],
+          [SEATS.SOUTH]: game_info[SEATS.SOUTH],
+          [SEATS.WEST]: game_info[SEATS.WEST],
+        },
       }));
-      this.setState({
-        game_info: game_info,
-      });
       let other_hands = [];
       for (let i = 1; i <= 13; i++) {
         other_hands.push({});
@@ -95,8 +99,8 @@ class GameScreenOnline extends React.Component {
       else
         console.log(`[GAME PLAY] ${seat} bids ${bid.type}`);
       this.props.dispatch(makeBid({bid: bid, seat: seat}));
-      if (isBiddingComplete(this.props.bid_history) && this.state.game_info.me === this.props.dummy) {
-        const sorted_hand = sortHand(this.state.game_info.cards, this.props.contract.suit);
+      if (isBiddingComplete(this.props.bid_history) && this.game_info.me === this.props.dummy) {
+        const sorted_hand = sortHand(this.game_info.cards, this.props.contract.suit);
         this.props.mySocket.emit("dummy hand", sorted_hand);
       }
     });
@@ -110,8 +114,12 @@ class GameScreenOnline extends React.Component {
 
     // game over
     this.props.mySocket.on("game over", () => {
-      if (this.props.game_state !== GAMESTATES.RESULTS)
-        this.props.dispatch(finishPlaying());
+      if (this.props.game_state !== GAMESTATES.RESULTS) {
+        this.props.dispatch(finishPlaying({
+          contract: {...this.props.contract},
+          tricks_won: {...this.props.tricks_won},
+        }));
+      }
       this.props.dispatch(startOnlineGameOverTimer());
     });
 
@@ -137,15 +145,7 @@ class GameScreenOnline extends React.Component {
       />
     );
     return (
-      <GameScreen
-        me={this.state.game_info.me}
-        players={{
-          [SEATS.NORTH]: this.state.game_info[SEATS.NORTH],
-          [SEATS.EAST]: this.state.game_info[SEATS.EAST],
-          [SEATS.SOUTH]: this.state.game_info[SEATS.SOUTH],
-          [SEATS.WEST]: this.state.game_info[SEATS.WEST],
-        }}
-      />
+      <GameScreen/>
     );
   }
 };
@@ -158,6 +158,7 @@ const mapStateToProps = (state, ownProps) => {
     first_name: state.userDetails.first_name,
     game_state: state.game_state,
     mySocket: state.mySocket,
+    tricks_won: state.tricks_won,
   }
 }
 export default connect(mapStateToProps)(GameScreenOnline);

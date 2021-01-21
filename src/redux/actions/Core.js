@@ -5,8 +5,10 @@ import {
   FINISH_BIDDING, MAKE_BID, finishBidding, makeBid
 } from './GameBiddingActions'
 import {
-  NEW_GAME, SET_GAME_TYPE_OR_ME, SET_HAND, SET_ONLINE_ROBOTS, START_ONLINE_GAME_OVER_TIMER,
-  newGame, setGameTypeOrMe, setHand, setOnlineRobots, startOnlineGameOverTimer,
+  NEW_GAME, RESET_GAME_REDUX, SET_GAME_INFO, SET_HAND,
+  SET_ONLINE_ROBOTS, START_ONLINE_GAME_OVER_TIMER,
+  newGame, resetGameRedux, setGameInfo, setHand,
+  setOnlineRobots, startOnlineGameOverTimer,
 } from './GameGeneralActions'
 import {
   CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, PLAY_CARD,
@@ -40,8 +42,10 @@ export {
   FINISH_BIDDING, MAKE_BID, finishBidding, makeBid
 }
 export {
-  NEW_GAME, SET_GAME_TYPE_OR_ME, SET_HAND, SET_ONLINE_ROBOTS, START_ONLINE_GAME_OVER_TIMER,
-  newGame, setGameTypeOrMe, setHand, setOnlineRobots, startOnlineGameOverTimer,
+  NEW_GAME, RESET_GAME_REDUX, SET_GAME_INFO, SET_HAND,
+  SET_ONLINE_ROBOTS, START_ONLINE_GAME_OVER_TIMER,
+  newGame, resetGameRedux, setGameInfo, setHand,
+  setOnlineRobots, startOnlineGameOverTimer,
 }
 export {
   CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, PLAY_CARD,

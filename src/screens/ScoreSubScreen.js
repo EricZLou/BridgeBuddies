@@ -2,8 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import Firebase from '../Firebase'
 
-import {Deck} from '../engine/Deck'
-import {newGame} from '../redux/actions/Core'
+import {resetGameRedux} from '../redux/actions/Core'
 import {getScore} from '../engine/managers/BridgeGameEngine'
 
 import '../css/ScoreSubScreen.css'
@@ -11,7 +10,7 @@ import '../css/ScoreSubScreen.css'
 import {
   getCoinsFromScore, getExpFromScore,
 } from '../constants/AfterGame'
-import {SEATS} from '../constants/GameEngine'
+import {GAMETYPES, SEATS} from '../constants/GameEngine'
 
 
 class ScoreSubScreen extends React.Component {
@@ -56,10 +55,10 @@ class ScoreSubScreen extends React.Component {
       contract_text: contract_text,
     };
     this.countDown = this.countDown.bind(this);
-    this.offlinePlayAgain = this.offlinePlayAgain.bind(this);
   }
 
   componentDidMount() {
+    this.props.dispatch(resetGameRedux());
     if (this.props.timer) {
       this.setState({time_left: 15});
       this.timer = setInterval(this.countDown, 1000);
@@ -81,11 +80,6 @@ class ScoreSubScreen extends React.Component {
     const tl = this.state.time_left;
     this.setState({time_left: tl - 1});
     if (tl === 0) clearInterval(this.timer);
-  }
-
-  offlinePlayAgain() {
-    this.deck = new Deck();
-    this.props.dispatch(newGame(this.deck.generateHands()));
   }
 
   render() {
@@ -121,7 +115,7 @@ class ScoreSubScreen extends React.Component {
         </div>
         {
           !this.props.online &&
-          <button className="game-action offline-button" onClick={this.offlinePlayAgain}>
+          <button className="game-action offline-button" onClick={this.props.offlinePlayAgain}>
             PLAY AGAIN
           </button>
         }
@@ -139,11 +133,14 @@ class ScoreSubScreen extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     coins: state.coins,
+    contract: state.game_results.contract,
     exp: state.exp,
     games_played: state.games_played,
     level_idx: state.level_idx,
-    total_exp: state.total_exp,
+    online: state.game_info.game_type === GAMETYPES.ONLINE,
     timer: state.online_game_over_timer,
+    total_exp: state.total_exp,
+    tricks_won: state.game_results.tricks_won,
     userStatsPath: state.firebasePaths.stats,
   }
 }

@@ -1,6 +1,7 @@
 import {
   FINISH_BIDDING, MAKE_BID,
-  NEW_GAME, SET_GAME_TYPE_OR_ME, SET_HAND, SET_ONLINE_ROBOTS, START_ONLINE_GAME_OVER_TIMER,
+  NEW_GAME, RESET_GAME_REDUX, SET_GAME_INFO, SET_HAND,
+  SET_ONLINE_ROBOTS, START_ONLINE_GAME_OVER_TIMER,
   CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, PLAY_CARD,
 } from '../actions/Core'
 
@@ -14,7 +15,7 @@ export function bid_history(state=[], action) {
   switch (action.type) {
     case MAKE_BID:
       return [...state, {bid: action.bid, seat: action.seat}];
-    case NEW_GAME:
+    case RESET_GAME_REDUX:
       return [];
     default:
       return state;
@@ -25,7 +26,7 @@ export function card_history(state=[], action) {
   switch (action.type) {
     case PLAY_CARD:
       return [...state, {card: action.card, seat: action.seat}];
-    case NEW_GAME:
+    case RESET_GAME_REDUX:
       return [];
     default:
       return state;
@@ -40,7 +41,7 @@ export function cards_on_board(state=[], action) {
       return [...state, {card: action.card, seat: action.seat}];
     case CLEAR_CARDS_ON_BOARD:
       return [];
-    case NEW_GAME:
+    case RESET_GAME_REDUX:
       return [];
     default:
       return state;
@@ -54,7 +55,9 @@ export function contract(state="", action) {
     case FINISH_PLAYING:
       if (state === "") return {suit: 'pass'};
       return state;
-    case NEW_GAME:
+    // case NEW_GAME:
+    //   return "";
+    case RESET_GAME_REDUX:
       return "";
     default:
       return state;
@@ -63,6 +66,8 @@ export function contract(state="", action) {
 
 export function curr_player(state="", action) {
   switch (action.type) {
+    case RESET_GAME_REDUX:
+      return "";
     case NEW_GAME:
       return SEATS.SOUTH;
     case FINISH_BIDDING:
@@ -78,7 +83,7 @@ export function dummy(state="", action) {
   switch (action.type) {
     case FINISH_BIDDING:
       return getPartner(action.contract.declarer);
-    case NEW_GAME:
+    case RESET_GAME_REDUX:
       return "";
     default:
       return state;
@@ -87,7 +92,7 @@ export function dummy(state="", action) {
 
 export function first_card_played(state=false, action) {
   switch (action.type) {
-    case NEW_GAME:
+    case RESET_GAME_REDUX:
       return false;
     case PLAY_CARD:
       return true;
@@ -97,14 +102,32 @@ export function first_card_played(state=false, action) {
 }
 
 export function game_info(state={
-  game_type: "", me: "",
+  game_type: "", me: "", player_names: {},
 }, action) {
   switch (action.type) {
-    case SET_GAME_TYPE_OR_ME:
+    case SET_GAME_INFO:
       return {
         game_type: action.game_type ? action.game_type : state.game_type,
         me: action.me ? action.me : state.me,
+        player_names: action.player_names ? action.player_names : state.player_names,
       };
+    case RESET_GAME_REDUX:
+      return {
+        game_type: "", me: "", player_names: {},
+      }
+    default:
+      return state;
+  }
+}
+
+export function game_results(state={
+  contract: "", tricks_won: {}
+}, action) {
+  switch (action.type) {
+    case FINISH_PLAYING:
+      return {contract: action.contract, tricks_won: action.tricks_won};
+    case NEW_GAME:
+      return {contract: "", tricks_won: {}};
     default:
       return state;
   }
@@ -143,6 +166,13 @@ export function hands(state={
       return {...state, [action.seat]: hand_copy};
     case NEW_GAME:
       return action.hands;
+    case RESET_GAME_REDUX:
+      return {
+        [SEATS.NORTH]: [],
+        [SEATS.EAST]: [],
+        [SEATS.SOUTH]: [],
+        [SEATS.WEST]: [],
+      };
     case FINISH_BIDDING:
       if (action.contract.suit === BID_SUITS.NOTRUMP) return state;
       return {
@@ -183,7 +213,7 @@ export function player_types(state={
       for (let seat of Object.keys(action.robot_data))
         robot_types[seat] = GAMETYPES.OFFLINE;
       return {...state, ...robot_types};
-    case SET_GAME_TYPE_OR_ME:
+    case SET_GAME_INFO:
       if (!action.game_type) return state;
       if (action.game_type === GAMETYPES.ONLINE) {
         return {
@@ -205,10 +235,12 @@ export function player_types(state={
   }
 }
 
-export function ready_to_play(state=true, action) {
+export function ready_to_play(state=false, action) {
   switch (action.type) {
     case CLEAR_CARDS_ON_BOARD:
       return true;
+    case RESET_GAME_REDUX:
+      return false;
     case NEW_GAME:
       return true;
     default:
@@ -218,6 +250,8 @@ export function ready_to_play(state=true, action) {
 
 export function tricks_won(state={NS: 0, EW: 0}, action) {
   switch (action.type) {
+    case RESET_GAME_REDUX:
+      return {NS: 0, EW: 0};
     case NEW_GAME:
       return {NS: 0, EW: 0};
     default:
