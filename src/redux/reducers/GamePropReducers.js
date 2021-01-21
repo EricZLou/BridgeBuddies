@@ -102,7 +102,7 @@ export function first_card_played(state=false, action) {
 }
 
 export function game_info(state={
-  game_type: "", me: "", player_names: {},
+  game_type: GAMETYPES.ONLINE, me: "", player_names: {},
 }, action) {
   switch (action.type) {
     case SET_GAME_INFO:
@@ -113,7 +113,7 @@ export function game_info(state={
       };
     case RESET_GAME_REDUX:
       return {
-        game_type: "", me: "", player_names: {},
+        game_type: GAMETYPES.ONLINE, me: "", player_names: {},
       }
     default:
       return state;
