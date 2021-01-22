@@ -31,7 +31,7 @@ class GenPlayer extends React.Component {
 
   robotBidPlay() {
     this.inside_turn = true;
-    sleep(10).then(() => {
+    sleep(1000).then(() => {
       const bid = {type: 'pass'};
       if (this.props.online)
         this.props.mySocket.emit("bid click", bid, this.props.seat);
@@ -44,7 +44,7 @@ class GenPlayer extends React.Component {
 
   robotCardPlay() {
     this.inside_turn = true;
-    sleep(10).then(() => {
+    sleep(1000).then(() => {
       let cardx = null;
       const cards = this.props.cards;
       if (this.props.cards_on_board.length === 0) {
