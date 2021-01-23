@@ -33,6 +33,12 @@
     letter-spacing: normal;
   }
 }
+@media screen and (max-width: 600px) {
+  .header-title-game {
+    letter-spacing: normal;
+    display: none;
+  }
+}
 
 .header-info-game {
   float: right;

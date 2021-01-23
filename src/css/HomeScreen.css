@@ -1,7 +1,7 @@
 .body-container {
   display: flex;
   margin: 0px 10px;
-  height: calc(100vh - var(--header-height));
+  min-height: calc(100vh - var(--header-height));
 }
 
 /* MAIN NAV */
@@ -109,6 +109,7 @@
   color: var(--color-white);
   border-radius: 32px 32px 0 0;
   height: calc(100vh - var(--header-height) - (2rem + 10vmin) - 20px - 10px);
+  min-height: 150px;
   max-height: 600px;
 }
 .side-nav .container .side-nav-title {
