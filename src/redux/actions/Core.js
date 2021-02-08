@@ -1,14 +1,18 @@
 import {
+  SET_DAILY_CHALLENGE_STATUSES, setDailyChallengeStatuses
+} from './DailyChallengeActions'
+import {
   SET_FIREBASE_PATHS, setFirebasePaths
 } from './FirebasePathActions'
 import {
   FINISH_BIDDING, MAKE_BID, finishBidding, makeBid
 } from './GameBiddingActions'
 import {
-  NEW_GAME, RESET_GAME_REDUX, SET_GAME_INFO, SET_HAND,
+  NEW_GAME, RESET_GAME_REDUX, SET_HAND,
   SET_ONLINE_ROBOTS, START_ONLINE_GAME_OVER_TIMER,
-  newGame, resetGameRedux, setGameInfo, setHand,
+  newGame, resetGameRedux, setHand,
   setOnlineRobots, startOnlineGameOverTimer,
+  newOfflineGame,
 } from './GameGeneralActions'
 import {
   CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, PLAY_CARD,
@@ -36,16 +40,20 @@ import {
 } from './UserStoreActions'
 
 export {
+  SET_DAILY_CHALLENGE_STATUSES, setDailyChallengeStatuses
+}
+export {
   SET_FIREBASE_PATHS, setFirebasePaths
 }
 export {
   FINISH_BIDDING, MAKE_BID, finishBidding, makeBid
 }
 export {
-  NEW_GAME, RESET_GAME_REDUX, SET_GAME_INFO, SET_HAND,
+  NEW_GAME, RESET_GAME_REDUX, SET_HAND,
   SET_ONLINE_ROBOTS, START_ONLINE_GAME_OVER_TIMER,
-  newGame, resetGameRedux, setGameInfo, setHand,
+  newGame, resetGameRedux, setHand,
   setOnlineRobots, startOnlineGameOverTimer,
+  newOfflineGame,
 }
 export {
   CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, PLAY_CARD,

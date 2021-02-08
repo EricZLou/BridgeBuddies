@@ -79,7 +79,9 @@ class TablesScreen extends React.Component {
         <div className="body-width-cap-container"><div className="body-width-cap">
           <div className="title">Choose an Online Table</div>
           <button className="refresh" onClick={this.requestTablesInfo}>Refresh &#x27F3;</button>
-          {tables}
+          <div className="tables-container">
+            {tables}
+          </div>
         </div></div>
       </div>
     );

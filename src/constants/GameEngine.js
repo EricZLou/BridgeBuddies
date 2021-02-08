@@ -1,5 +1,12 @@
+export const GAMETYPES = {
+  OFFLINE: "OFFLINE",
+  ONLINE: "ONLINE",
+  DAILY: "DAILY",
+};
+
 export const SUITS = ['C', 'D', 'H', 'S'];
 export const VALUES = [2,3,4,5,6,7,8,9,10,11,12,13,14];
+
 export const SEATS = {
   NORTH: "north",
   EAST: "east",
@@ -18,11 +25,6 @@ export const GAMESTATES = {
   BIDDING: 'BIDDING',
   PLAYING: 'PLAYING',
   RESULTS: 'RESULTS',
-};
-
-export const GAMETYPES = {
-  OFFLINE: "OFFLINE",
-  ONLINE: "ONLINE",
 };
 
 export const BID_LEVELS = [1, 2, 3, 4, 5, 6, 7];

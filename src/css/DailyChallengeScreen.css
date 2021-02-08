@@ -1,0 +1,57 @@
+.daily-challenge-loading {
+  font-size: calc(1rem + 2vmin);
+}
+
+.daily-challenge-container {
+  width: 100%;
+  max-width: 400px;
+}
+.daily-challenge-motto {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.daily-challenge-item {
+  display: block;
+  padding: 2px 10px;
+  font-size: calc(0.75rem + 0.5vmin);
+  overflow: hidden;   /* makes sure floats don't float out of div */
+}
+
+.daily-challenge-medal {
+  display: inline;
+  border-radius: 12px;
+  padding: 0 12px;
+  margin-right: 10px;
+  color: var(--color-white);
+}
+.daily-challenge-medal.GOLD {
+  background-color: #FFD700;
+}
+.daily-challenge-medal.SILVER {
+  background-color: #B4B4B4;
+}
+.daily-challenge-medal.BRONZE {
+  background-color: #CD7F32;
+}
+.daily-challenge-medal.null {
+  border: 1px dotted black;
+  padding: 0px 11px;
+}
+
+.daily-challenge-date-str {
+  display: inline;
+}
+
+.daily-challenge-phrase {
+  display: inline;
+  margin: 0 10px;
+}
+
+.daily-challenge-button {
+  float: right;
+  background-color: var(--accent-blue);
+  color: var(--color-white);
+  border-radius: 12px;
+  padding: 0 12px;
+}

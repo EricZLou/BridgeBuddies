@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import { io } from 'socket.io-client'
 
+import DailyChallengeScreen from './DailyChallengeScreen'
 import Header from '../components/Header'
 import LeaderboardScreen from './LeaderboardScreen'
 import LoadingScreen from './LoadingScreen'
@@ -143,8 +144,8 @@ class HomeScreen extends React.Component {
               <div className={`mid-nav${this.state.show_mid_nav ? "":" empty"}`}>
                 {this.state.show_mid_nav &&
                   <div className="mid-nav-item">
-                    {this.state.home_type === HOMETYPES.DAILY && <div>daily challenge!!!</div>}
-                    {this.state.home_type === HOMETYPES.LEARN && <div>learn!!!</div>}
+                    {this.state.home_type === HOMETYPES.DAILY && <DailyChallengeScreen/>}
+                    {this.state.home_type === HOMETYPES.LEARN && <div>Coming Soon</div>}
                     {this.state.home_type === HOMETYPES.BOARD && <LeaderboardScreen/>}
                   </div>
                 }

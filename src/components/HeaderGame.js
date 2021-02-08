@@ -11,7 +11,7 @@ import bridge_clipart from '../media/bridge_clipart.png'
 import coin from '../media/coin.png'
 import gespade from '../media/store/characters/gespade.png'
 
-import {EXP_BY_LEVEL, LEVELS} from '../constants/AfterGame'
+import {EXP_BY_LEVEL, LEVELS} from '../constants/CoinsAndExp'
 
 
 class HeaderGame extends React.Component {
@@ -27,8 +27,11 @@ class HeaderGame extends React.Component {
     // update leaderboard if needed
     const total_exp_path = '/leaderboards/total_exp/';
     const games_played_path = '/leaderboards/games_played/';
-    this.maybeUpdateLeaderboard(games_played_path, this.props.games_played);
-    this.maybeUpdateLeaderboard(total_exp_path, this.props.total_exp);
+    // Only update leaderboard if not test user.
+    if (this.props.userID !== "ii1ICvb4tWVtJtKlla8Gz52kkqr2") {
+      this.maybeUpdateLeaderboard(games_played_path, this.props.games_played);
+      this.maybeUpdateLeaderboard(total_exp_path, this.props.total_exp);
+    }
     // prestige if needed
     this.maybePrestige();
   }

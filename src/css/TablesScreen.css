@@ -21,12 +21,16 @@
   color: var(--accent-blue);
 }
 
+.tables-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 .table {
-  display: inline-block;
+  flex: 0;
+  min-width: 200px;
   text-decoration: none;
-  border: 2px solid var(--color-black);
   color: var(--color-black);
-  width: calc((100% - 5 * 52px) / 5);
   margin: 12px;
   padding: 12px;
   border-radius: 16px;

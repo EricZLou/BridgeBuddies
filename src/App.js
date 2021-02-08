@@ -7,6 +7,7 @@ import {
 } from "react-router-dom"
 import {connect} from 'react-redux'
 
+import GameScreenDaily from "./screens/GameScreenDaily"
 import GameScreenOnline from "./screens/GameScreenOnline"
 import GameScreenRobot from "./screens/GameScreenRobot"
 import HomeScreen from "./screens/HomeScreen"
@@ -36,8 +37,16 @@ class App extends React.Component {
           <Route path="/store"> <StoreScreen/> </Route>
           <Route path="/tables"> <TablesScreen/> </Route>
           <Route path="/game" render={(props) => {
-            if (props.location.state.type === GAMETYPES.ONLINE) return <GameScreenOnline/>
-            return <GameScreenRobot/>
+            switch (props.location.state.type) {
+              case GAMETYPES.ONLINE:
+                return <GameScreenOnline/>
+              case GAMETYPES.DAILY:
+                return <GameScreenDaily
+                         date_str={props.location.state.date_str}
+                       />
+              default:
+                return <GameScreenRobot/>
+            }
           }}/>
           <Route path="/me"> <ProfileScreen/> </Route>
           <Route path="/settings"> <SettingsScreen/> </Route>

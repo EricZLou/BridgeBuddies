@@ -2,9 +2,6 @@
   width: 100%;
   max-width: 350px;
 }
-.leaderboard-loading {
-  font-size: calc(1rem + 2vmin);
-}
 
 .leaderboard-buttons {
   padding: 10px;

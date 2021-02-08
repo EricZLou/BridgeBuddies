@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Card from './Card'
-import {getNextPlayer, getPartner} from '../engine/utils/GameScreenUtils'
+import {getNextPlayer, getPartner} from '../engine/utils/GameUtils'
 
 import '../css/CardsOnBoard.css'
 

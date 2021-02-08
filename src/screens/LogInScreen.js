@@ -54,7 +54,6 @@ class LogInScreen extends React.Component {
 
   async userDetailsListener(detailsPath) {
     this.listener1 = Firebase.database().ref(detailsPath).on('value', (snapshot) => {
-      console.log(snapshot.val());
       this.props.dispatch(setUserDetails(snapshot.val()));
     });
   }
@@ -129,7 +128,9 @@ class LogInScreen extends React.Component {
                     <div className="switch-view-text">Don't have an account?</div>
                     <div className="switch-view-click" onClick={() => this.setState({view: VIEWSTATES.SIGNUP})}>SIGN UP</div>
                   </div>
-                  <button className="tmp-button" onClick={this.logInAsTestUser}>LOG IN AS TEST USER</button>
+                  <button className="tmp-button" onClick={this.logInAsTestUser}>
+                    TRY BRIDGE BUDDIES WITHOUT CREATING AN ACCOUNT
+                  </button>
                 </div>
               }
 
@@ -144,7 +145,9 @@ class LogInScreen extends React.Component {
                     <div className="switch-view-text">Already have an account?</div>
                     <div className="switch-view-click" onClick={() => this.setState({view: VIEWSTATES.LOGIN})}>LOG IN</div>
                   </div>
-                  <button className="tmp-button" onClick={this.logInAsTestUser}>LOG IN AS TEST USER</button>
+                  <button className="tmp-button" onClick={this.logInAsTestUser}>
+                    TRY BRIDGE BUDDIES WITHOUT CREATING AN ACCOUNT
+                  </button>
                 </div>
               }
             </div>

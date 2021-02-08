@@ -1,3 +1,6 @@
+.card-hoverable {
+  transition-duration: 0.1s;
+}
 .card-hoverable:hover {
   cursor: pointer;
   transform: translate(0px, -10px);

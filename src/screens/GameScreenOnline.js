@@ -8,7 +8,7 @@ import {
 } from '../engine/managers/BridgeGameEngine'
 import {
   finishPlaying, makeBid, newGame, playCard, setHand,
-  setGameInfo, setOnlineRobots, startOnlineGameOverTimer,
+  setOnlineRobots, startOnlineGameOverTimer,
 } from '../redux/actions/Core'
 import {sortHand} from '../engine/Deck'
 
@@ -63,16 +63,6 @@ class GameScreenOnline extends React.Component {
     // initial game setup
     this.props.mySocket.on("game data", (game_info) => {
       this.game_info = game_info;
-      this.props.dispatch(setGameInfo({
-        game_type: GAMETYPES.ONLINE,
-        me: game_info.me,
-        player_names: {
-          [SEATS.NORTH]: game_info[SEATS.NORTH],
-          [SEATS.EAST]: game_info[SEATS.EAST],
-          [SEATS.SOUTH]: game_info[SEATS.SOUTH],
-          [SEATS.WEST]: game_info[SEATS.WEST],
-        },
-      }));
       let other_hands = [];
       for (let i = 1; i <= 13; i++) {
         other_hands.push({});
@@ -84,7 +74,17 @@ class GameScreenOnline extends React.Component {
         [SEATS.WEST]: [...other_hands],
         [game_info.me]: game_info.cards,
       };
-      this.props.dispatch(newGame(all_hands));
+      this.props.dispatch(newGame({
+        game_type: GAMETYPES.ONLINE,
+        me: game_info.me,
+        player_names: {
+          [SEATS.NORTH]: game_info[SEATS.NORTH],
+          [SEATS.EAST]: game_info[SEATS.EAST],
+          [SEATS.SOUTH]: game_info[SEATS.SOUTH],
+          [SEATS.WEST]: game_info[SEATS.WEST],
+        },
+        hands: all_hands,
+      }));
     });
     this.props.mySocket.on("start game", () => {
       this.setState({
@@ -155,7 +155,6 @@ const mapStateToProps = (state, ownProps) => {
     bid_history: state.bid_history,
     contract: state.contract,
     dummy: state.dummy,
-    first_name: state.userDetails.first_name,
     game_state: state.game_state,
     mySocket: state.mySocket,
     tricks_won: state.tricks_won,

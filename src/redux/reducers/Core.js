@@ -1,8 +1,9 @@
 import {combineReducers} from 'redux'
 
+import {daily_challenge_statuses} from './DailyChallengeReducers'
 import {firebasePaths} from './FirebasePathReducers'
 import {
-  bid_history, card_history, cards_on_board, contract, curr_player,
+  bid_history, card_history, cards_on_board, contract, curr_player, daily_challenge_date_str,
   dummy, first_card_played, game_info, game_results, game_state, hands, online_game_over_timer,
   player_types, ready_to_play, tricks_won,
 } from './GamePropReducers'
@@ -22,8 +23,9 @@ import {
 
 
 const initialReducer = combineReducers({
+  daily_challenge_statuses,
   firebasePaths,
-  bid_history, card_history, cards_on_board, contract, curr_player,
+  bid_history, card_history, cards_on_board, contract, curr_player, daily_challenge_date_str,
   dummy, first_card_played, game_info, game_results, game_state, hands, online_game_over_timer,
   player_types, ready_to_play, tricks_won,
   userID,

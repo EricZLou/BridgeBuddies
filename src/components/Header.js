@@ -12,7 +12,7 @@ import '../css/ProfilePic.css'
 import bridge_clipart from '../media/bridge_clipart.png'
 import coin from '../media/coin.png'
 
-import {EXP_BY_LEVEL, LEVELS} from '../constants/AfterGame'
+import {EXP_BY_LEVEL, LEVELS} from '../constants/CoinsAndExp'
 
 
 class Header extends React.Component {
@@ -33,11 +33,15 @@ class Header extends React.Component {
   }
 
   componentDidUpdate() {
+    if (this.state.show_level_up) return;
     // update leaderboard if needed
     const games_played_path = '/leaderboards/games_played/';
     const total_exp_path = '/leaderboards/total_exp/';
-    this.maybeUpdateLeaderboard(games_played_path, this.props.games_played);
-    this.maybeUpdateLeaderboard(total_exp_path, this.props.total_exp);
+    // Only update leaderboard if not test user.
+    if (this.props.userID !== "ii1ICvb4tWVtJtKlla8Gz52kkqr2") {
+      this.maybeUpdateLeaderboard(games_played_path, this.props.games_played);
+      this.maybeUpdateLeaderboard(total_exp_path, this.props.total_exp);
+    }
     // prestige if needed
     this.maybePrestige();
   }
@@ -47,7 +51,6 @@ class Header extends React.Component {
     ref.once('value', (snapshot) => {
       let should_change = false;
       snapshot.forEach((data) => {
-        if (should_change) return;
         const key = data.key;
         data = data.val();
         if (this.props.userID === data.user) {

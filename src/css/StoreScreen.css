@@ -18,7 +18,7 @@
   margin-right: 1rem;
 }
 .store-left .store-title {
-  font-size: calc(0.5rem + 5vmin);
+  font-size: calc(0.5rem + 4vmin);
   text-align: center;
   font-weight: bold;
   background-color: var(--tinted-white);
@@ -35,7 +35,7 @@
 }
 
 .store-right .category-title {
-  font-size: calc(0.5rem + 3vmin);
+  font-size: calc(0.5rem + 2vmin);
   font-weight: bold;
   text-transform: capitalize;
 }

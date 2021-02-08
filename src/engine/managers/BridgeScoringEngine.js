@@ -1,4 +1,5 @@
-import {SCORE_TYPES} from '../../constants/AfterGame'
+import {SCORE_TYPES} from '../../constants/CoinsAndExp'
+import {getPartner} from '../utils/GameUtils'
 
 const doubledNotVulnerable = [
      0,      -100,   -300,   -500,
@@ -109,7 +110,7 @@ function contractMade(contract, vulnerable, made) {
 }
 
 /*
-  game_engine_contract = {
+  contract = {
     suit:
     level:
     declarer:
@@ -119,7 +120,10 @@ function contractMade(contract, vulnerable, made) {
   vulnerable = True or False for declarer
   tricks = absolute number of tricks earned by declarer
 */
-export function getScore({contract, tricks}) {
+export function getScore({contract, tricks, seat}) {
+  console.log(contract);
+  console.log(tricks);
+  console.log(seat);
   if (contract.suit === 'pass') return {score: 0};
 
   const need = contract.level + 6;
@@ -134,11 +138,20 @@ export function getScore({contract, tricks}) {
     level: contract.level,
     suit: contract.suit,
     risk: risk,
-  }
-
-  return contractMade(
+  };
+  let score_obj = contractMade(
     contract_x,
     vulnerable,
     made
   );
+  const my_perspective = (
+    seat === contract.declarer || seat === getPartner(contract.declarer)
+  );
+  if (!my_perspective) {
+    score_obj = {
+      score: -1 * score_obj.score,
+      score_type: score_obj.score > 0 ? SCORE_TYPES.UNDER : SCORE_TYPES.PARTSCORE,
+    };
+  }
+  return score_obj;
 }

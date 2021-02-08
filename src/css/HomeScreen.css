@@ -54,10 +54,6 @@
   color: var(--accent-orange);
 }
 
-.main-nav .no-underline {
-  text-decoration: none;
-}
-
 /* MID NAV */
 .mid-nav {
   flex: 12 0;

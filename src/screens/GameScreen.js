@@ -6,13 +6,13 @@ import CardsOnBoard from '../engine/CardsOnBoard'
 import CurrentGameStats from '../engine/CurrentGameStats'
 import GenPlayer from '../engine/players/GenPlayer'
 import HeaderGame from '../components/HeaderGame'
-import ScoreSubScreen from '../screens/ScoreSubScreen'
+import ScoreScreen from '../screens/ScoreScreen'
 import {
   isBiddingComplete, getContract
 } from '../engine/managers/BridgeGameEngine'
 import {
   getNextPlayer, getPrevPlayer, getPartner
-} from '../engine/utils/GameScreenUtils'
+} from '../engine/utils/GameUtils'
 import {
   clearCardsOnBoard, finishBidding, finishPlaying, resetGameRedux
 } from '../redux/actions/Core'
@@ -22,7 +22,7 @@ import '../css/GameScreen.css'
 
 import table from '../media/store/tables/green2.jpg'
 
-import {GAMESTATES, GAMETYPES} from '../constants/GameEngine'
+import {GAMESTATES} from '../constants/GameEngine'
 
 
 class GameScreen extends React.Component {
@@ -177,10 +177,7 @@ class GameScreen extends React.Component {
           </div>
         }
         {(this.props.game_state === GAMESTATES.RESULTS) &&
-          <ScoreSubScreen
-            me={this.props.me}
-            offlinePlayAgain={!this.props.online ? this.props.offlinePlayAgain.bind(this) : null}
-          />
+          <ScoreScreen/>
         }
       </div>
     );
@@ -194,7 +191,6 @@ const mapStateToProps = (state, ownProps) => {
     contract: state.contract,
     dummy: state.dummy,
     first_card_played: state.first_card_played,
-    online: state.game_info.game_type === GAMETYPES.ONLINE,
     me: state.game_info.me,
     players: state.game_info.player_names,
     game_state: state.game_state,

@@ -1,3 +1,5 @@
+import {randomNoise} from './Utils'
+
 const LEVEL = {
   RECRUIT: "Recruit",
   NOVICE: "Novice",
@@ -53,11 +55,6 @@ export const REWARDS_BY_LEVEL = {
   [LEVEL.MASTER]: 6000,
   [LEVEL.GRANDMASTER]: 10000,
   [LEVEL.LEGEND]: 0,
-}
-
-// min, max inclusive
-function randomNoise(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
 export const SCORE_TYPES = {

@@ -36,10 +36,6 @@
   --scrollbar-height: 20px;
 }
 
-* {
-  transition-duration: 0.1s;
-}
-
 body {
   margin: 0 auto;
   padding: 0;
@@ -84,4 +80,8 @@ hr.hr-white {
 hr.hr-clear {
   border-top: 4px solid var(--tinted-white);
   border-bottom: 0px;
+}
+
+.no-underline {
+  text-decoration: none;
 }

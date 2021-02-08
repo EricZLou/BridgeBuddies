@@ -9,7 +9,7 @@ import {isValidBid, isValidCard} from '../managers/BridgeGameEngine'
 import {makeBid, playCard} from '../../redux/actions/Core'
 import {
   getNextPlayer, getPrevPlayer
-} from '../utils/GameScreenUtils'
+} from '../utils/GameUtils'
 
 import '../../css/Player.css'
 

@@ -74,6 +74,7 @@
   border-bottom: 1px solid black;
   font-weight: bold;
   text-align: center;
+  transition-duration: 0.1s;
 }
 .bidding-box .bid:hover {
   transform: translate(0,-5px);

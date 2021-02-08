@@ -1,12 +1,12 @@
 import {
   FINISH_BIDDING, MAKE_BID,
-  NEW_GAME, RESET_GAME_REDUX, SET_GAME_INFO, SET_HAND,
+  NEW_GAME, RESET_GAME_REDUX, SET_HAND,
   SET_ONLINE_ROBOTS, START_ONLINE_GAME_OVER_TIMER,
   CLEAR_CARDS_ON_BOARD, FINISH_PLAYING, PLAY_CARD,
 } from '../actions/Core'
 
 import {getRoundWinner} from '../../engine/managers/BridgeGameEngine'
-import {getNextPlayer, getPartner} from '../../engine/utils/GameScreenUtils'
+import {getNextPlayer, getPartner} from '../../engine/utils/GameUtils'
 import {sortHand} from '../../engine/Deck'
 import {BID_SUITS, GAMESTATES, GAMETYPES, SEATS} from '../../constants/GameEngine'
 
@@ -55,8 +55,6 @@ export function contract(state="", action) {
     case FINISH_PLAYING:
       if (state === "") return {suit: 'pass'};
       return state;
-    // case NEW_GAME:
-    //   return "";
     case RESET_GAME_REDUX:
       return "";
     default:
@@ -74,6 +72,17 @@ export function curr_player(state="", action) {
       return getNextPlayer(action.contract.declarer);
     case MAKE_BID:
       return getNextPlayer(state);
+    default:
+      return state;
+  }
+}
+
+export function daily_challenge_date_str(state="", action) {
+  switch (action.type) {
+    case NEW_GAME:
+      if (action.game_type === GAMETYPES.DAILY)
+        return action.date_str;
+      return state;
     default:
       return state;
   }
@@ -105,7 +114,7 @@ export function game_info(state={
   game_type: GAMETYPES.ONLINE, me: "", player_names: {},
 }, action) {
   switch (action.type) {
-    case SET_GAME_INFO:
+    case NEW_GAME:
       return {
         game_type: action.game_type ? action.game_type : state.game_type,
         me: action.me ? action.me : state.me,
@@ -113,7 +122,7 @@ export function game_info(state={
       };
     case RESET_GAME_REDUX:
       return {
-        game_type: GAMETYPES.ONLINE, me: "", player_names: {},
+        game_type: state.game_type, me: "", player_names: {}
       }
     default:
       return state;
@@ -157,7 +166,8 @@ export function hands(state={
       let found = false;
       let hand_copy = [...state[action.seat]];
       for (let idx in hand_copy) {
-        if (!found && JSON.stringify(hand_copy[idx]) === JSON.stringify(action.card)) {
+        let card = hand_copy[idx];
+        if (!found && card.suit === action.card.suit && card.value === action.card.value) {
           hand_copy.splice(idx, 1);
           found = true;
         }
@@ -213,7 +223,7 @@ export function player_types(state={
       for (let seat of Object.keys(action.robot_data))
         robot_types[seat] = GAMETYPES.OFFLINE;
       return {...state, ...robot_types};
-    case SET_GAME_INFO:
+    case NEW_GAME:
       if (!action.game_type) return state;
       if (action.game_type === GAMETYPES.ONLINE) {
         return {
