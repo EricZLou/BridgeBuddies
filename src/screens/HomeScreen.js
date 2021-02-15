@@ -161,6 +161,9 @@ class HomeScreen extends React.Component {
                       `Hello ${this.props.userDetails.first_name}! ` +
                       `There are ${this.props.numUsersLoggedIn} users online!`
                     }</div>
+                    <div className="coming-soon">
+                      Add your friends: coming soon...
+                    </div>
                   </div>
                   <Link to="/store" className="store-link" title="Go to store">
                     <img src={store_image} alt="Store" className="store"/>

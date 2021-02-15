@@ -121,6 +121,7 @@
   text-decoration: none;
   display: block;
   margin-top: 12px;
+  font-weight: bold;
 }
 .header-dropdown-content .header-dropdown-item:hover {
   background-color: #f1f1f1;

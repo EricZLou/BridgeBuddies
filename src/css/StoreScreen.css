@@ -1,13 +1,14 @@
 .store-body-container {
   display: flex;
   justify-content: center;
-  align-items: center;
   margin: 1rem;
+  min-height: calc(100% - 2rem);
 }
 .store-container {
   display: flex;
   max-height: calc(100vh - var(--header-height) - 32px);
   width: 100%;
+  max-width: 1300px;
 }
 
 .store-container .store-left-container {
@@ -28,10 +29,10 @@
 .store-container .store-right-container {
   flex: 2;
   overflow: auto;
+  border-left: 4px solid var(--dark-blue);
 }
 .store-container .store-right-container .store-right {
   padding-left: 1rem;
-  border-left: 4px solid var(--dark-blue);
 }
 
 .store-right .category-title {

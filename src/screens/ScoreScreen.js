@@ -22,8 +22,6 @@ class ScoreScreen extends React.Component {
       this.props.contract.declarer === SEATS.NORTH || this.props.contract.declarer === SEATS.SOUTH
     );
     const declarer_tricks = declarer_NS ? this.props.tricks_won.NS : this.props.tricks_won.EW;
-    console.log(declarer_NS);
-    console.log(declarer_tricks);
     const score_and_score_type = getScore({
       contract: this.props.contract,
       tricks: declarer_tricks,

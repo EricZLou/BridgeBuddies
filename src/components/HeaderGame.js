@@ -94,17 +94,17 @@ class HeaderGame extends React.Component {
           </div>
         </div>
         <div className="header-info-game">
-          <div className="level" onClick={() => {
+          <div className="level" onClick={() => {return;
             this.setState({show_level_up: true});
             setTimeout(() => {this.setState({show_level_up: false})}, 7000);
           }}>{LEVELS[this.state.level_idx]}</div>
           <img src={coin} alt="Coin" className="coin-img"/>
-          <div className="coins" onClick={() => {
+          <div className="coins" onClick={() => {return;
               Firebase.database().ref(this.props.userStatsPath).update({
                 coins: this.props.coins + 10,
               });
             }}>{this.props.coins}</div>
-          <div className="exp" onClick={() => {
+          <div className="exp" onClick={() => {return;
               Firebase.database().ref(this.props.userStatsPath).update({
                 exp: this.props.exp + 50,
                 total_exp: this.props.total_exp + 50,

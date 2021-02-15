@@ -122,7 +122,7 @@ class Header extends React.Component {
               <div className="info-logo">
                 LVL
               </div>
-              <div className="info-text" onClick={() => {
+              <div className="info-text" onClick={() => {return;
                 this.setState({show_level_up: true});
                 setTimeout(() => {this.setState({show_level_up: false})}, 7000);
               }}>{LEVELS[this.state.level_idx]}</div>
@@ -134,7 +134,7 @@ class Header extends React.Component {
               <div className="info-logo">
                 <img src={coin} alt="Coin" className="coin-img"/>
               </div>
-              <div className="info-text" onClick={() => {
+              <div className="info-text" onClick={() => {return;
                   Firebase.database().ref(this.props.userStatsPath).update({
                     coins: this.props.coins + 10,
                   });
@@ -148,7 +148,7 @@ class Header extends React.Component {
               <div className="info-logo">
                 EXP
               </div>
-              <div className="info-text" onClick={() => {
+              <div className="info-text" onClick={() => {return;
                   Firebase.database().ref(this.props.userStatsPath).update({
                     exp: this.props.exp + 50,
                     total_exp: this.props.total_exp + 50,
