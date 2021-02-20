@@ -22,7 +22,7 @@ import '../css/GameScreen.css'
 
 import table from '../media/store/tables/green2.jpg'
 
-import {GAMESTATES} from '../constants/GameEngine'
+import {GAMESTATES, GAMETYPES} from '../constants/GameEngine'
 
 
 class GameScreen extends React.Component {
@@ -104,8 +104,12 @@ class GameScreen extends React.Component {
                   <GenPlayer
                     seat={partner}
                     name={this.props.players[partner]}
-                    visible={partner === this.props.dummy && this.props.first_card_played}
-                    clickable={partner === this.props.dummy && this.props.first_card_played}
+                    visible={(partner === this.props.dummy || this.props.me === this.props.dummy)
+                      && this.props.first_card_played }
+                    clickable={(partner === this.props.dummy || (
+                      this.props.me === this.props.dummy && this.props.game_type === GAMETYPES.OFFLINE
+                    ))
+                      && this.props.first_card_played}
                     variable_sizes={this.props.variable_sizes}
                   />
                 </div>
@@ -158,7 +162,8 @@ class GameScreen extends React.Component {
                     seat={this.props.me}
                     name={this.props.players[this.props.me]}
                     visible={true}
-                    clickable={this.props.me !== this.props.dummy}
+                    clickable={this.props.me !== this.props.dummy
+                      || this.props.game_type === GAMETYPES.OFFLINE}
                     variable_sizes={this.props.variable_sizes}
                   />
                 </div>
@@ -194,6 +199,7 @@ const mapStateToProps = (state, ownProps) => {
     me: state.game_info.me,
     players: state.game_info.player_names,
     game_state: state.game_state,
+    game_type: state.game_info.game_type,
     player_types: state.player_types,
     tricks_won: state.tricks_won,
     variable_sizes: state.variable_sizes,

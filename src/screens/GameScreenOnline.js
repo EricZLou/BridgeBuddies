@@ -41,6 +41,7 @@ class GameScreenOnline extends React.Component {
     this.props.mySocket.off("bid click");
     this.props.mySocket.off("dummy hand");
     this.props.mySocket.off("card click");
+    this.props.mySocket.off("partner hand");
 
     // game over
     this.props.mySocket.off("game over");
@@ -100,16 +101,20 @@ class GameScreenOnline extends React.Component {
         console.log(`[GAME PLAY] ${seat} bids ${bid.type}`);
       this.props.dispatch(makeBid({bid: bid, seat: seat}));
       if (isBiddingComplete(this.props.bid_history) && this.game_info.me === this.props.dummy) {
-        const sorted_hand = sortHand(this.game_info.cards, this.props.contract.suit);
-        this.props.mySocket.emit("dummy hand", sorted_hand);
+        this.props.mySocket.emit("bidding over", this.props.dummy);
       }
     });
     this.props.mySocket.on("dummy hand", (cards) => {
+      cards = sortHand(cards, this.props.contract.suit);
       this.props.dispatch(setHand({seat: this.props.dummy, cards: cards}));
     });
     this.props.mySocket.on("card click", (card, seat) => {
       console.log(`[GAME PLAY] ${seat} plays ${card.value}${card.suit}`);
       this.props.dispatch(playCard({card: card, seat: seat}));
+    });
+    this.props.mySocket.on("partner hand", (cards) => {
+      cards = sortHand(cards, this.props.contract.suit);
+      this.props.dispatch(setHand({seat: this.props.contract.declarer, cards: cards}));
     });
 
     // game over

@@ -162,10 +162,13 @@ export default function SocketManager(socket) {
     io.in(socket.room).emit('bid click', bid, seat);
   });
 
-  // BIDDING END -- SEND DUMMY HAND
-  socket.on('dummy hand', (cards) => {
-    console.log(`[DUMMY HAND] received`)
-    socket.to(socket.room).emit('dummy hand', cards);
+  // BIDDING END -- DUMMY SENDS 'bidding over' SIGNAL
+  socket.on('bidding over', (dummy) => {
+    console.log(`[BIDDING OVER]`)
+    const cards = ONLINE_GAME_ROOMS.get(socket.room).hands[dummy];
+    const partner_cards = ONLINE_GAME_ROOMS.get(socket.room).hands[PARTNERS[dummy]];
+    io.to(socket.room).emit('dummy hand', cards);
+    io.to(socket.id).emit('partner hand', partner_cards);
   });
 
   // HANDLE CARD CLICK
