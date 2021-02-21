@@ -3,7 +3,7 @@ import React from 'react'
 import '../css/Style.css'
 import '../css/Card.css'
 
-import card_back_red from '../media/store/cardbacks/Red.png'
+import {STORE} from '../constants/Store'
 
 
 export default class Card extends React.Component {
@@ -20,7 +20,7 @@ export default class Card extends React.Component {
     if (!this.props.visible) {
       return (
         <div style={card_style}>
-          <img src={card_back_red} alt="Card."/>
+          <img src={require(`../media/store/cardbacks/${STORE.cardbacks[this.props.card_back].file}`)} alt="Card."/>
         </div>
       )
     }

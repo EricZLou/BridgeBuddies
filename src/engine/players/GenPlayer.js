@@ -146,6 +146,7 @@ class GenPlayer extends React.Component {
             visible={this.props.visible}
             clickable={this.props.clickable}
             variable_sizes={this.props.variable_sizes}
+            card_back={this.props.card_back}
           />
           <div className="player-title">
             <PlayerTitle
@@ -174,6 +175,7 @@ class GenPlayer extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     bid_history: state.bid_history,
+    card_back: state.storeActive.cardbacks,
     cards: state.hands[ownProps.seat],
     cards_on_board: state.cards_on_board,
     curr_player: state.curr_player,

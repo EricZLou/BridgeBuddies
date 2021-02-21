@@ -19,6 +19,7 @@ export default class Hand extends React.Component {
             visible={false}
             card_height={this.props.variable_sizes.card_height}
             card_width={this.props.variable_sizes.card_width}
+            card_back={this.props.card_back}
           />}
           {Object.keys(card).length !== 0 && <Card
             value={card.value}
@@ -28,6 +29,7 @@ export default class Hand extends React.Component {
             hoverable={this.props.clickable}
             card_height={this.props.variable_sizes.card_height}
             card_width={this.props.variable_sizes.card_width}
+            card_back={this.props.card_back}
           />}
         </div>
       );
