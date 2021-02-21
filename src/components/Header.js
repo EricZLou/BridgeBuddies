@@ -101,7 +101,7 @@ class Header extends React.Component {
           <div className="image-cropper-header">
             <img src={
                    require(
-                     `../media/store/characters/${this.store.characters[this.props.activeCharacter].file}`
+                     `../media/store/characters/${this.store.characters[this.props.activeCharacter || "Gespade"].file}`
                    )
                  }
                  alt="Profile"
