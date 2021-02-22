@@ -3,11 +3,10 @@ import React from 'react'
 import '../css/Style.css'
 import '../css/Card.css'
 
-import {STORE} from '../constants/Store'
-
 
 export default class Card extends React.Component {
   render() {
+    this.store = require('../constants/Store').STORE;
     const card_style = {
       height: this.props.card_height,
       width: this.props.card_width,
@@ -20,7 +19,7 @@ export default class Card extends React.Component {
     if (!this.props.visible) {
       return (
         <div style={card_style}>
-          <img src={require(`../media/store/cardbacks/${STORE.cardbacks[this.props.card_back].file}`)} alt="Card."/>
+          <img src={require(`../media/store/cardbacks/${this.store.cardbacks[this.props.card_back].file}`)} alt="Card."/>
         </div>
       )
     }
