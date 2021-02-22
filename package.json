@@ -21,7 +21,8 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "socket.io": "^3.0.3",
-    "socket.io-client": "^3.0.3"
+    "socket.io-client": "^3.0.3",
+    "use-sound": "^2.0.1"
   },
   "scripts": {
     "start": "node src/server/index.js",

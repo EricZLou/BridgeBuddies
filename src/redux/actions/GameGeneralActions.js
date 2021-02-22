@@ -8,14 +8,18 @@ export const SET_HAND = 'SET_HAND';
 export const SET_ONLINE_ROBOTS = 'SET_ONLINE_ROBOTS';
 export const START_ONLINE_GAME_OVER_TIMER = 'START_ONLINE_GAME_OVER_TIMER';
 
-export const newGame = ({game_type, me, player_names, hands, date_str=""}) => ({
-  type: NEW_GAME,
-  game_type,
-  me,
-  player_names,
-  hands,
-  date_str,
-})
+export const newGame = ({game_type, me, player_names, hands, date_str=""}) => {
+  const aud = new Audio("media/card_shuffle.mp3");
+  aud.play().then(() => {}).catch((error) => {console.log(error)});
+  return {
+    type: NEW_GAME,
+    game_type,
+    me,
+    player_names,
+    hands,
+    date_str,
+  }
+}
 
 export const resetGameRedux = () => ({
   type: RESET_GAME_REDUX,
