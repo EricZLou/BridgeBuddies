@@ -1,3 +1,4 @@
+import {NEW_GAME_AUDIO} from '../../constants/Audio'
 import {ALL_SEATS, GAMETYPES, SEATS} from '../../constants/GameEngine'
 import {Deck} from '../../engine/Deck'
 
@@ -9,8 +10,7 @@ export const SET_ONLINE_ROBOTS = 'SET_ONLINE_ROBOTS';
 export const START_ONLINE_GAME_OVER_TIMER = 'START_ONLINE_GAME_OVER_TIMER';
 
 export const newGame = ({game_type, me, player_names, hands, date_str=""}) => {
-  const aud = new Audio("media/card_shuffle.mp3");
-  aud.play().then(() => {}).catch((error) => {console.log(error)});
+  NEW_GAME_AUDIO.play().then(() => {}).catch((error) => {console.log(error)});
   return {
     type: NEW_GAME,
     game_type,
