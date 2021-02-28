@@ -73,6 +73,10 @@ export default class SignUpForm extends React.Component {
         characters: ["Gespade", "Hartley"],
         tables: ["classic table"],
       });
+      const userSettingsPath = '/users/' + userData.uid + '/settings';
+      Firebase.database().ref(userSettingsPath).set({
+        sounds: true,
+      });
 
       return userData.uid;
     })
