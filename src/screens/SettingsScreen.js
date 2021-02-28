@@ -2,7 +2,6 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 import Firebase from '../Firebase'
-import Header from '../components/Header'
 
 import {setUserSettings} from '../redux/actions/Core'
 
