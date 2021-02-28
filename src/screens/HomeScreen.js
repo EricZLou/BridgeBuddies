@@ -16,7 +16,7 @@ import store_image from '../media/buttons/store.png'
 import cover from '../media/cover.png'
 
 import {GAMETYPES} from '../constants/GameEngine'
-const socketURL = 'http://localhost:8000'
+const socketURL = '/'
 
 
 const HOMETYPES = {
