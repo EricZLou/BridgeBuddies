@@ -23,7 +23,6 @@
 
 .App-container {
   color: black;
-  background: linear-gradient(to top, var(--theme-light-cream), var(--theme-cream));
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,19 +34,23 @@
 
 .cs-title {
   font-size: 1.5em;
+  font-weight: bold;
+  color: var(--accent-blue);
 }
 
 .cs-button {
   font-size: 0.6em;
-  background-color: var(--theme-blue);
+  background-color: var(--accent-blue);
+  color: white;
   border-radius: 10px;
   outline: 0;
 }
 .cs-button:hover {
-  background-color: var(--theme-light-blue);
+  background-color: var(--theme-sky);
+  color: var(--accent-blue);
 }
 .cs-characters {
   height: 20vh;
   margin-top: 5vh;
-  border-bottom: 10px dotted var(--theme-blue);
+  border-bottom: 10px dotted var(--accent-blue);
 }

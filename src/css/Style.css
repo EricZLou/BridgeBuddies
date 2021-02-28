@@ -1,40 +1,9 @@
 :root {
   --theme-cream: #FFD9B3;
-  --theme-blue: #B8E8FF;
-  --theme-light-cream: #FFECD9;
-  --theme-light-blue: #DEF4FF;
-  --card-width: 120px;
-  --card-spacing: 25px;
-  --hand-width: calc(12 * var(--card-spacing) + var(--card-width));
-}
-.theme-cream-fg {
-  color: var(--theme-cream);
-}
-.theme-cream-bg {
-  background-color: var(--theme-cream);
-}
-.theme-blue-fg {
-  color: var(--theme-blue);
-}
-.theme-blue-bg {
-  background-color: var(--theme-blue);
-}
-.theme-light-cream-fg {
-  color: var(--theme-light-cream);
-}
-.theme-light-cream-bg {
-  background-color: var(--theme-light-cream);
-}
-.theme-light-blue-fg {
-  color: var(--theme-light-blue);
-}
-.theme-light-blue-bg {
-  background-color: var(--theme-light-blue);
-}
-
-* {
-  font-family: "Comic Sans MS", sans-serif;
-  transition-duration: 0.2s;
+  --theme-sky: #B3D9FF;
+  --tinted-white: rgba(255, 255, 255, 0.6);
+  --accent-blue: #1C9AE8;
+  --dark-blue: #235091;
 }
 
 body {
@@ -42,7 +11,6 @@ body {
   padding: 0;
   background-color: var(--theme-cream);
   overflow-wrap: break-word;
-  height: 100vh;
 }
 
 img {
@@ -52,9 +20,4 @@ img {
 
 button:hover {
   cursor: pointer;
-}
-
-hr.hr-black {
-  border-top: 4px solid black;
-  border-bottom: 0px;
 }

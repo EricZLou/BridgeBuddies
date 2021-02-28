@@ -14,7 +14,7 @@ export default function ComingSoonScreen() {
         <a href="https://bridge-buddies.herokuapp.com/"
            target="_blank"
            rel="noopener noreferrer">
-          <button className="cs-button">Sneak Peek at the Work-In-Progress</button>
+          <button className="cs-button">Try the demo!</button>
         </a>
         <img src={cover} alt="Characters" className="cs-characters"/>
     </div>
