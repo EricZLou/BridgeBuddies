@@ -1,11 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {Prompt, Redirect} from 'react-router-dom'
 
 import BidsOnBoard from '../engine/BidsOnBoard'
 import CardsOnBoard from '../engine/CardsOnBoard'
 import CurrentGameStats from '../engine/CurrentGameStats'
 import GenPlayer from '../engine/players/GenPlayer'
 import HeaderGame from '../components/HeaderGame'
+import PromptScreen from '../screens/PromptScreen'
 import ScoreScreen from '../screens/ScoreScreen'
 import {
   isBiddingComplete, getContract
@@ -26,6 +28,16 @@ import {GAMESTATES, GAMETYPES} from '../constants/GameEngine'
 
 
 class GameScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    // state is for blocking navigation
+    this.state = {
+      confirmed_prompt: false,
+      last_location: null,
+      prompt_is_visible: false,
+    }
+  }
+
   componentDidUpdate() {
     if (this.props.game_state === GAMESTATES.BIDDING) {
       if (isBiddingComplete(this.props.bid_history)) {
@@ -59,6 +71,27 @@ class GameScreen extends React.Component {
     }
   }
 
+  // ARE YOU SURE YOU WANT TO LEAVE THE GAME?!?!?!
+  handleBlockedNavigation(next_location) {
+    if (!this.state.confirmed_prompt && this.props.game_state !== GAMESTATES.RESULTS) {
+      this.setState({
+        prompt_is_visible: true,
+        last_location: next_location,
+      });
+      return false;
+    }
+    return true;
+  }
+  confirmNavigation() {
+    this.setState({
+      confirmed_prompt: true,
+      prompt_is_visible: false,
+    });
+  }
+  cancelNavigation() {
+    this.setState({prompt_is_visible: false});
+  }
+
   render() {
     const partner = getPartner(this.props.me);
     const next_player = getNextPlayer(this.props.me);
@@ -88,9 +121,23 @@ class GameScreen extends React.Component {
     const opponent_player_style = this.props.variable_sizes.hand_should_rotate ?
       rotated_opponent_player_style : non_rotated_opponent_player_style;
 
+    if (this.state.confirmed_prompt) return <Redirect to='/'/>
     return (
       <div>
         <HeaderGame/>
+        <Prompt
+          when={this.props.game_state !== GAMESTATES.RESULTS}
+          message={this.handleBlockedNavigation.bind(this)}
+        />
+        {this.state.prompt_is_visible &&
+          <PromptScreen
+            onCancel={this.cancelNavigation.bind(this)}
+            onConfirm={this.confirmNavigation.bind(this)}
+            text={"Are you sure you want to exit this table? You won't earn " +
+              "any coins or experience points!"
+            }
+          />
+        }
         <img src={table} alt="table" className="table-image"/>
 
         {(this.props.game_state === GAMESTATES.BIDDING ||

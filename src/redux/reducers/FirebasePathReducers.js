@@ -8,6 +8,8 @@ export function firebasePaths(state={}, action) {
       details: action.details,
       stats: action.stats,
       store: action.store,
+      friends: action.friends,
+      settings: action.settings,
     };
   }
   return state;

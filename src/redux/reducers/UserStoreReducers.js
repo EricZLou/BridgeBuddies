@@ -1,10 +1,10 @@
 import {
-  SET_STORE_ACTIVE, SET_STORE_OWNED
+  SET_USER_STORE_ACTIVE, SET_USER_STORE_OWNED
 } from '../actions/Core'
 
 export function storeActive(state={}, action) {
   switch (action.type) {
-    case SET_STORE_ACTIVE:
+    case SET_USER_STORE_ACTIVE:
       return action.dict;
     default:
       return state;
@@ -12,7 +12,7 @@ export function storeActive(state={}, action) {
 }
 export function storeOwned(state={}, action) {
   switch (action.type) {
-    case SET_STORE_OWNED:
+    case SET_USER_STORE_OWNED:
       return action.dict;
     default:
       return state;

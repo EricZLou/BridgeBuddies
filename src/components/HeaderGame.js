@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import Firebase from '../Firebase'
 
+import SettingsScreen from '../screens/SettingsScreen'
+
 import '../css/Style.css'
 import '../css/HeaderGame.css'
 import '../css/ProfilePic.css'
@@ -20,7 +22,10 @@ class HeaderGame extends React.Component {
     this.state = {
       show_level_up: false,
       level_idx: this.props.level_idx,
+      show_settings: false,
     };
+    this.onShowSettingsClick = this.onShowSettingsClick.bind(this);
+    this.onCloseSettingsClick = this.onCloseSettingsClick.bind(this);
   }
 
   componentDidUpdate() {
@@ -82,53 +87,53 @@ class HeaderGame extends React.Component {
     }
   }
 
+  onShowSettingsClick() {
+    this.setState({show_settings: true});
+  }
+  onCloseSettingsClick() {
+    this.setState({show_settings: false});
+  }
+
   render() {
     return (
-      <div className="header-container-game">
-        <Link to="/" className="header-logo-game" title="Go home">
-          <img src={bridge_clipart} alt="Logo" className="logo"/>
-        </Link>
-        <div className="header-dropdown-game">
-          <div className="image-cropper-header-game">
-            <img src={gespade} alt="Profile" className="profile-pic-header-game"/>
-          </div>
-        </div>
-        <div className="header-info-game">
-          <div className="level" onClick={() => {return;
-            this.setState({show_level_up: true});
-            setTimeout(() => {this.setState({show_level_up: false})}, 7000);
-          }}>{LEVELS[this.state.level_idx]}</div>
-          <img src={coin} alt="Coin" className="coin-img"/>
-          <div className="coins" onClick={() => {return;
-              Firebase.database().ref(this.props.userStatsPath).update({
-                coins: this.props.coins + 10,
-              });
-            }}>{this.props.coins}</div>
-          <div className="exp" onClick={() => {return;
-              Firebase.database().ref(this.props.userStatsPath).update({
-                exp: this.props.exp + 50,
-                total_exp: this.props.total_exp + 50,
-              });
-            }}>EXP: {this.props.exp}</div>
-          {this.state.show_level_up &&
-            <div className="prestige">
-              <div className="prestige-text">
-                Woohoo! You leveled up!
-              </div>
-              <div className="prestige-name old">
-                {LEVELS[this.state.level_idx-1]}
-              </div>
-              <div className="prestige-arrow">
-                &dArr;
-              </div>
-              <div className="prestige-name new">
-                {LEVELS[this.state.level_idx]}
-              </div>
+      <div>
+        {this.state.show_settings && 
+          <SettingsScreen onCloseSettings={this.onCloseSettingsClick}/>
+        }
+        <div className="header-container-game">
+          <Link to="/" className="header-logo-game" title="Go home">
+            <img src={bridge_clipart} alt="Logo" className="logo"/>
+          </Link>
+          <div className="header-dropdown-game" title="Settings" onClick={this.onShowSettingsClick}>
+            <div className="image-cropper-header-game">
+              <img src={gespade} alt="Profile" className="profile-pic-header-game"/>
             </div>
-          }
-        </div>
-        <div className="header-title-game">
-          BRIDGE BUDDIES
+          </div>
+          <div className="header-info-game">
+            <div className="level">{LEVELS[this.state.level_idx]}</div>
+            <img src={coin} alt="Coin" className="coin-img"/>
+            <div className="coins">{this.props.coins}</div>
+            <div className="exp">EXP: {this.props.exp}</div>
+            {this.state.show_level_up &&
+              <div className="prestige">
+                <div className="prestige-text">
+                  Woohoo! You leveled up!
+                </div>
+                <div className="prestige-name old">
+                  {LEVELS[this.state.level_idx-1]}
+                </div>
+                <div className="prestige-arrow">
+                  &dArr;
+                </div>
+                <div className="prestige-name new">
+                  {LEVELS[this.state.level_idx]}
+                </div>
+              </div>
+            }
+          </div>
+          <div className="header-title-game">
+            BRIDGE BUDDIES
+          </div>
         </div>
       </div>
     );

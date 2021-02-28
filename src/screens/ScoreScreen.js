@@ -3,7 +3,9 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import Firebase from '../Firebase'
 
-import {newOfflineGame, resetGameRedux} from '../redux/actions/Core'
+import {
+  newOfflineGame, resetGameRedux
+} from '../redux/actions/Core'
 import {getScore} from '../engine/managers/BridgeGameEngine'
 
 import '../css/ScoreScreen.css'

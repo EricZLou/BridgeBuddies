@@ -1,0 +1,51 @@
+.pop-up {
+  justify-content: flex-start;
+}
+.settings-title {
+  font-size: calc(0.5rem + 3vmin);
+  margin-bottom: 1.0rem;
+  padding: 0px 2.0rem;
+  text-align: center;
+  font-weight: bold;
+  background-color: var(--tinted-white);
+  color: var(--dark-blue);
+  align-self: center;
+  border-radius: 32px;
+}
+
+.settings-items {
+  border-left: 4px solid var(--dark-blue);
+  height: 100%;
+  overflow-y: auto;
+}
+.settings-items .settings-item {
+  padding-left: 1rem;
+  margin-bottom: 8px;
+  color: var(--dark-blue);
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.settings-item .settings-item-name {
+  display: inline;
+  margin-right: 0.5rem;
+}
+.settings-item .settings-item-name::after {
+  content: ':';
+}
+.settings-item .settings-item-button {
+  display: inline;
+  align-self: center;
+  box-shadow: 0px 4px var(--dark-blue);
+  border: 0;
+}
+
+.settings-item-button.on {
+  background-color: var(--accent-green);
+  color: var(--color-white);
+}
+.settings-item-button.off {
+  background-color: var(--color-white);
+  color: var(--dark-blue);
+}

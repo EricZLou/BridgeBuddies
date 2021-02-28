@@ -42,7 +42,8 @@ export default class LogInForm extends React.Component {
                placeholder="Password"
                required
         />
-        <input type="submit" value="LOG IN" />
+        <div className="form-space"/>
+        <input type="submit" className="clicky-button" value="LOG IN" />
       </form>
     )
   }

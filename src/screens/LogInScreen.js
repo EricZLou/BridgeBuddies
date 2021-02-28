@@ -6,7 +6,8 @@ import LogInForm from '../components/LogInForm'
 import SignUpForm from '../components/SignUpForm'
 import {
   logIn, setFirebasePaths,
-  setUserDetails, setUserStats, setStoreActive, setStoreOwned,
+  setUserDetails, setUserStats, setUserStoreActive, setUserStoreOwned,
+  setUserFriends, setUserSettings,
   resizeScreen,
 } from '../redux/actions/Core'
 
@@ -46,48 +47,62 @@ class LogInScreen extends React.Component {
 
   componentWillUnmount() {
     this.auth_listener = null;
-    this.listener1 = null;
-    this.listener2 = null;
-    this.listener3 = null;
-    this.listener4 = null;
+    this.details_listener = null;
+    this.stats_listener = null;
+    this.store_listener = null;
+    this.friends_listener = null;
+    this.settings_listener = null;
   }
 
-  async userDetailsListener(detailsPath) {
-    this.listener1 = Firebase.database().ref(detailsPath).on('value', (snapshot) => {
+  async userDetailsListener(path) {
+    this.details_listener = Firebase.database().ref(path).once('value', (snapshot) => {
       this.props.dispatch(setUserDetails(snapshot.val()));
     });
   }
-  async userStatsListener(statsPath) {
-    this.listener2 = Firebase.database().ref(statsPath).on('value', (snapshot) => {
+  async userStatsListener(path) {
+    this.stats_listener = Firebase.database().ref(path).on('value', (snapshot) => {
       this.props.dispatch(setUserStats(snapshot.val()));
     });
   }
-  async userStoreListener(storePath) {
-    this.listener3 = Firebase.database().ref(storePath).on('value', (snapshot) => {
-      this.props.dispatch(setStoreActive(snapshot.val().active));
-      this.props.dispatch(setStoreOwned(snapshot.val().owned));
+  async userStoreListener(path) {
+    this.store_listener = Firebase.database().ref(path).on('value', (snapshot) => {
+      this.props.dispatch(setUserStoreActive(snapshot.val().active));
+      this.props.dispatch(setUserStoreOwned(snapshot.val().owned));
     });
   }
-  async userFriendsListener() {
-    this.listener4 = Firebase.database().ref(this.props.friendsPath).on('value', (snapshot) => {
-      ;
+  async userFriendsListener(path) {
+    this.friends_listener = Firebase.database().ref(path).once('value', (snapshot) => {
+      this.props.dispatch(setUserFriends(Object.keys(snapshot.val())));
     });
   }
-  async setUpFirebaseListeners(detailsPath, statsPath, storePath) {
+  async userSettingsListener(path) {
+    this.settings_listener = Firebase.database().ref(path).once('value', (snapshot) => {
+      this.props.dispatch(setUserSettings(snapshot.val()));
+    });
+  }
+  async setUpFirebaseListeners(
+    detailsPath, statsPath, storePath, friendsPath, settingsPath
+  ) {
     await this.userDetailsListener(detailsPath);
     await this.userStatsListener(statsPath);
     await this.userStoreListener(storePath);
+    await this.userFriendsListener(friendsPath);
+    await this.userSettingsListener(settingsPath);
   }
 
   async handleFormSuccess(uid) {
     const detailsPath = '/users/' + uid + '/details';
     const statsPath = '/users/' + uid + '/stats';
     const storePath = '/users/' + uid + '/store';
+    const friendsPath = '/users/' + uid + '/friends';
+    const settingsPath = '/users/' + uid + '/settings';
 
     this.props.dispatch(setFirebasePaths(
-      detailsPath, statsPath, storePath
+      detailsPath, statsPath, storePath, friendsPath, settingsPath
     ));
-    await this.setUpFirebaseListeners(detailsPath, statsPath, storePath);
+    await this.setUpFirebaseListeners(
+      detailsPath, statsPath, storePath, friendsPath, settingsPath
+    );
     await this.props.dispatch(logIn(uid));
   }
 
@@ -112,42 +127,49 @@ class LogInScreen extends React.Component {
               {/* DEFAULT VIEW */}
               {this.state.view === VIEWSTATES.DEFAULT &&
                 <div className="default-view">
-                  <div className="motto">This website is so much fun! So fun!</div>
-                  <button className="signup" onClick={(() => {this.setState({view: VIEWSTATES.SIGNUP})})}>Get started</button>
-                  <button className="login" onClick={(() => {this.setState({view: VIEWSTATES.LOGIN})})}>I already have an account</button>
+                  <div className="motto">Play and level up!</div>
+                  <button className="clicky-button signup large" onClick={(() => {this.setState({view: VIEWSTATES.SIGNUP})})}>Get started</button>
+                  <div className="log-in-space"/>
+                  <button className="login clicky-button large" onClick={(() => {this.setState({view: VIEWSTATES.LOGIN})})}>I already have an account</button>
+                  <div className="log-in-space"/>
                 </div>
               }
-              {/* LOG IN VIEW */}
-              {this.state.view === VIEWSTATES.LOGIN &&
+              {/* LOG IN AND SIGN UP VIEWS */}
+              {this.state.view !== VIEWSTATES.DEFAULT &&
                 <div className="login-view">
-                  <div className="login-type">LOG IN</div>
-                  <div className="form-container">
-                    <LogInForm onFormSuccess={this.handleFormSuccess}/>
-                  </div>
-                  <div>
-                    <div className="switch-view-text">Don't have an account?</div>
-                    <div className="switch-view-click" onClick={() => this.setState({view: VIEWSTATES.SIGNUP})}>SIGN UP</div>
-                  </div>
-                  <button className="tmp-button" onClick={this.logInAsTestUser}>
+                  {this.state.view === VIEWSTATES.LOGIN &&
+                    <div>
+                      <div className="login-type">LOG IN</div>
+                      <div className="form-container">
+                        <LogInForm onFormSuccess={this.handleFormSuccess}/>
+                      </div>
+                      <div>
+                        <div className="switch-view-text">Don't have an account?</div>
+                        <div className="switch-view-click" onClick={
+                          () => this.setState({view: VIEWSTATES.SIGNUP})
+                        }>SIGN UP</div>
+                      </div>
+                    </div>
+                  }
+                  {this.state.view === VIEWSTATES.SIGNUP &&
+                    <div>
+                      <div className="login-type">SIGN UP</div>
+                      <div className="form-container">
+                        <SignUpForm onFormSuccess={this.handleFormSuccess}/>
+                      </div>
+                      <div>
+                        <div className="switch-view-text">Already have an account?</div>
+                        <div className="switch-view-click" onClick={
+                          () => this.setState({view: VIEWSTATES.LOGIN})
+                        }>LOG IN</div>
+                      </div>
+                    </div>
+                  }
+                  <div className="log-in-space"/>
+                  <button className="clicky-button small tmp-button" onClick={this.logInAsTestUser}>
                     TRY BRIDGE BUDDIES WITHOUT CREATING AN ACCOUNT
                   </button>
-                </div>
-              }
-
-              {/* SIGN UP VIEW */}
-              {this.state.view === VIEWSTATES.SIGNUP &&
-                <div className="login-view">
-                  <div className="login-type">SIGN UP</div>
-                  <div className="form-container">
-                    <SignUpForm onFormSuccess={this.handleFormSuccess}/>
-                  </div>
-                  <div>
-                    <div className="switch-view-text">Already have an account?</div>
-                    <div className="switch-view-click" onClick={() => this.setState({view: VIEWSTATES.LOGIN})}>LOG IN</div>
-                  </div>
-                  <button className="tmp-button" onClick={this.logInAsTestUser}>
-                    TRY BRIDGE BUDDIES WITHOUT CREATING AN ACCOUNT
-                  </button>
+                  <div className="log-in-space"/>
                 </div>
               }
             </div>

@@ -115,8 +115,8 @@ export default class SignUpForm extends React.Component {
                minLength="8"
                required
         />
-
-        <input type="submit" value="Sign Up" />
+        <div className="form-space"/>
+        <input type="submit" className="clicky-button" value="Sign Up" />
       </form>
     )
   }

@@ -32,11 +32,17 @@ import {
   SET_USER_DETAILS, setUserDetails
 } from './UserDetailsActions'
 import {
+  SET_USER_FRIENDS, setUserFriends
+} from './UserFriendsActions'
+import {
+  SET_USER_SETTINGS, setUserSettings
+} from './UserSettingsActions'
+import {
   SET_USER_STATS, setUserStats
 } from './UserStatsActions'
 import {
-  SET_STORE_ACTIVE, SET_STORE_OWNED,
-  setStoreActive, setStoreOwned,
+  SET_USER_STORE_ACTIVE, SET_USER_STORE_OWNED,
+  setUserStoreActive, setUserStoreOwned,
 } from './UserStoreActions'
 
 export {
@@ -73,9 +79,15 @@ export {
   SET_USER_DETAILS, setUserDetails
 }
 export {
+  SET_USER_FRIENDS, setUserFriends
+}
+export {
+  SET_USER_SETTINGS, setUserSettings
+}
+export {
   SET_USER_STATS, setUserStats
 }
 export {
-  SET_STORE_ACTIVE, SET_STORE_OWNED,
-  setStoreActive, setStoreOwned,
+  SET_USER_STORE_ACTIVE, SET_USER_STORE_OWNED,
+  setUserStoreActive, setUserStoreOwned,
 }

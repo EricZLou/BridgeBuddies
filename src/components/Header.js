@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import Firebase from '../Firebase'
 
 import {logOut} from '../redux/actions/Core'
+import SettingsScreen from '../screens/SettingsScreen'
 
 import '../css/Style.css'
 import '../css/Header.css'
@@ -21,8 +22,11 @@ class Header extends React.Component {
     this.state = {
       show_level_up: false,
       level_idx: this.props.level_idx,
+      show_settings: false,
     };
     this.onLogOutClick = this.onLogOutClick.bind(this);
+    this.onShowSettingsClick = this.onShowSettingsClick.bind(this);
+    this.onCloseSettingsClick = this.onCloseSettingsClick.bind(this);
   }
 
   onLogOutClick() {
@@ -30,6 +34,13 @@ class Header extends React.Component {
       this.props.mySocket.close();
       this.props.dispatch(logOut());
     }).catch((error)=>{alert(error);});
+  }
+
+  onShowSettingsClick() {
+    this.setState({show_settings: true});
+  }
+  onCloseSettingsClick() {
+    this.setState({show_settings: false});
   }
 
   componentDidUpdate() {
@@ -95,6 +106,9 @@ class Header extends React.Component {
     this.store = require('../constants/Store').STORE;
     return (
       <div className="header-width-cap-container"><div className="header-width-cap">
+        {this.state.show_settings &&
+          <SettingsScreen onCloseSettings={this.onCloseSettingsClick}/>
+        }
         <Link to="/"><img src={bridge_clipart} alt="Logo" className="logo" title="Go home"/></Link>
 
         <div className="header-dropdown">
@@ -110,7 +124,7 @@ class Header extends React.Component {
           </div>
           <div className="header-dropdown-content">
             <Link to="/me" className="header-dropdown-item">My Profile</Link>
-            <Link to="/settings" className="header-dropdown-item">Settings</Link>
+            <div className="header-dropdown-item" onClick={this.onShowSettingsClick}>Settings</div>
             <div className="header-dropdown-item" onClick={this.onLogOutClick}>Log Out</div>
           </div>
         </div>
@@ -122,10 +136,7 @@ class Header extends React.Component {
               <div className="info-logo">
                 LVL
               </div>
-              <div className="info-text" onClick={() => {return;
-                this.setState({show_level_up: true});
-                setTimeout(() => {this.setState({show_level_up: false})}, 7000);
-              }}>{LEVELS[this.state.level_idx]}</div>
+              <div className="info-text">{LEVELS[this.state.level_idx]}</div>
             </div>
           </div>
 
@@ -134,12 +145,7 @@ class Header extends React.Component {
               <div className="info-logo">
                 <img src={coin} alt="Coin" className="coin-img"/>
               </div>
-              <div className="info-text" onClick={() => {return;
-                  Firebase.database().ref(this.props.userStatsPath).update({
-                    coins: this.props.coins + 10,
-                  });
-                }}>{this.props.coins}
-              </div>
+              <div className="info-text">{this.props.coins}</div>
             </div>
           </div>
 
@@ -148,13 +154,7 @@ class Header extends React.Component {
               <div className="info-logo">
                 EXP
               </div>
-              <div className="info-text" onClick={() => {return;
-                  Firebase.database().ref(this.props.userStatsPath).update({
-                    exp: this.props.exp + 50,
-                    total_exp: this.props.total_exp + 50,
-                  });
-                }}>{this.props.exp}
-              </div>
+              <div className="info-text">{this.props.exp}</div>
             </div>
           </div>
 

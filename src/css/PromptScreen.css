@@ -1,0 +1,33 @@
+.pop-up {
+  justify-content: space-between;
+}
+.prompt-bottom {
+  display: flex;
+  justify-content: space-around;
+}
+.prompt-top .prompt-text {
+  color: var(--color-black);
+}
+.prompt-top .prompt-text .warning-symbol {
+  display: inline;
+  color: var(--accent-blue);
+  font-size: 2.0em;
+}
+.prompt-top .prompt-text .warning-symbol::after {
+  content: ' ';
+}
+.prompt-bottom .cancel-button {
+  align-self: center;
+  background-color: var(--accent-red);
+  box-shadow: 0px 4px var(--dark-red);
+  border: 0;
+}
+.prompt-bottom .confirm-button {
+  align-self: center;
+  background-color: var(--accent-green);
+  box-shadow: 0px 4px var(--dark-green);
+  border: 0;
+}
+.prompt-space {
+  height: 12px;
+}

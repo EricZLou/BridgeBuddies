@@ -23,15 +23,9 @@ input[type=email], input[type=text], input[type=password] {
 input[type=submit] {
   background-color: var(--accent-orange);
   box-shadow: 0px 4px var(--dark-orange);
-  margin: 20px 0 8px 0;
   border: 0;
-  color: var(--color-white);
-  font-weight: bold;
 }
-input[type=submit]:hover {
-  cursor: pointer;
-}
-input[type=submit]:active {
-  box-shadow: 0 0 0 white;
-  margin: 22px 0 6px 0;
+
+.form-space {
+  height: 10px;
 }
