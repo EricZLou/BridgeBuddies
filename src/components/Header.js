@@ -31,6 +31,7 @@ class Header extends React.Component {
 
   onLogOutClick() {
     Firebase.auth().signOut().then(()=>{
+      this.props.mySocket.emit("logged out", this.props.userID, this.props.userFriends);
       this.props.mySocket.close();
       this.props.dispatch(logOut());
     }).catch((error)=>{alert(error);});
@@ -196,6 +197,7 @@ const mapStateToProps = (state, ownProps) => {
     level_idx: state.level_idx,
     mySocket: state.mySocket,
     total_exp: state.total_exp,
+    userFriends: state.userFriends,
     userID: state.userID,
     userStatsPath: state.firebasePaths.stats,
   }

@@ -91,17 +91,14 @@ button:hover {
   margin-bottom: -2px;
 }
 .clicky-button.small {
-  box-shadow: 0 2px var(--color-black);
   min-width: 50px;
   padding: 2px 6px;
 }
 .clicky-button.medium {
-  box-shadow: 0 3px var(--color-black);
   min-width: 120px;
   padding: 6px 10px;
 }
 .clicky-button.large {
-  box-shadow: 0 4px var(--color-black);
   min-width: 280px;
   padding: 12px 18px;
 }

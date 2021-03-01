@@ -96,7 +96,7 @@
 .tmp-button {
   align-self: center;
   background-color: var(--accent-purple);
-  box-shadow: 0px 4px var(--dark-purple);
+  box-shadow: 0px 2px var(--dark-purple);
   border: 0;
 }
 

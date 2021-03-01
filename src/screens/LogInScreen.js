@@ -128,9 +128,13 @@ class LogInScreen extends React.Component {
               {this.state.view === VIEWSTATES.DEFAULT &&
                 <div className="default-view">
                   <div className="motto">Play and level up!</div>
-                  <button className="clicky-button signup large" onClick={(() => {this.setState({view: VIEWSTATES.SIGNUP})})}>Get started</button>
+                  <button className="clicky-button signup large" onClick={
+                    () => {this.setState({view: VIEWSTATES.SIGNUP})}
+                  }>create an account</button>
                   <div className="log-in-space"/>
-                  <button className="login clicky-button large" onClick={(() => {this.setState({view: VIEWSTATES.LOGIN})})}>I already have an account</button>
+                  <button className="login clicky-button large" onClick={
+                    () => {this.setState({view: VIEWSTATES.LOGIN})}
+                  }>log in</button>
                   <div className="log-in-space"/>
                 </div>
               }
@@ -166,7 +170,7 @@ class LogInScreen extends React.Component {
                     </div>
                   }
                   <div className="log-in-space"/>
-                  <button className="clicky-button small tmp-button" onClick={this.logInAsTestUser}>
+                  <button className="tmp-button clicky-button small" onClick={this.logInAsTestUser}>
                     TRY BRIDGE BUDDIES WITHOUT CREATING AN ACCOUNT
                   </button>
                   <div className="log-in-space"/>

@@ -108,21 +108,20 @@
   min-height: 150px;
   max-height: 600px;
   position: relative;
+  overflow-x: hidden;
 }
-.side-nav .container .side-nav-title {
-  margin-top: 0;
+.side-nav .container .side-nav-sticky {
+  position: sticky;
+  top: 0;
+  background-color: var(--accent-blue);
+}
+.side-nav .container .side-nav-sticky .side-nav-title {
   font-size: 1.5rem;
   text-align: center;
   font-weight: bold;
 }
-.side-nav .container .coming-soon {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  margin: 4px;
-  padding: 2px 16px;
-  border-radius: 12px;
-  background-color: var(--tinted-white);
+.side-nav .container .friends {
+  margin-top: 12px;
 }
 .side-nav .store-link {
   position: relative;

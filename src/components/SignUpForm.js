@@ -35,11 +35,12 @@ export default class SignUpForm extends React.Component {
     })
 
     .then(() => {
-      return Firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password);
+      return Firebase.auth().createUserWithEmailAndPassword(
+        this.state.email, this.state.password
+      );
     })
 
     .then((userCredentials) => {
-      console.log(userCredentials);
       const userData = userCredentials.user;
       Firebase.database().ref("/usernames/").update({
         [this.state.username]: userData.uid,

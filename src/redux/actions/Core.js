@@ -32,7 +32,8 @@ import {
   SET_USER_DETAILS, setUserDetails
 } from './UserDetailsActions'
 import {
-  SET_USER_FRIENDS, setUserFriends
+  SET_USER_FRIENDS, FRIENDS_LOGGED_IN, FRIEND_LOGGED_IN, FRIEND_LOGGED_OUT,
+  setUserFriends, friendsLoggedIn, friendLoggedIn, friendLoggedOut,
 } from './UserFriendsActions'
 import {
   SET_USER_SETTINGS, setUserSettings
@@ -79,7 +80,8 @@ export {
   SET_USER_DETAILS, setUserDetails
 }
 export {
-  SET_USER_FRIENDS, setUserFriends
+  SET_USER_FRIENDS, FRIENDS_LOGGED_IN, FRIEND_LOGGED_IN, FRIEND_LOGGED_OUT,
+  setUserFriends, friendsLoggedIn, friendLoggedIn, friendLoggedOut,
 }
 export {
   SET_USER_SETTINGS, setUserSettings

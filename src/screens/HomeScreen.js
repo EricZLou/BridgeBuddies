@@ -4,10 +4,14 @@ import {connect} from 'react-redux'
 import { io } from 'socket.io-client'
 
 import DailyChallengeScreen from './DailyChallengeScreen'
+import FriendsScreen from './FriendsScreen'
 import Header from '../components/Header'
 import LeaderboardScreen from './LeaderboardScreen'
 import LoadingScreen from './LoadingScreen'
-import {setSocket, setNumUsersLoggedIn} from "../redux/actions/Core"
+import {
+  setSocket, setNumUsersLoggedIn,
+  friendsLoggedIn, friendLoggedIn, friendLoggedOut,
+} from "../redux/actions/Core"
 
 import '../css/Style.css'
 import '../css/HomeScreen.css'
@@ -39,20 +43,13 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
+    window.addEventListener("beforeunload", () => {
+      this.props.mySocket.emit("logged out", this.props.userID, this.props.userFriends)
+    });
     document.body.style.backgroundColor = getComputedStyle(document.documentElement)
       .getPropertyValue('--dark-blue');
-    if (!this.props.mySocket) {
-      this.initSocket();
-    }
     if (this.dataLoaded()) this.setState({ready: true});
     else this.interval = setInterval(this.waitForDataToLoad, 500);
-  }
-  initSocket = () => {
-    this.socket = io(socketURL);
-    this.socket.on("num users logged in", (num) => {
-      this.props.dispatch(setNumUsersLoggedIn(num));
-    });
-    this.props.dispatch(setSocket(this.socket));
   }
 
   dataLoaded() {
@@ -60,7 +57,9 @@ class HomeScreen extends React.Component {
         this.props.first_name !== "" &&
         this.props.coins !== "" &&
         this.props.exp !== "" &&
-        this.props.level !== ""
+        this.props.level !== "" &&
+        this.props.userFriends !== null &&
+        this.props.userID !== ""
     ) {
       document.body.style.backgroundColor = getComputedStyle(document.documentElement)
         .getPropertyValue('--theme-cream');
@@ -72,7 +71,27 @@ class HomeScreen extends React.Component {
   waitForDataToLoad() {
     if (this.dataLoaded()) {
       clearInterval(this.interval);
-      this.setState({ready: true});
+      // Init socket
+      if (!this.props.mySocket) {
+        this.socket = io(socketURL);
+        this.props.dispatch(setSocket(this.socket));
+        this.socket.on("num users logged in", (num) => {
+          this.props.dispatch(setNumUsersLoggedIn(num));
+        });
+        this.socket.once("friends that are logged in", (friendIDs) => {
+          this.props.dispatch(friendsLoggedIn(friendIDs));
+        });
+        this.socket.on("friend logged in", (friendID) => {
+          this.props.dispatch(friendLoggedIn(friendID));
+        });
+        this.socket.on("friend logged out", (friendID) => {
+          this.props.dispatch(friendLoggedOut(friendID));
+        });
+        this.socket.emit("logged in", this.props.userID, this.props.userFriends);
+      }
+      this.setState({
+        ready: true,
+      });
     }
   }
 
@@ -155,14 +174,18 @@ class HomeScreen extends React.Component {
               {this.state.show_side_nav &&
                 <div className="side-nav">
                   <div className="container">
-                    <div className="side-nav-title">MY FRIENDS</div>
-                    <hr className="hr-clear"/>
-                    <div className="friends">{
-                      `Hello ${this.props.userDetails.first_name}! ` +
-                      `There are ${this.props.numUsersLoggedIn} users online!`
+                    <div className="side-nav-sticky">
+                      <div className="side-nav-title">MY FRIENDS</div>
+                      <hr className="hr-clear"/>
+                    </div>
+                    <div>{
+                      `Hello ${this.props.first_name} -- ` +
+                      (this.props.numUsersLoggedIn === 1 ?
+                        "you are online!" :
+                        `there are ${this.props.numUsersLoggedIn} users online`)
                     }</div>
-                    <div className="coming-soon">
-                      Add your friends: coming soon...
+                    <div className="friends">
+                      <FriendsScreen/>
                     </div>
                   </div>
                   <Link to="/store" className="store-link" title="Go to store">
@@ -186,9 +209,10 @@ const mapStateToProps = (state, ownProps) => {
     level: state.level_idx,
     mySocket: state.mySocket,
     numUsersLoggedIn: state.numUsersLoggedIn,
-    storeActive: state.storeActive,
-    userDetails: state.userDetails,
     screen_width: state.variable_sizes.screen_width,
+    storeActive: state.storeActive,
+    userFriends: state.userFriends,
+    userID: state.userID,
   }
 }
 export default connect(mapStateToProps)(HomeScreen);

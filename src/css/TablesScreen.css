@@ -28,7 +28,7 @@
 }
 .table {
   flex: 0;
-  min-width: 200px;
+  min-width: 220px;
   text-decoration: none;
   color: var(--color-black);
   margin: 12px;
