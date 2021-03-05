@@ -49,3 +49,32 @@
   background-color: var(--color-white);
   color: var(--dark-blue);
 }
+
+.credits-item {
+  padding-left: 1rem;
+  margin-bottom: 8px;
+  color: var(--dark-blue);
+  display: inline;
+}
+.credits-item .credits-name {
+  display: inline;
+  font-weight: bold;
+}
+.credits-item .credits-name::after {
+  content: ': ';
+}
+.credits-item .credits-area {
+  display: inline;
+}
+
+.settings-credits {
+  color: var(--dark-blue);
+  display: inline;
+}
+.settings-credits:hover {
+  cursor: pointer;
+}
+.settings-arrow {
+  display: inline;
+  font-weight: bold;
+}
