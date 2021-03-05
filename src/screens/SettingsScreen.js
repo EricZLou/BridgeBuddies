@@ -25,8 +25,6 @@ class SettingsScreen extends React.Component {
   }
 
   componentDidMount() {
-    document.body.style.backgroundColor = getComputedStyle(document.documentElement)
-      .getPropertyValue('--theme-sky');
     document.body.style.overflow = 'hidden';
   }
 
