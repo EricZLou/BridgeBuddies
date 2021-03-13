@@ -119,7 +119,7 @@ class LogInScreen extends React.Component {
   }
 
   logInAsTestUser() {
-    Firebase.auth().EmailAndPassword("foobar@gmail.com", "foobar123")
+    Firebase.auth().signInWithEmailAndPassword("foobar@gmail.com", "foobar123")
       .then((userCredentials) => {
         const uid = userCredentials.user.uid;
         this.handleFormSuccess(uid);
