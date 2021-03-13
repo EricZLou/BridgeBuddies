@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import Firebase from '../Firebase'
+import {Firebase} from '../Firebase'
 import Header from '../components/Header'
 
 import '../css/Style.css'
@@ -76,12 +76,8 @@ class ProfileScreen extends React.Component {
                   <div className="profile-infos">
                     <div className="profile-infos-title">&#9733; INFO &#9733;</div>
                     <div className="profile-info">
-                      <div>First name:</div>
-                      <div>{this.props.userDetails.first_name}</div>
-                    </div>
-                    <div className="profile-info">
-                      <div>Last name:</div>
-                      <div>{this.props.userDetails.last_name}</div>
+                      <div>Name:</div>
+                      <div>{this.props.userDetails.name}</div>
                     </div>
                     <div className="profile-info">
                       <div>Email:</div>

@@ -36,7 +36,7 @@ class TablesScreen extends React.Component {
   }
 
   joinRoom(room) {
-    this.props.mySocket.emit("join room request", room, this.props.first_name);
+    this.props.mySocket.emit("join room request", room, this.props.username);
   }
 
   render() {
@@ -90,7 +90,7 @@ class TablesScreen extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    first_name: state.userDetails.first_name,
+    username: state.userDetails.username,
     mySocket: state.mySocket,
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import Firebase from '../Firebase'
+import {Firebase} from '../Firebase'
 import GameScreen from './GameScreen'
 import LoadingScreen from './LoadingScreen'
 import {finishBidding, newGame} from '../redux/actions/Core'
@@ -27,7 +27,7 @@ class GameScreenDaily extends React.Component {
         player_names: {
           [SEATS.NORTH]: "Robot",
           [SEATS.EAST]: "Robot",
-          [SEATS.SOUTH]: getState().userDetails.first_name,
+          [SEATS.SOUTH]: getState().userDetails.username,
           [SEATS.WEST]: "Robot",
         },
         hands: hands,

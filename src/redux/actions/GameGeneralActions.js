@@ -51,7 +51,7 @@ export const newOfflineGame = () => {
         [SEATS.EAST]: "Robot",
         [SEATS.SOUTH]: "Robot",
         [SEATS.WEST]: "Robot",
-        [me]: getState().userDetails.first_name,
+        [me]: getState().userDetails.username,
       },
       hands: (new Deck()).generateHands(),
     }));

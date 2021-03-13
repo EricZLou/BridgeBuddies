@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
-import Firebase from '../Firebase'
+import {Firebase} from '../Firebase'
 import {setDailyChallengeStatuses} from '../redux/actions/Core'
 
 import '../css/Style.css'

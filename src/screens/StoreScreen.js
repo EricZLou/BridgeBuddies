@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import Firebase from '../Firebase'
+import {Firebase} from '../Firebase'
 import Header from '../components/Header'
 import StoreInfo from '../components/StoreInfo'
 

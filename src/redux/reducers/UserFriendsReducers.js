@@ -2,7 +2,7 @@ import {
   SET_USER_FRIENDS, FRIENDS_LOGGED_IN, FRIEND_LOGGED_IN, FRIEND_LOGGED_OUT
 } from '../actions/Core'
 
-export function userFriends(state="", action) {
+export function userFriends(state=[], action) {
   switch (action.type) {
     case SET_USER_FRIENDS:
       return action.list;
@@ -11,7 +11,7 @@ export function userFriends(state="", action) {
   }
 }
 
-export function userFriendsLoggedIn(state="", action) {
+export function userFriendsLoggedIn(state=[], action) {
   switch (action.type) {
     case FRIENDS_LOGGED_IN:
       return action.friendIDs;

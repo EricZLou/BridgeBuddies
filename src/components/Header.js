@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import Firebase from '../Firebase'
+import {Firebase} from '../Firebase'
 
 import {logOut} from '../redux/actions/Core'
 import SettingsScreen from '../screens/SettingsScreen'

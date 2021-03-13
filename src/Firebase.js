@@ -12,6 +12,5 @@ var firebaseConfig = {
   measurementId: "G-5XK225RR1K"
 };
 
-const Firebase = firebase.initializeApp(firebaseConfig);
-
-export default Firebase;
+export const Firebase = firebase.initializeApp(firebaseConfig);
+export const GoogleAuth = new firebase.auth.GoogleAuthProvider();

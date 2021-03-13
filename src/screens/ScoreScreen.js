@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import Firebase from '../Firebase'
+import {Firebase} from '../Firebase'
 
 import {
   newOfflineGame, resetGameRedux
@@ -188,7 +188,7 @@ const mapStateToProps = (state, ownProps) => {
     daily_challenge_statuses: state.daily_challenge_statuses,
     date_str: state.daily_challenge_date_str,
     exp: state.exp,
-    first_name: state.userDetails.first_name,
+    name: state.userDetails.name,
     games_played: state.games_played,
     level_idx: state.level_idx,
     me: state.game_info.me,

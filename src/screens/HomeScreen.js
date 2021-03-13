@@ -43,18 +43,20 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener("beforeunload", () => {
-      this.props.mySocket.emit("logged out", this.props.userID, this.props.userFriends)
-    });
     document.body.style.backgroundColor = getComputedStyle(document.documentElement)
       .getPropertyValue('--dark-blue');
-    if (this.dataLoaded()) this.setState({ready: true});
+    if (this.dataLoaded() && this.props.mySocket !== "") {
+      window.addEventListener("beforeunload", () => {
+        this.props.mySocket.emit("logged out", this.props.userID, this.props.userFriends)
+      });
+      this.setState({ready: true});
+    }
     else this.interval = setInterval(this.waitForDataToLoad, 500);
   }
 
   dataLoaded() {
     if (this.props.storeActive !== undefined &&
-        this.props.first_name !== "" &&
+        this.props.name !== "" &&
         this.props.coins !== "" &&
         this.props.exp !== "" &&
         this.props.level !== "" &&
@@ -74,6 +76,9 @@ class HomeScreen extends React.Component {
       // Init socket
       if (!this.props.mySocket) {
         this.socket = io(socketURL);
+        window.addEventListener("beforeunload", () => {
+          this.socket.emit("logged out", this.props.userID, this.props.userFriends)
+        });
         this.props.dispatch(setSocket(this.socket));
         this.socket.on("num users logged in", (num) => {
           this.props.dispatch(setNumUsersLoggedIn(num));
@@ -179,7 +184,7 @@ class HomeScreen extends React.Component {
                       <hr className="hr-clear"/>
                     </div>
                     <div>{
-                      `Hello ${this.props.first_name} -- ` +
+                      `Hello ${this.props.name} -- ` +
                       (this.props.numUsersLoggedIn === 1 ?
                         "you are online!" :
                         `there are ${this.props.numUsersLoggedIn} users online`)
@@ -205,7 +210,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     coins: state.coins,
     exp: state.exp,
-    first_name: state.userDetails.first_name,
+    name: state.userDetails.name,
     level: state.level_idx,
     mySocket: state.mySocket,
     numUsersLoggedIn: state.numUsersLoggedIn,

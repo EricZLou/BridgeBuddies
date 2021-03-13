@@ -8,8 +8,6 @@ const GAMESTATES = {
   PLAYING: 'PLAYING',
 };
 
-let NUM_USERS_LOGGED_IN = 0;
-
 // FOR FRIENDS FETCHING
 let USER_ID_TO_SOCKET = new Map();
 
@@ -100,9 +98,8 @@ export default function SocketManager(socket) {
 
   // AUTOMATIC USER LOG IN BEHAVIOR
   socket.on('logged in', (userID, friendIDs) => {
-    NUM_USERS_LOGGED_IN++;
-    io.emit('num users logged in', NUM_USERS_LOGGED_IN);
     USER_ID_TO_SOCKET.set(userID, socket.id);
+    io.emit('num users logged in', USER_ID_TO_SOCKET.size);
     // notify friends that I've logged in
     let friends_logged_in = [];
     for (let friendID of friendIDs) {
@@ -119,12 +116,11 @@ export default function SocketManager(socket) {
 
   // AUTOMATIC USER LOG OUT BEHAVIOR
   socket.on('disconnect', () => {
-    NUM_USERS_LOGGED_IN--;
-    if (NUM_USERS_LOGGED_IN < 0) NUM_USERS_LOGGED_IN = 0;
-    io.emit('num users logged in', NUM_USERS_LOGGED_IN);
+
   });
   socket.on('logged out', (userID, friendIDs) => {
     USER_ID_TO_SOCKET.delete(userID);
+    io.emit('num users logged in', USER_ID_TO_SOCKET.size);
     for (let friendID of friendIDs) {
       if (USER_ID_TO_SOCKET.has(friendID)) {
         socket.to(USER_ID_TO_SOCKET.get(friendID)).emit(
@@ -152,7 +148,7 @@ export default function SocketManager(socket) {
   });
 
   // HANDLE JOIN ROOM REQUEST
-  socket.on('join room request', (room, first_name) => {
+  socket.on('join room request', (room, username) => {
     if (ONLINE_GAME_ROOMS.get(room).num_users === 4) return;
 
     // join a room
@@ -160,7 +156,7 @@ export default function SocketManager(socket) {
     socket.room = room;
     const seat = ONLINE_GAME_ROOMS.get(room).empty_seats.shift();
 
-    ONLINE_GAME_ROOMS.get(room).users.set(socket.id, {seat: seat, name: first_name});
+    ONLINE_GAME_ROOMS.get(room).users.set(socket.id, {seat: seat, name: username});
     ONLINE_GAME_ROOMS.get(room).num_users++;
 
     if (ONLINE_GAME_ROOMS.get(room).game_state === GAMESTATES.OPEN) {

@@ -6,7 +6,7 @@ import '../css/Style.css'
 import '../css/Form.css'
 
 
-export default class SignUpForm extends React.Component {
+export default class GoogleUsernameForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -25,7 +25,6 @@ export default class SignUpForm extends React.Component {
 
     // check if username exists
     Firebase.database().ref(`/usernames/${this.state.username}`).once('value')
-
     .then((snapshot) => {
       if (snapshot.val()) {
         throw new Error(
@@ -33,21 +32,11 @@ export default class SignUpForm extends React.Component {
         );
       }
     })
-
     .then(() => {
-      return Firebase.auth().createUserWithEmailAndPassword(
-        this.state.email, this.state.password
-      );
-    })
-
-    .then((userCredentials) => {
-      const userData = userCredentials.user;
-      userData.updateProfile({
-        email: this.state.email,
-      });
+      const userData = this.props.user;
       this.props.initializeFirebaseUser(
-        userData.uid, this.state.username, this.state.name
-      );
+        userData.uid, this.state.username, userData.displayName
+      )
       return userData.uid;
     })
 
@@ -59,28 +48,12 @@ export default class SignUpForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <input name="email" type="email" value={this.state.email || ""}
-               onChange={this.handleFormChange}
-               placeholder="Email"
-               required
-        />
         <input name="username" type="text" value={this.state.username || ""}
                onChange={this.handleFormChange}
                placeholder="Username: characters A-Z and digits 0-9"
                minLength="5"
                maxLength="18"
                pattern="[A-Za-z0-9]*"
-               required
-        />
-        <input name="name" type="text" value={this.state.name || ""}
-               onChange={this.handleFormChange}
-               placeholder="Name"
-               required
-        />
-        <input name="password" type="password" value={this.state.password || ""}
-               onChange={this.handleFormChange}
-               placeholder="Password"
-               minLength="8"
                required
         />
         <div className="form-space"/>

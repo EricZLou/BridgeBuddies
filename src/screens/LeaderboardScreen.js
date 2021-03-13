@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Firebase from '../Firebase'
+import {Firebase} from '../Firebase'
 
 import '../css/Style.css'
 import '../css/LeaderboardScreen.css'

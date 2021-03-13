@@ -33,9 +33,10 @@ class FirebaseAdmin:
     def convert_to_uid(self, username):
         return self.db.child("usernames").child(username).get().val()
 
-    def modify_user_by_path(self, uid, op, path, data=None):
-        dirs = path.split('/')
+    def modify_user_by_path(self, uid, op, path="", data=None):
         view = self.db.child("users").child(uid)
+        dirs = []
+        if path: dirs = path.split('/')
         for dir in dirs:
             assert dir
             view = view.child(dir)
@@ -54,24 +55,12 @@ class FirebaseAdmin:
             self.modify_user_by_path(uid=uid.val(), op=op, path=path, data=data)
 
     def remove_user(self, uid):
-        pass
+        username = self.db.child("users").child(uid).child("details").child("username").get().val()
+        self.modify_user_by_path(uid, OPS.REMOVE)
+        self.db.child("usernames").child(username).remove()
 
 
 if __name__ == '__main__':
     admin = FirebaseAdmin(config)
-    uid = admin.convert_to_uid("ericlou101")
-    admin.modify_user_by_path(
-        uid=uid,
-        op=OPS.SET,
-        path="friends",
-        data={
-            "0nS7uTtoimcw6K1aCyqofpeiYVO2": True,
-            "ii1ICvb4tWVtJtKlla8Gz52kkqr2": True,
-            "Cz9wlGaXkOWSdV8WhYlLtuy6VVg1": True,
-        },
-    )
-    # admin.modify_all_users_by_path(
-    #     op=OPS.SET,
-    #     path="friends",
-    #     data={uid: True},
-    # )
+    uid = admin.convert_to_uid("ericky13")
+    admin.remove_user(uid)
